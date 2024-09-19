@@ -19,11 +19,11 @@ $$
 Die Berechnung wurde analog für die Aufgaben b) und c) durchgeführt. Wir erhalten damit für die Aufgabe b) das Ergebnis:
 
 $$
-\frac{2^{79}}{4*10^9Hz}=\frac{6*10^{23}}{4*10^9Hz}=1.5*10^14s \approx 4756468 years
+\frac{2^{79}}{4*10^9Hz}=\frac{6*10^{23}}{4*10^9Hz}=1.5*10^{14}s \approx 4756468 years
 $$
 
 Für die Aufgabe c) erhalten wir analog das Ergebnis:
 
 $$
-\frac{2^{255}}{4*10^9Hz}=\frac{5.8*10^{76}}{4*10^9Hz}=1.45*10^67s \approx 4.6*10^{59} years
+\frac{2^{255}}{4*10^9Hz}=\frac{5.8*10^{76}}{4*10^9Hz}=1.45*10^{67}s \approx 4.6*10^{59} years
 $$

@@ -136,3 +136,52 @@ Folgende Ausgabe sollte bei einer korrekten Installation erscheinen:
 Lesen sie sich die Anweisungen sorgfältig durch, bestätigen Sie mit `YES` und geben Sie Ihre gewünschte Passphrase ein.\
 \
 ![sudo cryptsetup luksFormat /dev/sda3](./dm-crypt/2024-10-06_00-27_1.png)
+
+3. Nachdem das verschlüsselte Dateisystem erstellt wurde, wird über die folgenenden befehle ein 4096 Byte großes Keyfile mit Zufallsinhalt erstellt.
+
+    ```
+    $ sudo dd if=/dev/urandowm of/etc/keyfile bs=1024 count=4
+    $ sudo chmod 600 /etc/keyfile
+    $ sudo cryptsetup luksAddKey <path to partition> /etc/keyfile
+    ```
+
+4. Über das folgenede Kommando wird sichergestellt, dass das Volumen funktioniert und korrekt konfiguriert wurde.
+
+    ```
+    $ sudo cryptsetup luksOpen <path to partition> encryptedVolume --key-file /etc/keyfile
+    ```
+
+5. Mit einem nun eingehängten Volumen können wir das Dateisystem für das korrekte Format formatieren.\
+\
+![Pfad zu verschlüsseltem Volumen](./dm-crypt/2024-10-06_00-36.png)
+
+    ```
+    $ sudo mkfs.ext4 /dev/mapper/encryptedVolume
+    ```
+6. Für das automatische Einhängen des Volumens, wenn das Betriebssystem gestartet wird müssen noch zwei Einträge in jeweils dem `/etc/crypttab` und 
+`/etc/fstab` gemacht werden.
+\
+\
+Im `/etc/crypttab`:
+    
+    ```
+    encryptedVolume /dev/sda3   /etc/keyfile luks
+    ```
+    \
+![/etc/crypttab](./dm-crypt/2024-10-06_01-23.png)\
+\
+Im `/etc/fstab`:
+
+    ```
+    /dev/mapper/encryptedVolume /media/philip/encVol ext4 defaults,nofail 0 2
+    ```
+    \
+    ![/etc/fstab](./dm-crypt/2024-10-06_00-59_1.png)\
+    \
+    **Hinweis: Bitte achten Sie darauf, dass Sie im `/etc/fstab` die Eintragung korrekt vornehmen. Es bestgeht sonst die Gefahr das Ihr System nicht mehr korrekt bootet.**
+
+7. Nach einem `reboot` kann überprüft werden ob das Volume mit start des Betriebssystems korrekt entschlüsselt und eingehangen wurde.\
+\
+![Eingehangenes entschlüsseltes Volumen](./dm-crypt/2024-10-06_01-13.png)
+
+Herzlichen Glückwunsch! Das Volumen wird nun korrekt entschlüsselt und eingehangen und kann nach dem Systemstart direkt verwendet werden.

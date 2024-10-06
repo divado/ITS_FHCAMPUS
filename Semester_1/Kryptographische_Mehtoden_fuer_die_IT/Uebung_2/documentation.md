@@ -118,7 +118,7 @@ Cryptsetup kann einfach aus den offiziellen Ubuntu Respositories installiert wer
 
 
 ```
-sudo apt install cryptsetup -y
+$ sudo apt install cryptsetup -y
 ```
 
 Folgende Ausgabe sollte bei einer korrekten Installation erscheinen:

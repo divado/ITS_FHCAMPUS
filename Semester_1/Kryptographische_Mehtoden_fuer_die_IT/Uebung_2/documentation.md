@@ -1,4 +1,4 @@
-# Admindokumentation zum erstellen von Hidden-Volumes mit VeraCrypt
+# Erstellen von Hidden-Volumes mit VeraCrypt
 
 ## Abstract
 Die folgende Dokumentation soll den Prozess besschreiben mit dem Sie ein verschlüsseltes und verstecktes Volume mit VeraCrypt erstellen können.
@@ -96,3 +96,43 @@ Nun hängen wir die Datei erneut ein, geben als Passwort aber unseren Nachnamen 
 
 Im Hidden Volume legen Sie um das Beispiel abzuschließen nun eine Textdatei ab, welche Ihren Vor- und Nachnamen enthält. 
 Wenn Sie sich versichern wollen, dass alles geklappt hat und die Datei im Hidden Volume wirklich versteckt ist, entschlüsseln Sie das Outer Volume noch einmal wie bereits in Schritt 19. Sie werden wieder nur das Bild in dem gemounteten Laufwerk sehen, welches Sie vorher dort abgelegt haben.
+
+# dm-crypt
+
+## Abstract
+
+Die folgende Dokumentation soll den Prozess besschreiben mit dem Sie ein verschlüsseltes Volumen via `cryptsetup` erstellen und automatisch ohne Interatktion eines Nutzers einhängen können. `cryptsetup` nutzt im Hintergrund `dm-crypt`.
+
+## Vorwort
+
+Vor dem Start sind ein paar Dinge zu beachten:
+
+- Für dieses Beispiel wird auf einer Disk-PArtition gearbeitet und von dieser alle Daten gelöscht. **Bitte gehehn Sie sicher, dass Sie auf einer leeren Partition arbeiten, es werden sonst Daten verloren gehen!**
+- Das autmoatische einhängen von verschlüsselten Laufwerken stellt ein Sicherheitsrisiko dar und ist nicht zwangsläufig für eine Produktionsumgebung geeignet.
+
+Die folgenden Schritte wurden in einer Ubuntu-24.04 VM auf einem Ubuntu-24.04 Host ausgeführt.
+
+## Cryptsetup Installation
+
+Cryptsetup kann einfach aus den offiziellen Ubuntu Respositories installiert werden. Hierfür sollte der folgende Befehl genutzt werden.
+
+
+```
+sudo apt install cryptsetup -y
+```
+
+Folgende Ausgabe sollte bei einer korrekten Installation erscheinen:
+
+![Installation Cryptsetup](./dm-crypt/2024-10-04_00-26.png)
+
+## Erstellen eines verschlüsselten Volumes
+
+1. Wir suchen unsere leere Festplattenpartition und merken uns deren Pfad. Wir können den Pfad über das Kommando `lsblk` oder `sudo fdisk -l` finden. Die Partition lässt sich aber auch über ein Tool mit graphischer Oberfläche wie `Disk Utility` finden.\
+\
+![sudo fdisk -l](./dm-crypt/2024-10-06_00-27.png)
+
+2. Im Terminal kann jetzt das Kommando `sudo cryptsetup luksFormat /dev/sda3` ausgeführt werden um die Verschlüsselung auf der Partition einzurichten.\
+**Beachten Sie das /dev/sda3 Ihrem Pfad zur gewünschten Partition entsprechen muss.**\
+Lesen sie sich die Anweisungen sorgfältig durch, bestätigen Sie mit `YES` und geben Sie Ihre gewünschte Passphrase ein.\
+\
+![sudo cryptsetup luksFormat /dev/sda3](./dm-crypt/2024-10-06_00-27_1.png)

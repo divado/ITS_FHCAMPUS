@@ -3,7 +3,7 @@
 ## Abstract
 Die folgende Dokumentation soll den Prozess besschreiben mit dem Sie ein verschlüsseltes und verstecktes Volume mit VeraCrypt erstellen können.
 
-## 1. Erstellen eines Outer Volumes
+## Erstellen eines Outer Volumes
 Im ersten Schritt muss ein äußeres und nicht verstecktes Volumen erstellt werden, da ein verstecktes Volumen mit Veracrypt nur in einem äußeren Veracrypt-Volumen erstellt werden kann.
 
 ![Veracrypt Step 1](./2024-10-04_00-26.png)
@@ -40,7 +40,7 @@ Abschließend bewegen Sie Ihren Mauszeiger im Fenster. VeraCrypt sammelt hier du
 
 Anschließend bestätigen Sie die Formatierung des neuen Laufwerks mit dem Button "Formatieren".
 
-## 2. Erstellen eines Hidden Volumes
+## Erstellen eines Hidden Volumes
 
 ![Veracrypt Step 9](./2024-10-04_00-34.png)
 
@@ -108,7 +108,7 @@ Die folgende Dokumentation soll den Prozess besschreiben mit dem Sie ein verschl
 Vor dem Start sind ein paar Dinge zu beachten:
 
 - Für dieses Beispiel wird auf einer Disk-PArtition gearbeitet und von dieser alle Daten gelöscht. **Bitte gehehn Sie sicher, dass Sie auf einer leeren Partition arbeiten, es werden sonst Daten verloren gehen!**
-- Das autmoatische einhängen von verschlüsselten Laufwerken stellt ein Sicherheitsrisiko dar und ist nicht zwangsläufig für eine Produktionsumgebung geeignet.
+- Das autmoatische Einhängen von verschlüsselten Laufwerken stellt ein **Sicherheitsrisiko** dar und ist nicht zwangsläufig für eine Produktionsumgebung geeignet.
 
 Die folgenden Schritte wurden in einer Ubuntu-24.04 VM auf einem Ubuntu-24.04 Host ausgeführt.
 

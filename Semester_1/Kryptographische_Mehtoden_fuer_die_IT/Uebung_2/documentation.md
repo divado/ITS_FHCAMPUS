@@ -107,7 +107,7 @@ Die folgende Dokumentation soll den Prozess besschreiben mit dem Sie ein verschl
 
 Vor dem Start sind ein paar Dinge zu beachten:
 
-- Für dieses Beispiel wird auf einer Disk-PArtition gearbeitet und von dieser alle Daten gelöscht. **Bitte gehehn Sie sicher, dass Sie auf einer leeren Partition arbeiten, es werden sonst Daten verloren gehen!**
+- Für dieses Beispiel wird auf einer Disk-PArtition gearbeitet und von dieser alle Daten gelöscht. **Bitte gehen Sie sicher, dass Sie auf einer leeren Partition arbeiten, es werden sonst Daten verloren gehen!**
 - Das autmoatische Einhängen von verschlüsselten Laufwerken stellt ein **Sicherheitsrisiko** dar und ist nicht zwangsläufig für eine Produktionsumgebung geeignet.
 
 Die folgenden Schritte wurden in einer Ubuntu-24.04 VM auf einem Ubuntu-24.04 Host ausgeführt.

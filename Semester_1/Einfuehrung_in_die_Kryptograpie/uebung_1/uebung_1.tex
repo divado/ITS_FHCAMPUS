@@ -1,0 +1,133 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{fullpage}
+\usepackage{makecell}
+\usepackage{amsmath}
+
+\hyphenation{ent-spre-chen-der}
+
+\title{Übung 1}
+\author{Philip Magnus}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section*{Aufgabe 1}
+
+\begin{align*}
+2640:2 \xrightarrow{} 1320:2 \xrightarrow{} 660:2 \xrightarrow{} 330:2 \xrightarrow{} 165:3 \xrightarrow{} 55:5 \xrightarrow{} 11\tag{a}
+\\
+2640 = 2*2*2*2*3*5*11
+\\
+\\
+3829:7 \xrightarrow{} 547\tag{b}
+\\
+3829 = 7*547
+\\
+\\
+6561:3 \xrightarrow{} 2187:3 \xrightarrow{} 729:3 \xrightarrow{} 243:3 \xrightarrow{} 81:3 \xrightarrow{} 27:3 \xrightarrow{} 9:3 \xrightarrow{} 3\tag{c}
+\\
+6561 = 3*3*3*3*3*3*3*3 = 3^{8}
+\end{align*}
+
+\section*{Aufgabe 2}
+
+a)
+
+\begin{center}
+    \begin{tabular}{c|c|c|c} 
+     \hline
+     a & b & r & q \\ [0.5ex] 
+     \hline\hline
+     765 & 98 & 79 & 7 \\ 
+     \hline
+     98 & 79 & 19 & 1 \\
+     \hline
+     19 & 3 & 1 & 6 \\
+     \hline
+     3 & 1 & 0 & 3 \\
+     \hline
+    \end{tabular}
+\end{center}
+
+$\Rightarrow Teilerfremd$
+\\
+\\
+b)
+
+\begin{center}
+    \begin{tabular}{c|c|c|c} 
+     \hline
+     a & b & r & q \\ [0.5ex] 
+     \hline\hline
+     234 & 18 & 0 & 13 \\ 
+     \hline
+    \end{tabular}
+\end{center}
+
+
+$\Rightarrow ggT: 18$
+\\
+\\
+c)
+
+
+\begin{center}
+    \begin{tabular}{c|c|c|c} 
+     \hline
+     a & b & r & q \\ [0.5ex] 
+     \hline\hline
+     819 & 49 & 35 & 16 \\ 
+     \hline
+     49 & 35 & 14 & 1 \\
+     \hline
+     35 & 14 & 7 & 2 \\
+     \hline
+     14 & 7 & 0 & 2 \\
+     \hline
+    \end{tabular}
+\end{center}
+
+
+$\Rightarrow ggT: 7$
+\\
+\\
+d)
+
+
+\begin{center}
+    \begin{tabular}{c|c|c|c} 
+     \hline
+     a & b & r & q \\ [0.5ex] 
+     \hline\hline
+     289 & 13 & 3 & 22 \\ 
+     \hline
+     13 & 3 & 1 & 4 \\
+     \hline
+     3 & 1 & 0 & 3 \\
+     \hline
+    \end{tabular}
+\end{center}
+
+$\Rightarrow Teilerfremd$
+
+\section*{Aufgabe 3}
+
+\begin{center} 
+    \begin{tabular}{c|c|c} 
+     \hline
+     Ausdruck & Landau & Erklärung \\ [0.5ex] 
+     \hline\hline
+     $n^{\pi}+\pi^{n-1}$ & $O(\pi^{n})$ & $\pi > 1$ Term wächst exponentiell $\xrightarrow{} \infty$\\ 
+     \hline
+     $42n^{42}+(-1)^{24n}$ & $O(n^{42})$ & Term $42n^{42}$ dominiert, zweiter Term wechselt zwischen $+/-1$\\
+     \hline
+     $(n^{3}+3n^{2}-27)7$ & $O(n^{21})$ & $n^{21}+3n^{14}-27^{7}$, erster Term dominiert hier mit Wachstum\\
+     \hline
+     $(-2n)^{10}+0,3^{n+1}n$ & $O(n^{10})$ & \makecell{erster Term dominiert durch Wachstum\\ Koeffizient ist für Komplexität zu ignorieren,\\ zweiter Term mit Koeffzient $0,3$ sieht das Wachstum wie folgt aus $0,3 \xrightarrow{} 0$}\\
+     \hline
+     $e^{(i*\pi)*n}$ & $O(1)$ & \makecell{$e^{(i*\pi)*n} = (e^{(i*\pi)})^{n}$,\\ da $e^{(i*\pi)} = -1$ gilt $(e^{(i*\pi)})^{n} = (-1)^{n}$\\ Term wechselt also zwischen $+/-1$ Komplexität ist also Konstant}\\
+     \hline
+    \end{tabular}
+\end{center}
+
+\end{document}

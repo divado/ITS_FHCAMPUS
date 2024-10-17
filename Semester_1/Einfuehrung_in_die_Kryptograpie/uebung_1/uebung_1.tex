@@ -121,9 +121,9 @@ $\Rightarrow Teilerfremd$
      \hline
      $42n^{42}+(-1)^{24n}$ & $O(n^{42})$ & Term $42n^{42}$ dominiert, zweiter Term wechselt zwischen $+/-1$\\
      \hline
-     $(n^{3}+3n^{2}-27)7$ & $O(n^{21})$ & $n^{21}+3n^{14}-27^{7}$, erster Term dominiert hier mit Wachstum\\
+     $(n^{3}+3n^{2}-27)^{7}$ & $O(n^{21})$ & $n^{21}+3n^{14}-27^{7}$, erster Term dominiert hier mit Wachstum\\
      \hline
-     $(-2n)^{10}+0,3^{n+1}n$ & $O(n^{10})$ & \makecell{erster Term dominiert durch Wachstum\\ Koeffizient ist für Komplexität zu ignorieren,\\ zweiter Term mit Koeffzient $0,3$ sieht das Wachstum wie folgt aus $0,3 \xrightarrow{} 0$}\\
+     $(-2n)^{10}+0,3^{n+1}$ & $O(n^{10})$ & \makecell{erster Term dominiert durch Wachstum\\ Koeffizient ist für Komplexität zu ignorieren,\\ zweiter Term mit Koeffzient $0,3$ sieht das Wachstum wie folgt aus $0,3 \xrightarrow{} 0$}\\
      \hline
      $e^{(i*\pi)*n}$ & $O(1)$ & \makecell{$e^{(i*\pi)*n} = (e^{(i*\pi)})^{n}$,\\ da $e^{(i*\pi)} = -1$ gilt $(e^{(i*\pi)})^{n} = (-1)^{n}$\\ Term wechselt also zwischen $+/-1$ Komplexität ist also Konstant}\\
      \hline

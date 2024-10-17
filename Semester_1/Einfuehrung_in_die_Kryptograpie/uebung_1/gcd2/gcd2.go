@@ -8,18 +8,23 @@ import (
 )
 
 func GCD2(a, b []int) (gcd int) {
-	var commonFacs []int
-	gcd = 1
+	commonFacs := findCommonFacs(a, b)
 
+	if len(commonFacs) == 0 {
+		return 1
+	}
+
+	return reduce(commonFacs, func(acc, curr int) int {
+		return acc * curr
+	}, 1)
+}
+
+func findCommonFacs(a, b []int) (commonFacs []int) {
 	for _, facA := range a {
 		if slices.Contains(b, facA) {
 			commonFacs = append(commonFacs, facA)
 			b = slices.Delete(b, slices.Index(b, facA), slices.Index(b, facA)+1)
 		}
-	}
-
-	for _, common := range commonFacs {
-		gcd = gcd * common
 	}
 	return
 }

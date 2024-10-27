@@ -35,7 +35,7 @@
 \end{center}
 
 \begin{align*}
-(1)\ n^{3}+2n^{2}log_2 n \le n^{3}+2n^{2}*n = n^{3}+2n^{3} = 3n^{3}\\
+(1)\ n^{3}+2n^{2}log_2 n \le n^{3}+2n^{2} \cdot n = n^{3}+2n^{3} = 3n^{3}\\
 \end{align*}
 \\
 \begin{align*}
@@ -161,5 +161,133 @@ a)\\
                       ;
     \end{tikzpicture}
   \end{center}
+
+  \newpage
+
+  b)\\
+
+  \begin{center} 
+    \begin{tabular}{c|c|c} 
+     \hline
+     $\delta$ & a & $Q_{new}$\\ [0.5ex] 
+     \hline\hline
+     $\rightarrow \{q_0, q_3\}$ & $\{q_1, q_4\}$ & $s_{0}*$\\
+     \hline
+     $\{q_1, q_4\}$ & $\{q_2, q_5\}$ & $s_{1}$\\
+     \hline
+     $\{q_2, q_5\}$ & $\{q_0, q_6\}$ & $s_{2}$\\
+     \hline
+     $\{q_0, q_6\}$ & $\{q_1, q_7\}$ & $s_{3}*$\\
+     \hline
+     $\{q_1, q_7\}$ & $\{q_2, q_3\}$ & $s_{4}$\\
+     \hline
+     $\{q_2, q_3\}$ & $\{q_0, q_4\}$ & $s_{5}*$\\
+     \hline
+     $\{q_0, q_4\}$ & $\{q_1, q_5\}$ & $s_{6}$\\
+     \hline
+     $\{q_1, q_5\}$ & $\{q_2, q_6\}$ & $s_{7}$\\
+     \hline
+     $\{q_2, q_6\}$ & $\{q_0, q_7\}$ & $s_{8}$\\
+     \hline
+     $\{q_0, q_7\}$ & $\{q_1, q_3\}$ & $s_{9}*$\\
+     \hline
+     $\{q_1, q_3\}$ & $\{q_2, q_4\}$ & $s_{10}$\\
+     \hline
+     $\{q_2, q_4\}$ & $\{q_0, q_5\}$ & $s_{11}$\\
+     \hline
+     $\{q_0, q_5\}$ & $\{q_1, q_6\}$ & $s_{12}*$\\
+     \hline
+     $\{q_1, q_6\}$ & $\{q_2, q_7\}$ & $s_{13}$\\
+     \hline
+     $\{q_2, q_7\}$ & $\{q_0, q_3\}$ & $s_{14}$\\
+     \hline
+    \end{tabular}
+\end{center}
+
+
+\begin{center}
+  \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
+      % \draw[help lines] (0,0) grid (3,2);
+
+    \node[state, initial, accepting]                                            (s_0) {$s_0$};
+    \node[state, below of=s_0]                                    (s_1) {$s_1$};
+    \node[state, below of=s_1]                                    (s_2) {$s_2$};
+    \node[state, accepting, below of=s_2]                         (s_3) {$s_3$};
+    \node[state, below of=s_3]                                   (s_4) {$s_4$};
+    \node[state, accepting, right of =s_4,]                        (s_5) {$s_5$};
+    \node[state, accepting, right of =s_5,]                        (s_6) {$s_6$};
+    \node[state, right of=s_6]                                     (s_7) {$s_7$}; 
+    \node[state, right of=s_7]                                     (s_8) {$s_8$};
+    \node[state, accepting, above of=s_8]                        (s_9) {$s_9$};
+    \node[state, accepting, above of=s_9]                        (s_10) {$s_{10}$};
+    \node[state, above of =s_10]                                  (s_11) {$s_{11}$};
+    \node[state, accepting, above of =s_11]                       (s_12) {$s_{12}$};
+    \node[state, left of =s_12]                                  (s_13) {$s_{13}$};
+    \node[state, left of =s_13]                                  (s_14) {$s_{14}$};
+
+    \path[->] (s_0) edge                         node          {a} (s_1)
+              (s_1) edge                         node          {a} (s_2)
+              (s_2) edge                         node          {a} (s_3)
+              (s_3) edge                         node          {a} (s_4)
+              (s_4) edge                         node          {a} (s_5)
+              (s_5) edge                         node          {a} (s_6)
+              (s_6) edge                         node          {a} (s_7)
+              (s_7) edge                         node          {a} (s_8)
+              (s_8) edge                         node          {a} (s_9)
+              (s_9) edge                         node          {a} (s_10)
+              (s_10) edge                        node          {a} (s_11)
+              (s_11) edge                        node          {a} (s_12)
+              (s_12) edge                        node          {a} (s_13)
+              (s_13) edge                        node          {a} (s_14)
+              (s_14) edge                        node          {a} (s_0)
+                    ;
+  \end{tikzpicture}
+\end{center}
+
+\newpage
+
+\section*{Aufgabe 6}
+
+a)\\
+\\
+- benötigt wird ein Zustand für OK, lesen von $0$\\
+- Zustand für WARN, lesen von $1$\\
+- bei lesen von $1$ aus WARN $\rightarrow$ REJCET\\
+- bei lesen von Leerzeichen in Zustand WARN oder OK $\rightarrow$ ACCEPT
+- bei lesen von $0$ in Zustand WARN $\rightarrow$ OK\\
+\\
+
+b)\\
+\\
+
+\begin{center} 
+  \begin{tabular}{c|c|c|c|c} 
+   \hline
+   $Q$ & $\vdash$ & $0$ & $1$ & $\sqcup$\\ [0.5ex] 
+   \hline\hline
+   $OK$ & $(OK, \vdash, R)$ & $(OK, 0, R)$ & $(W, 1, R)$ & $(ACCEPT, \sqcup, R)$\\
+   \hline
+   $WARN$ & $-$ & $(OK, 0, R)$ & $(REJECT, 1, R)$ & $(ACCEPT, \sqcup, R)$\\
+   \hline
+   $ACCEPT$ & $-$ & $-$ & $-$ & $-$\\
+   \hline
+   $REJECTT$ & $-$ & $-$ & $-$ & $-$\\
+   \hline
+  \end{tabular}
+\end{center}
+
+\begin{align*}
+Q=\{ OK, WARN, ACCEPT, RECJECT \}\\
+\\
+\Sigma=\{ 0, 1 \} \ \ \Sigma \subset \Gamma\\
+\\
+\Gamma=\{ 0,1,\vdash,\sqcup \}\\
+\\
+\delta: \ Q\times\Gamma \ \rightarrow \ Q\times\Gamma\times\{ R,L \}\\
+\\
+M=\{ Q, \Sigma, \Gamma, \vdash, \sqcup, \delta, OK, ACCEPT, REJECT \}\\
+\end{align*}
+
+
 
 \end{document}

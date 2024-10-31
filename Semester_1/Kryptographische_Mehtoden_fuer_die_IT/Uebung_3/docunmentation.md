@@ -1,3 +1,11 @@
+---
+title: "Uebung 3"
+author: Philip Magnus
+date: October 31, 2024
+geometry: "left=2cm,right=2cm,top=2cm,bottom=2cm"
+output: pdf_document
+---
+
 
 # Documentation for OpenSSL
 
@@ -106,7 +114,8 @@ The following commands are used to generate a ECDSA private key and the correspo
 
 $ openssl ecparam -name prime256v1 -genkey -out <private-ecdsa.key>
 
-# Create the corresponding CSR this works like the CSR creation mentioned in the self signed certificate section
+# Create the corresponding CSR this works like the CSR creation mentioned in the
+# self signed certificate section
 
 $ openssl req -new -key <private-ecdsa.key> -out <request_ecdsa.csr>
 ```

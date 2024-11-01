@@ -1,0 +1,124 @@
+---
+title: "Einführung i. d. Kryptopgraphie - Übung 3"
+date: "01.11.2024"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Aufgabe 1
+
+Finden Sie jeweils die Zahl $x$ mittels des erweiterten euklidischen Algorithmus.
+
+Zu lösen gilt die Gleichungsform $a \cdot x + b \cdot y = n$, hierfür muss $gcd(a, b)$ ein Teiler von $n$ sein.
+
+### 1.1
+
+\textcolor{blue}{$7 \cdot x \equiv 1 \mod 29$}
+
+\begin{align*}
+29 &= 4\cdot 7 + 1\\
+7 &= 7 \cdot 1 + 0
+\end{align*}
+
+Daraus folgt $1 = 29 - 4 \cdot 7$ wenn wir hierauf mod 29 anwenden, ergibt sich $7 \cdot -4 \equiv 1 \mod 29$.
+
+### 1.2
+
+\textcolor{blue}{$18 \cdot x \equiv 1 \mod 47$}
+
+\begin{align*}
+47  &= 18 \cdot 2 + 11\\
+18  &= 11 \cdot 1 + 7\\
+11  &= 7 \cdot 1 + 4 \\
+7   &= 4 \cdot 1 + 3\\
+4   &= 3 \cdot 1 + 1\\
+3   &= 1 \cdot 3 + 0
+\end{align*}
+
+Erweiterter euklidischer Algorithmus:
+
+\begin{align*}
+1 &\overset{(5)}{=} 4 - 3 \cdot 1\\
+  &\overset{(4)}{=} 4 - (7 - 4) = 4 - 7 + 4 = 2 \cdot 4 - 7\\
+  &\overset{(3)}{=} 2 \cdot (11 - 7) - 7 = 2 \cdot 11 - 2 \cdot 7 - 7 = 2 \cdot 11 - 3 \cdot 7\\
+  &\overset{(2)}{=} 2 \cdot 11 - 3 \cdot (18 - 11) = 2 \cdot 11 - 3 \cdot 18 + 3 \cdot 11 = 5 \cdot 11 - 3 \cdot 18\\
+  &\overset{(1)}{=} 5 \cdot (47 - 2 \cdot 18) - 3 \cdot 18 = 5 \cdot 47 - 10 \cdot 18 - 3 \cdot 18 = 5 \cdot 47 - 13 \cdot 18
+\end{align*}
+
+Daher ergibt sich $18 \cdot -13 \equiv 1 \mod 47$.
+
+### 1.3
+
+\textcolor{blue}{$9 \cdot x \equiv 1 \mod 63$}
+
+Da $gcd(9, 63) =9$ und  $9 \nmid 1$, gibt es keine Lösung.\
+\textcolor{red}{siehe Folien S. 29}
+
+## Aufgabe 2
+
+\color{blue}
+Finden Sie 3 verschiedene ganze Zahlen $a_i, i=1,2,3$, die folgendes erfüllen:
+
+\begin{align*}
+  a_i \mod 3 = 1 \\
+  a_i \mod 4 = 1 \\
+  a_i \mod 6 = 1 \\
+\end{align*}
+
+\color{black}
+Weil $12 = \text{kgV}(3,4,6)$, gilt, dass alle Elemente aus $\{k\cdot 12 + 1 : k \in \mathbb{Z}\}$ die drei Gleichungen erfüllen. Beispiellösung: $a_1 = 1, a_2 = 13, a_3 = 25$.
+
+## Aufgabe 3
+
+\color{blue}
+Bestimmen Sie die Anzahl aller Elemente in $(\mathbb{Z} / 30\mathbb{Z})*$.
+
+\color{black}
+Primfaktorzerlegung: $30 = 2 \cdot 3 \cdot 5$, dann $\varphi(30) = 30(1-1/2) (1-1/3) (1-1/5) = 8$.
+
+\color{gray}
+Es wird $(\mathbb{Z} / 30\mathbb{Z})*$ eine _prime Restklassengruppe_ genannt.   
+Zuerst überlegen wir uns, dass $\{0 + 30\mathbb{Z}, 1 + 30\mathbb{Z}, \dots, 29 + 30 \mathbb{Z}\} = \mathbb{Z}/30\mathbb{Z}$ der Restklassenring mod 30 ist. (Folien S. 40)
+
+Die Menge aller invertierbaren Restklassen aus $\mathbb{Z}/30\mathbb{Z}$ ergibt die prime Restklassengruppe. (Folien S. 46 + externe Quellen, es steht nicht in den Folien).
+
+Sei $n = \prod_i p_i^{e_i}$ die Primfaktorzerlegung der Zahl $n$. Mit der eulerschen $\varphi$-Funktion (Folien S. 49)
+
+$$\varphi(n) = n\prod_i (1 - \frac{1}{p_i})$$
+können wir die Anzahl der Elemente in $(\mathbb{Z} / 30\mathbb{Z})*$ bestimmen.
+
+Wir wissen $30 = 2 \cdot 3 \cdot 5$. Daher gilt $\varphi(30) = 30 (1 - 1/2)(1 - 1/3)(1-1/5) = 30 \cdot \frac12 \cdot \frac23 \cdot \frac45 = 8.$
+
+\color{black}
+## Aufgabe 4
+
+\color{blue}
+#### a) 
+Ist $G = (X, \circ) = (\{1, 2, 3, 4, 5, 6, 7\}, *_8)$ mit $*_8: (a, b) \mapsto (a \cdot b) \mod 8$ eine Halbgruppe, eine Gruppe oder nichts von alledem?
+
+\color{black}
+Weil $2 *_8 4 = 0 \notin X$, ist $*_8$ keine innere Verknüpfung und somit weder Halbgruppe noch Gruppe.
+
+Wäre $X = \{0, 1, 2, 3, 4, 5, 6, 7\}$, wäre $G$ eine Halbgruppe, weil die Assoziativität gegeben ist:
+
+$$a *_8 (b *_8 c) = (a \cdot b \mod 8) \cdot c \mod 8 = a \cdot (b \cdot c \mod 8) \mod 8 = (a *_8 b) \cdot_8 c$$
+
+\color{blue}
+#### b) 
+Falls es sich um keine Gruppe handelt, modifizieren Sie $X$ entsprechend, um eine Gruppe zu erhalten.
+
+\color{black}
+Wenn wir $X$ so modifizieren, dass $G$ eine Gruppe ist, erhalten wir die prime Restklassengruppe $(\mathbb{Z}/8\mathbb{Z})^*$: $X = \{1, 3, 5, 7\}$.
+
+(Eine weitere Möglichkeit wäre auch $X = \{1\}, X = \{1, 3\}, \ldots$)
+
+Jetzt haben wir $1 \in X$, d.h. es gibt das neutrale Element.  
+Für jedes Element $x \in X$ haben wir ein inverses Element:
+
+* $1 *_8 1 = 1$
+* $3 *_8 3 = 1$
+* $5 *_8 5 = 1$
+* $7 *_8 7 = 1$

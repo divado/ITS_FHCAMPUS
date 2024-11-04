@@ -2,6 +2,8 @@
 title: "Einführung i. d. Kryptopgraphie - Übung 3"
 date: "01.11.2024"
 output: pdf_document
+header-includes:
+  - \usepackage[table,xcdraw]{xcolor}
 ---
 
 ```{r setup, include=FALSE}
@@ -29,14 +31,14 @@ Daraus folgt $1 = 29 - 4 \cdot 7$ wenn wir hierauf mod 29 anwenden, ergibt sich 
 
 \textcolor{blue}{$18 \cdot x \equiv 1 \mod 47$}
 
-\begin{align*}
+\begin{align}
 47  &= 18 \cdot 2 + 11\\
 18  &= 11 \cdot 1 + 7\\
 11  &= 7 \cdot 1 + 4 \\
 7   &= 4 \cdot 1 + 3\\
 4   &= 3 \cdot 1 + 1\\
 3   &= 1 \cdot 3 + 0
-\end{align*}
+\end{align}
 
 Erweiterter euklidischer Algorithmus:
 
@@ -93,6 +95,7 @@ können wir die Anzahl der Elemente in $(\mathbb{Z} / 30\mathbb{Z})*$ bestimmen.
 Wir wissen $30 = 2 \cdot 3 \cdot 5$. Daher gilt $\varphi(30) = 30 (1 - 1/2)(1 - 1/3)(1-1/5) = 30 \cdot \frac12 \cdot \frac23 \cdot \frac45 = 8.$
 
 \color{black}
+
 ## Aufgabe 4
 
 \color{blue}
@@ -100,25 +103,86 @@ Wir wissen $30 = 2 \cdot 3 \cdot 5$. Daher gilt $\varphi(30) = 30 (1 - 1/2)(1 - 
 Ist $G = (X, \circ) = (\{1, 2, 3, 4, 5, 6, 7\}, *_8)$ mit $*_8: (a, b) \mapsto (a \cdot b) \mod 8$ eine Halbgruppe, eine Gruppe oder nichts von alledem?
 
 \color{black}
-Weil $2 *_8 4 = 0 \notin X$, ist $*_8$ keine innere Verknüpfung und somit weder Halbgruppe noch Gruppe.
+In der folgenden Tabelle bzgl. $*_8$ sehen wir alle Ergebnisse der Verknüpfung:
 
+\begin{table}[h!]
+\centering
+\rowcolors{2}{gray!15}{white}
+\begin{tabular}{c|ccccccc}
+$*_8$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+\hline
+1 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+2 & 2 & 4 & 6 & \textcolor{red}{0} & 2 & 4 & 6 \\
+3 & 3 & 6 & 1 & 4 & 7 & 2 & 5 \\
+4 & 4 & \textcolor{red}{0} & 4 & \textcolor{red}{0} & 4 & \textcolor{red}{0} & 4 \\
+5 & 5 & 2 & 7 & 4 & 1 & 2 & 3 \\
+6 & 6 & 4 & 2 & \textcolor{red}{0} & 6 & 4 & 2 \\
+7 & 7 & 6 & 5 & 4 & 3 & 2 & 1 \\
+\end{tabular}
+\end{table}
+
+Obwohl $2, 4 \in X$ haben wir für das Ergebnis $2 *_8 4 = 0 \notin X$, d.h. wir haben keine innere Verknüpfung / die Verknüpfung ist nicht abgeschlossen bzgl. $X$.
+Deswegen haben wir weder eine Halbgruppe noch oder eine Gruppe.
+Es gibt mehrere Ansätze, damit $*_8$ abgeschlossen wird bezüglich $X$:
+
+##### Ansatz 1:
 Wäre $X = \{0, 1, 2, 3, 4, 5, 6, 7\}$, wäre $G$ eine Halbgruppe, weil die Assoziativität gegeben ist:
 
 $$a *_8 (b *_8 c) = (a \cdot b \mod 8) \cdot c \mod 8 = a \cdot (b \cdot c \mod 8) \mod 8 = (a *_8 b) \cdot_8 c$$
+
+\begin{table}[h!]
+\centering
+\rowcolors{2}{gray!15}{white}
+\begin{tabular}{c|cccccccc}
+$*_8$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+\hline
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+2 & 0 & 2 & 4 & 6 & 0 & 2 & 4 & 6 \\
+3 & 0 & 3 & 6 & 1 & 4 & 7 & 2 & 5 \\
+4 & 0 & 4 & 0 & 4 & 0 & 4 & 0 & 4 \\
+5 & 0 & 5 & 2 & 7 & 4 & 1 & 2 & 3 \\
+6 & 0 & 6 & 4 & 2 & 0 & 6 & 4 & 2 \\
+7 & 0 & 7 & 6 & 5 & 4 & 3 & 2 & 1 \\
+\end{tabular}
+\end{table}
+
+
+
+##### Ansatz 2:
+Wir entfernen die Restklasse 4 (weil 0 nicht in $X$ ist) und in weiterer Folge auch 2 und 6 (weil diese die Restklassen 4 erzeugen). Dann haben wir $X =\{1,3,5,7\}$:
+
+
+\begin{table}[h!]
+\centering
+\rowcolors{2}{gray!15}{white} % Alternates row colors: light gray for even rows, white for odd
+\begin{tabular}{c|cccc}
+$*_8$ & 1 & 3 & 5 & 7 \\
+\hline
+1 & 1 & 3 & 5 & 7 \\
+3 & 3 & 1 & 7 & 5 \\
+5 & 5 & 7 & 1 & 3 \\
+7 & 7 & 5 & 3 & 1 \\
+\end{tabular}
+\end{table}
+
+Auch hier haben wir **Assoziativität** aber auch **das neutrale Element** (1) und **inverse Elemente** (hier sogar: für alle $a$ gilt $a *_8 a = 1$). Mit dieser Teilmenge und $*_8$ haben wir eine Gruppe.
 
 \color{blue}
 #### b) 
 Falls es sich um keine Gruppe handelt, modifizieren Sie $X$ entsprechend, um eine Gruppe zu erhalten.
 
+\color{gray}
+
 \color{black}
-Wenn wir $X$ so modifizieren, dass $G$ eine Gruppe ist, erhalten wir die prime Restklassengruppe $(\mathbb{Z}/8\mathbb{Z})^*$: $X = \{1, 3, 5, 7\}$.
+Wir können die Restklassen 2, 4, 6 nicht behalten, weil diese nicht invertierbar sind.
 
-(Eine weitere Möglichkeit wäre auch $X = \{1\}, X = \{1, 3\}, \ldots$)
+Es gibt folgende Optionen für $X$
 
-Jetzt haben wir $1 \in X$, d.h. es gibt das neutrale Element.  
-Für jedes Element $x \in X$ haben wir ein inverses Element:
+1. $X = \{1,3,5,7\}$
+1. $X = \{1\}$
+1. $X = \{1, 3\}$
+1. $X = \{1, 5\}$
+1. $X = \{1, 7\}$
 
-* $1 *_8 1 = 1$
-* $3 *_8 3 = 1$
-* $5 *_8 5 = 1$
-* $7 *_8 7 = 1$
+wobei Option 1 die prime Restklassengruppe $(\mathbb{Z}/8\mathbb{Z})^*$ ergibt.

@@ -132,7 +132,7 @@ $(\mathbb{Z}/14\mathbb{Z})^+ = \{\bar{0}, \bar{1}, \bar{2}, \bar{3}, \bar{4}, \b
 |0|12|10|8|6|4|2|0|$\cdots$||||||
 |0|13|12|11|10|9|8|7|6|5|4|3|2|1|
 
-Hier sind alle Elemente aus der Primen-Restklassengruppe Generatoren.
+Hier sind die Generatoren $\{\bar{1}, \bar{3}, \bar{5}, \bar{9}, \bar{11}, \bar{13}\}$.
 
 
 ## Aufgabe 4

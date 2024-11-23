@@ -41,6 +41,6 @@ func main() {
 	input := string(dat)
 
 	for i := range 25 {
-		fmt.Printf("Key: %d \n%s\n\n", i, caesar(input, i))
+		fmt.Printf("Key: %d \n%s\n\n", i+1, caesar(input, i+1))
 	}
 }

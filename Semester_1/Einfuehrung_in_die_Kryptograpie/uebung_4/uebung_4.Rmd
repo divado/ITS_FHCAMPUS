@@ -50,8 +50,9 @@ ab  &= ac\\
     &=ab - ac = 0\\
     &=a(b-c) = 0\\
 \end{align*}
-,
-Beispiel $(Z/10Z, \cdot)=$:\\
+
+Beispiel $(Z/10Z, \cdot)$:
+
 Es Reicht ein Gegenbeispiel um zu zeigen, dass die Kürzungsregel nicht allgemein gilt.
 
 $$ 0 \equiv 2 \cdot 0 \equiv 2 \cdot 5 \equiv 0 \mod 10$$
@@ -81,7 +82,7 @@ c. $(\mathbb{Z}/14\mathbb{Z})^+$
 
 $(\mathbb{Z}/12\mathbb{Z})^* = \{\bar{1}, \bar{5}, \bar{7}, \bar{11}\}$
 
-|$a^{0}$|$a^{1}$|$a^{2}$|$a^{3}$|$a^{4}$|
+||$a^{1}$|$a^{2}$|$a^{3}$|$a^{4}$|
 |-----|-----|-----|-----|-----|
 |1|1|1|1|1|
 |5|5|$25 \equiv 1\mod 12$|5|1|

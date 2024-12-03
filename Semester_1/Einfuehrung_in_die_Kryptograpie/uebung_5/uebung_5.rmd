@@ -1,0 +1,243 @@
+---
+title: "Einführung i. d. Kryptographie - Übung 5"
+author: "Philip Magnus"
+date: "`r Sys.Date()`"
+output: pdf_document
+header-includes:
+  - \usepackage{tikz}
+  - \usepackage[table]{xcolor}
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Aufgabe 1
+
+\color{blue}
+Lösen Sie das folgende System simultaner Kongruenzen:
+\begin{align*}
+  x &\equiv 3 \mod 7 \\
+  x &\equiv 8 \mod 9 \\
+  x &\equiv 2 \mod 13 \\
+\end{align*}
+
+\color{black}
+Weil $ggT(7, 9) = ggT(7, 13) = ggT(9, 13) = 1$, wissen wir laut chinesischem 
+Restsatz, dass die simultane Kongruenz eine Lösung hat. Für die Lösung $x'$ wissen
+wir weiters, dass jedes Element aus der Restklasse $x' + (7 \cdot 9 \cdot 19) \mathbb{Z}$
+auch die simultane Kongruenz erfüllt.  
+
+Wir verwenden den Gauß Algorithmus um die Kongruenz zu lösen:
+
+1. Wir definieren 
+
+\begin{align*} 
+  M_1 &:= \frac{7 \cdot 9 \cdot 13}{7} = 9 \cdot 13 = \mathbf{117} \\
+  M_2 &:= \frac{7 \cdot 9 \cdot 13}{9} = 7 \cdot 13 = \mathbf{91} \\
+  M_3 &:= \frac{7 \cdot 9 \cdot 13}{13} = 7 \cdot 9 = \mathbf{63} \\
+\end{align*}
+
+2. Zu jedem $M_i$ berechnen wir $y_i = M_i^{-1} \mod m_i$ mittels Euler-Algorithmus:
+
+\begin{align*}
+  y_1 &= 117^{-1} \mod 7 = 5^{-1} \mod 7 = \mathbf{3} \\
+  y_2 &= 91^{-1} \mod 9 = 1^{-1} \mod 9 = \mathbf{1} \\
+  y_3 &= 63^{-1} \mod 13 = 11^{-1} \mod 13 = \mathbf{6} \\  
+\end{align*}
+
+\color{gray}
+a) Statt $117^{-1}$ berechnen wir zuerst, in welche Restklasse bzgl. 7 117 fällt, nämlich 5. Darum wissen wir $117^{-1} = 5^{-1}$.
+
+Euler:
+\begin{align*}
+7 &= 1 \cdot 5 + 2 \\
+5 &= 2 \cdot 2 + 1 
+\end{align*}
+
+und $5^{-1} = 3$ weil
+
+\begin{align*}
+1 &= 5 - 2 \cdot 2 =\\
+  &= 5 - 2 \cdot (7 - 5) =\\
+  &= 5 - 2 \cdot 7 + 2 \cdot 5 =\\
+  &= \textbf{3} \cdot 5 - 2 \cdot 7.
+\end{align*}
+
+b) Die Restklasse von $91 = (10 \cdot 9 + 1)$ modulo 9 ist 1, daher $1^{-1} \mod 9 = 1$.
+
+c) Die Restklasse von 63 mod 13 ist 11. Wir rechnen mittels Euklid
+
+\begin{align*}
+13 &= 1 \cdot 11 + 2 \\
+11 &= 5 \cdot 2 + 1
+\end{align*}
+
+Und $11^{-1} \mod 13 = 6 \mod 13$ weil
+
+\begin{align*}
+1 &= 11 - 5 \cdot 2 = \\ 
+  &= 11 - 5 \cdot(13 - 11) = \\
+  &= 11 - 5 \cdot 13 + 5 \cdot 11 = \\
+  &= \mathbf{6} \cdot 11 - 5 \cdot 13
+\end{align*}
+
+\color{black}
+3. Jetzt können wir berechnen
+
+\begin{align*}
+x &= \left(\sum a_i y_i M_i \right) \mod \prod m_i =\\
+  &= (3\cdot 3 \cdot 117 + 8 \cdot 1 \cdot 91 + 2 \cdot 6 \cdot 63) \mod 7 \cdot 9 \cdot 13 = \\
+  &= 2537 \mod 819 = \\
+  &= 80 \mod 819
+\end{align*}
+
+Wir haben $x = 80$, bzw. jedes Element aus $80 + 819\mathbb{Z}$ ist eine Lösung der Kongruenzen.
+
+## Aufgabe 2
+
+\color{blue}
+Berechnen Sie die folgenden Potenzen in $(\mathbb{Z}/37\mathbb{Z})^*:$
+
+#### (a) 
+$2^{33}$
+
+\color{black}
+Binärdarstellung: $33 = 2^0 + 2^5$, daher berechnen wir $2^{33} = 2^{2^0 + 2^5}$
+
+\begin{align*}
+2^{2^0} &=  2 = 2 \mod 37 \\
+2^{2^1} &=  2 \cdot 2 = 4 \mod 37 \\
+2^{2^2} &=  4 \cdot 4 = 16 \mod 37 \\
+2^{2^3} &= 16 \cdot 16 = 34 \mod 37 \\
+2^{2^4} &= 34 \cdot 34 = 9 \mod 37 \\
+2^{2^5} &=  9 \cdot 9 = 7 \mod 37
+\end{align*}
+
+Darum gilt $2^{33} = 2^{2^0 + 2^5} = 2^{2^0} \cdot 2^{2^5} = 2 \cdot 7 = 14$.
+
+\color{blue}
+
+#### (b) 
+$10^{33}$
+
+\color{black}
+\begin{align*}
+10^{2^0} &= 10 = 10 \mod 37 \\
+10^{2^1} &= 10^2 = 26 \mod 37 \\
+10^{2^2} &= 26^2 = 10 \mod 37 \\
+10^{2^3} &= 10^2 = 26 \mod 37 \\
+10^{2^4} &= 26^2 = 10 \mod 37 \\
+10^{2^5} &= 10^2 = 26 \mod 37
+\end{align*}
+
+Darum gilt $10^{33} = 10 \cdot 26 = 1$.
+
+\color{blue}
+#### (c) 
+$16^{33}$  
+
+\color{black}
+\begin{align*}
+16^{2^0} &=  16 = 16 \mod 37 \\
+16^{2^1} &= 16^2 = 34 \mod 37 \\
+16^{2^2} &= 34^2 = 9 \mod 37 \\
+16^{2^3} &=  9^2 = 7 \mod 37 \\
+16^{2^4} &=  7^2 = 12 \mod 37 \\
+16^{2^5} &= 12^2 = 33 \mod 37
+\end{align*}
+
+Darum gilt $16^{33} = 16 \cdot 33 \mod 37= 10$.
+
+## Aufgabe 3
+
+\color{blue}
+Die folgende lineare Outputfolge wurde von einem Schieberegister der
+Länge 5 erzeugt. Rekonstruieren Sie das Schieberegister.
+
+```{eval=FALSE}
+> 0000100011   # Outputfolge
+```
+
+\color{black}
+Weil die ersten 5 bits `00001` sind, ist unsere Anfangsbelegung der Register `10000`. 
+(Die Outputbits sind "gespiegelt" in den Registern, d.h. das 1. Zeichen das ausgegeben wird ist im 5. Register).
+Die Bits die nachgeschoben werden sind `00011`. Damit wissen  wir die Belegung vom Register $r_5$ zu allen Zeitpunkte $t_0$ bis $t_9$, für $r_4$ wissen wir die Belegung von $t_0$ bis $t_8$, etc.
+ 
+| $t$ | $r_1$ | $r_2$ | $r_3$ | $r_4$ | $r_5$ | out |
+| --- | --- | --- | --- | --- | --- | --- |
+| $t_0$ | 1 | 0 | 0 | 0 | 0 | - |
+| $t_1$ | 0 | 1 | 0 | 0 | 0 | 0 |
+| $t_2$ | 0 | 0 | 1 | 0 | 0 | 0 |
+| $t_3$ | 0 | 0 | 0 | 1 | 0 | 0 |
+| $t_4$ | 1 | 0 | 0 | 0 | 1 | 0 |
+| $t_5$ | 1 | 1 | 0 | 0 | 0 | 1 |
+| $t_6$ | * | 1 | 1 | 0 | 0 | 0 |
+| $t_7$ | * | * | 1 | 1 | 0 | 0 |
+| $t_8$ | * | * | * | 1 | 1 | 0 |
+| $t_9$ | * | * | * | * | 1 | 1 |
+| $t_{10}$ | * | * | * | * | * | 1 |
+
+Weil in Zeitpunkt $t_1$ das Bit `0` in $r_1$ nachgeschoben wird, kann $r_1$ selbt nicht Teil der XOR Verknüpfung sein.  
+Analog gilt dasselbe für Register $r_2$ und $r_3$.  
+
+Wir vermuten, dass die lineare Rückkoppelung aus $r_4 \oplus r_5$ entsteht, was mit den Werten zu Zeitpunkten $t_4$ und $t_5$ in Einklang steht.
+
+\begin{center}
+\begin{tikzpicture}
+    % Draw the nodes
+    \node[draw, rectangle, minimum width=1cm, minimum height=1cm] (r1) at (1, 0) {$r_1$};
+    \node[draw, rectangle, minimum width=1cm, minimum height=1cm] (r2) at (3, 0) {$r_2$};
+    \node[draw, rectangle, minimum width=1cm, minimum height=1cm] (r3) at (5, 0) {$r_3$};
+    \node[draw, rectangle, minimum width=1cm, minimum height=1cm] (r4) at (7, 0) {$r_4$};
+    \node[draw, rectangle, minimum width=1cm, minimum height=1cm] (r5) at (9, 0) {$r_5$};
+    \node (xor) at (7,1) {\(\oplus\)};
+
+    % Draw arrows between the nodes
+    \draw[->] (r1.east) -- (r2.west);
+    \draw[->] (r2.east) -- (r3.west);
+    \draw[->] (r3.east) -- (r4.west);
+    \draw[->] (r4.east) -- (r5.west);
+    \draw[->] (r5.east) -- (10, 0);
+    \draw[->] (r4.north) -- (xor);
+    \draw[->] (r5.north) -- (9, 1) -- (xor);
+    \draw[->] (xor) -- (0, 1) -- (0, 0) -- (r1.west);
+\end{tikzpicture}
+\end{center}
+ 
+## Aufgabe 4
+
+\color{blue}
+#### (a) 
+Konstruieren Sie ein lineares Schieberegister der Länge 4, das einen Nicht-Null-Zustand in den Null-Zustand überführt  
+
+\color{black}
+Hier wird der Zustand `0001` im nächsten Schritt zu `0000`:
+
+\begin{center}
+\begin{tikzpicture}
+    % Draw the nodes
+    \node[draw, rectangle, minimum width=1cm, minimum height=1cm] (r1) at (1, 0) {0};
+    \node[draw, rectangle, minimum width=1cm, minimum height=1cm] (r2) at (3, 0) {0};
+    \node[draw, rectangle, minimum width=1cm, minimum height=1cm] (r3) at (5, 0) {0};
+    \node[draw, rectangle, minimum width=1cm, minimum height=1cm] (r4) at (7, 0) {1};
+    \node (xor) at (1,1) {\(\oplus\)};
+
+    % Draw arrows between the nodes
+    \draw[->] (r1.east) -- (r2.west);
+    \draw[->] (r2.east) -- (r3.west);
+    \draw[->] (r3.east) -- (r4.west);
+    \draw[->] (r4.east) -- (8, 0);
+    \draw[->] (r1.north) -- (xor);
+    \draw[->] (r2.north) -- (3, 1) -- (xor);
+    \draw[->] (xor) -- (0, 1) -- (0, 0) -- (r1.west);
+\end{tikzpicture}
+\end{center}
+
+\color{blue}
+#### (b) 
+Konstruieren Sie ein lineares Schieberegister der Länge 4, das den Null-Zustand in einen Nicht-Null-Zustand überführt
+
+\color{black}
+Weil die lineare Rückkoppelung ein XOR verwendet, kann eine 0-Belegung nicht in eine Nicht-0-Belegung überführt werden ($0 \oplus 0 = 0$).

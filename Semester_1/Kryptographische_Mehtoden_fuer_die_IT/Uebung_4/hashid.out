@@ -1,0 +1,52 @@
+--File 'hashes.txt'--
+Analyzing '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'
+[+] SHA-1 [Hashcat Mode: 100]
+[+] Double SHA-1 [Hashcat Mode: 4500]
+[+] RIPEMD-160 [Hashcat Mode: 6000]
+[+] Haval-160 
+[+] Tiger-160 
+[+] HAS-160 
+[+] LinkedIn [Hashcat Mode: 190]
+[+] Skein-256(160) 
+[+] Skein-512(160) 
+[+] MangosWeb Enhanced CMS 
+[+] sha1(sha1(sha1($pass))) [Hashcat Mode: 4600]
+[+] sha1(md5($pass)) [Hashcat Mode: 4700]
+[+] sha1($pass.$salt) [Hashcat Mode: 110]
+[+] sha1($salt.$pass) [Hashcat Mode: 120]
+[+] sha1(unicode($pass).$salt) [Hashcat Mode: 130]
+[+] sha1($salt.unicode($pass)) [Hashcat Mode: 140]
+[+] HMAC-SHA1 (key = $pass) [Hashcat Mode: 150]
+[+] HMAC-SHA1 (key = $salt) [Hashcat Mode: 160]
+[+] sha1($salt.$pass.$salt) [Hashcat Mode: 4710]
+[+] Cisco Type 7 
+[+] BigCrypt 
+Analyzing 'ECprxlyOyUshcl60I9RBSQ==:3NfdMsGy2AAHhm27PTFe0A=='
+[+] Unknown hash
+Analyzing '0x102a6bc65c8ec94b21725eb423d44149:dcd7dd32c1b2d80007866dbb3d315ed0'
+[+] Unknown hash
+Analyzing '$2y$12$RjmAST8RecCMVv1DO4g9zOv3wQ4/vsHlWyC7FLBF/07WL9SzVeA.m'
+[+] Blowfish(OpenBSD) [Hashcat Mode: 3200]
+[+] Woltlab Burning Board 4.x 
+[+] bcrypt [Hashcat Mode: 3200]
+Analyzing 'GvkWX7r0M7mkLxQ743qaDQ==:0/xjqfLDZfAaeI5/s6zjlg=='
+[+] Unknown hash
+Analyzing '0xf7c3bc1d808e04732adf679965ccc34ca7ae3441'
+[+] BigCrypt 
+Analyzing '$2y$10$NqnZ8O1xz0UdArMymrPjoOy2.WwLVqfFYxc1rkwwZdw9.f140Wq72'
+[+] Blowfish(OpenBSD) [Hashcat Mode: 3200]
+[+] Woltlab Burning Board 4.x 
+[+] bcrypt [Hashcat Mode: 3200]
+Analyzing 'qoIP+jhQg+rY3SWAR+FdnZC/H0Gj86WoehIejMC71so='
+[+] Unknown hash
+Analyzing '5ts7TXFWp/S2WqMEDXZXO/eEkIE='
+[+] PeopleSoft [Hashcat Mode: 133]
+Analyzing '64iGbek1bgraDo3VoxjOY4ftjKQj5yWujhG7UyDMCS4='
+[+] Unknown hash
+Analyzing '$2y$10$fP0pAnFtqOaiOTfjLRGB1.rJU5RE1r/P1xcux8vHd6e1Zw2bJXe7y'
+[+] Blowfish(OpenBSD) [Hashcat Mode: 3200]
+[+] Woltlab Burning Board 4.x 
+[+] bcrypt [Hashcat Mode: 3200]
+Analyzing 'Administrator:500:aad3b435b51404eeaad3b435b51404ee:957ed2442e3fece7bf7cfe1417115710:::'
+[+] Unknown hash
+--End of file 'hashes.txt'--

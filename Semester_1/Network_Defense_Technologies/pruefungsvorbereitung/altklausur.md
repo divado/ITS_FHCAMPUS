@@ -8,6 +8,8 @@ Lösung der Network Defense Technologies Alt-Prüfung, zur Prüfungsvorbereitung
 
 **Antwort:**
 
+\newpage
+
 ## Aufgabe 2
 
 ![Aufgabe 2](./altklausur/IMG_1187-min.JPG)
@@ -40,17 +42,23 @@ _State table_ (dynamically created at runtime by filter):
 |:---:|:-------:|:--------:|:-------:|:--------:|:-----:|:--------:|
 |  1  |    A    |   23276  |    B    |    22    |  FTP  |  ALLOW   |
 
+\newpage
+
 ## Aufgabe 3
 
 ![Aufgabe 3](./altklausur/IMG_1188-min.JPG)
 
 **Antwort:**
 
+\newpage
+
 ## Aufgabe 4
 
 ![Aufgabe 4](./altklausur/IMG_1189-min.JPG)
 
 **Antwort:**
+
+\newpage
 
 ## Aufgabe 5 (VPN Aufgabe, haben wir nicht gemacht in der VL)
 

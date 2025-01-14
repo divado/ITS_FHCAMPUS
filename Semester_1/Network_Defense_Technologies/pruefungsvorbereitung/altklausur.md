@@ -6,7 +6,7 @@ Lösung der Network Defense Technologies Altklausur, zur Prüfungsvorbereitung.s
 
 ![Aufgabe 1](./altklausur/IMG_1193-min.JPG)
 
-**Antwort:**s
+**Antwort:**
 
 ## Aufgabe 2
 

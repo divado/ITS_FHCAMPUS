@@ -1,6 +1,6 @@
 # Altklausur - NDT
 
-Lösung der Network Defense Technologies Altklausur, zur Prüfungsvorbereitung.s
+Lösung der Network Defense Technologies Alt-Prüfung, zur Prüfungsvorbereitung.
 
 ## Aufgabe 1
 

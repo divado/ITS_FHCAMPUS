@@ -86,7 +86,10 @@ Sie sehen im Folgenden die openssl Ausgabe des Inhaltes einer CRL. Beantworten S
 1. Welche Seriennummer hat die CRL?
 2. Welches Subject hat das Zertifikat der Entität, die die CRL ausgestellt hat?
 3. Welches kryptographische Verfahren verwendet der Public Key der Entität, welches die CRL ausgestellt hat?
-4. Welche Zertifikate mussten aus Sicherheitsgründen widerrufen werden? (Geben Sie die Seriennummer an bzw. markieren Sie die entsprechenden Zertifikate)
+4. Wann endetder Gültigkeitszeitraum der CRL?
+5. Wie viele Zertifikate wurden widerrufen?
+6. Welche Zertifikate mussten aus Sicherheitsgründen widerrufen werden? (Geben Sie die Seriennummer an bzw. markieren Sie die entsprechenden Zertifikate)
+7. Wann endet der reguläre Gültigkeitszeitrum des Zertifikats mit der Seriennummer 4C-61-0B-09-68-0B-E1-97-D8-7C?
 
 Hinweis: Möglicherweise sind nicht alle Antworten aus der Angabe beantwortbar. Geben Sie das in diesem Falle explizit an.
 
@@ -148,3 +151,268 @@ Hinweis: Möglicherweise sind nicht alle Antworten aus der Angabe beantwortbar. 
 
 **Antwort:**
 
+a)<br>
+
+- Signature
+- Subject
+- Issuer
+- Validity
+- Serial Numbers
+- Public Key
+
+<br>
+
+b)<br>
+
+1. 173
+
+2. Microsoft Corp., Redmond, US
+
+3. Der Key wurde mit RSA erstellt.
+
+4. Die CRL muss am 11 März 2019 upgedated werden.
+
+5. 5 Zertifikate wurden widerrufen
+
+6. `323479639E0E8078AC7A, 32353D9CAA402807A605` mussten aufgrund eines Key Compromise widerrufen werden
+
+7. Das Zertifikat wurde am 12.09.2017 widerrufen damit endet die Gültigkeit. Mehr Informationen haben wir hier leider nicht. Um das reguläre Ende der Zertifikatsgültigkeit zu kenne bräuchten wir das Zertifikat selbst.
+
+## Aufgabe 4
+
+<span style="color:red">
+<b>Frage:</b><br>
+<br>
+
+a) Welche Authentifizierungsmethoden kennt das SSH User Authentication Protocol?
+
+b) Betrachten Sie die folgende Konfigurationsdatei für einen OpenSSH Server (sshd.conf). Welche Security Probleme können Sie darin finden? Begründen Sie Ihre Antwort auch jeweils kurz.	
+
+<br>
+
+</span>
+
+```
+1 Protocol 1,2
+2 HostKey /etc/ssh/ssh_host_rsa_key
+3 HostKey /etc/ssh/ssh_host_ed25519_key
+4 PermitRootLogin yes #or 'without−password' to allow SSH key based login
+5 StrictModes yes
+6 PermitEmptyPasswords yes
+7 Ciphers chacha20−poly1305@openssh.com,aes256−gcm@openssh.com 
+8 MACs hmac−sha2−512−etm@openssh.com,hmac−sha2−256−etm@openssh.com,hmac−md5
+9 KexAlgorithms curve25519−sha256@libssh.org,diffie−hellman−group−exchange−sha256
+```
+
+<br>
+
+**Antwort:**
+
+
+## Frage 5
+
+<span style="color:red">
+<b>Frage:</b><br>
+<br>
+
+a) Skizzieren und beschreiben Sie den TLS Handshake (Version 1.2) beim Aufbau einer Verbindung und erläutern Sie kurz die einzelnen Phasen.
+
+b) Wann und wie wird festgelegt, mit welchen kryptographischen Algorithmen die SSL/TLS Session arbeiten wird?
+
+c) Wann und wie kann der Browser verifizieren, dass zwischen ihm und dem Server keine Man-in-the-Middle Attacke vorliegt?
+
+d) Ab weichem Zeitpunkt sind Client & Server in der Lage das notwendige symmetrische Schlüsselmaterial zu erzeugen?
+
+</span>
+
+<br>
+
+**Antwort:**
+
+
+## Frage 6
+
+<span style="color:red">
+<b>Frage:</b><br>
+<br>
+
+Sie betreiben einen Server und möchten dessen Daten auf einer Festplatte auf Ihrem lokalen Rechner sichern. Die Daten sollen dabei über SSH vom Server aus auf das Backupmedium gepusht werden. Zu diesem Zweck haben Sie auf dem Server ein Skript erstellt, welches durch Aufruf von ./backup.sh ssh-host-name ssh-port-number das Backup anstößt.
+Unglücklicherweise ist Ihr lokaler Rechner vom Server aus nicht zu erreichen.
+Wie können Sie das Backup durch SSH Port Forwarding doch ausführen? Geben Sie auch einen konkreten Aufruf des Backupskripts an. Hinweis: Bitte verwenden sie in Ihrer Erklärung auch konkrete exemplarische Ports.
+
+</span>
+
+<br>
+
+**Antwort:**
+
+## Frage 7
+
+<span style="color:red">
+<b>Frage:</b><br>
+<br>
+ Beschreiben Sie die Gemeinsamkeiten und die Unterschiede bei der Verschlüsselung einer E-Mail mittels S/MIME bzw. mittels PGP.
+
+</span>
+
+<br>
+
+**Antwort:**
+
+## Frage 8
+
+<span style="color:red">
+<b>Frage:</b><br>
+<br>
+
+Wie lauten die drei Bestandteile einer PKI laut PKIX (RFC5280) Standard und was ist ihre jeweilige Aufgabe?
+ Welches fundamentale Problem von PKIX versucht Certificate Transparency (CT) wie zu lösen?
+Sie sehen im Folgenden openssl Ausgabe des Inhaltes einer OCSP Antwort. 
+Beantworten Sie dazu folgende Fragen:
+
+Welche Seriennummer hat das geprüfte Zertifikat? 
+Welches Subject hat das geprüfte Zertifikat?
+Wann endet der Gültigkeitszeitraum des geprüften Zertifikats? 
+Wurde das Zertifikat widerrufen?
+Wie lande ist die OCSP Antwort gültig?
+Ist ein Dokument, welches mit dem geprüften Zertifikat am 24.12.2018 signiert wurde, gültig?
+
+Hinweis: Möglicherweise sind nicht alle Antworten aus der Angabe beantwortbar. Geben Sie das gegebenenfalls explizit an. 
+
+</span>
+
+<br>
+
+![Aufgabe 8](./screenshots/aufgabe_8.png)
+
+**Antwort:**
+
+## Frage 9
+
+<span style="color:red">
+<b>Frage:</b><br>
+<br>
+
+Erläutern Sie kurz das Trust on First use (TOFU) Prinzip und geben Sie 2 konkrete Anwendungen an, wo es in der Praxis eingesetzt wird. 
+Was müsste ein Angreifer tun, um eine Verbindung, bei der TOFU eingesetzt wird, erfolgreich als Machine-in-the-middle anzugreifen?
+Erklären Sie, warum weder S/MIME noch PGP Verschlüsselung (Perfect) Forward Secrecy bieten können.
+
+
+</span>
+
+<br>
+
+**Antwort:**
+
+## Frage 10
+
+<span style="color:red">
+<b>Frage:</b><br>
+<br>
+
+Worin besteht der Unterschied zwischen passiven und aktiven Attacken auf einen gesicherten Kommunikationskanal? Welche kryptographischen Schutzziele werden dabei jeweils angegriffen? 
+
+Nennen und beschreiben Sie 2 Angriffe, die sich gegen das bei einer gesicherten Kommunikation verwendete Protokoll richten. 
+
+Nennen und beschreiben Sie 2 Angriffe, die sich gegen die bei einer gesicherten Kommunikation verwendete Verschlüsselung richten. 
+
+Kann ein asymmetrisches Kryptosystem die Eigenschaft der “unconditional security” erfüllen? Wenn ja, was muss gelten? Wenn nein, warum nicht?
+
+</span>
+
+<br>
+
+**Antwort:**
+
+## Frage 11
+
+<span style="color:red">
+<b>Frage:</b><br>
+<br>
+
+Betrachten Sie die folgende Debug Ausgabe bei einem Verbindungsaufbau mit einem
+SSH Server. Beantworten Sie zu dieser Verbindung die folgenden Fragen:
+
+1. Welche SSH Protokoll Version wird eingesetzt? 
+
+2. Welches Key Exchange Verfahren wird eingesetzt?
+
+3. Mit welcher Authentifizierungsmethode hat der User sich erfolgreich am remote System angemeldet?
+
+4. War der Hostkey des Servers dem Client bereits vor der Verbindung bekannt?
+
+Hinweis: Möglicherweise sind nicht alle Antworten aus der Angabe beantwortbar. Geben Sie das in diesem Falle explizit an.
+
+</span>
+
+```bash
+> $ ssh -v it-security@its.fh-campuswien.ac.at
+OpenSSH_8.2p1 Ubuntu-4, OpenSSL 1.1.1f 31 Mar 2020
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched
+no files
+debug1: /etc/ssh/ssh_config line 21: Applying options for *
+debug1: Connecting to its.fh-campuswien.ac.at [91.213.77.219] port 22.
+debug1: Connection established.
+debug1: identity file /home/it-security/.ssh/id_rsa type -1
+debug1: identity file /home/it-security/.ssh/id_rsa-cert type -1
+[...]
+debug1: Local version string SSH-2.0-OpenSSH_8.2p1 Ubuntu-4
+debug1: Remote protocol version 2.0, remote software version OpenSSH_8.2p1 Ubuntu-
+4ubuntu0.2
+debug1: match: OpenSSH_8.2p1 Ubuntu-4ubuntu0.2 pat OpenSSH* compat 0x04000000
+debug1: Authenticating to its.fh-campuswien.ac.at:22 as 'it-security'
+debug1: SSH2_MSG_KEXINIT sent
+debug1: SSH2_MSG_KEXINIT received
+debug1: kex: algorithm: curve25519-sha256
+debug1: kex: host key algorithm: ecdsa-sha2-nistp256
+debug1: kex: server->client cipher: chacha20-poly1305@openssh.com MAC: <implicit>
+compression: none
+debug1: kex: client->server cipher: chacha20-poly1305@openssh.com MAC: <implicit>
+compression: none
+debug1: expecting SSH2_MSG_KEX_ECDH_REPLY
+debug1: Server host key: ecdsa-sha2-nistp256
+SHA256:l/dTLeAnbZxanX0PSqlfwjOfDn8zWwli2JGql1n3x4w
+debug1: Host 'its.fh-campuswien.ac.at' is known and matches the ECDSA host key.
+debug1: Found key in /home/it-security/.ssh/known_hosts:1
+debug1: rekey out after 134217728 blocks
+debug1: SSH2_MSG_NEWKEYS sent
+debug1: expecting SSH2_MSG_NEWKEYS
+debug1: SSH2_MSG_NEWKEYS received
+debug1: rekey in after 134217728 blocks
+[...]
+debug1: Will attempt key: /home/it-security/.ssh/id_ed25519 ED25519
+SHA256:Nfk8s1agGOcujQokfguV7oIlrtXwXxI9IKAEORV0by4
+debug1: Will attempt key: /home/it-security/.ssh/id_ed25519_sk
+debug1: Will attempt key: /home/it-security/.ssh/id_xmss
+debug1: SSH2_MSG_EXT_INFO received
+debug1: kex_input_ext_info: server-sig-algs=<ssh-ed25519,sk-ssh-
+ed25519@openssh.com,ssh-rsa,rsa-sha2-256,rsa-sha2-512,ssh-dss,ecdsa-sha2-
+nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ecdsa-sha2-
+nistp256@openssh.com>
+debug1: SSH2_MSG_SERVICE_ACCEPT received
+debug1: Authentications that can continue: publickey,password
+debug1: Next authentication method: publickey
+[...]
+debug1: Offering public key: /home/it-security/.ssh/id_ed25519 ED25519
+SHA256:Nfk8s1agGOcujQokfguV7oIlrtXwXxI9IKAEORV0by4
+debug1: Authentications that can continue: publickey,password
+debug1: Trying private key: /home/it-security/.ssh/id_ed25519_sk
+debug1: Trying private key: /home/it-security/.ssh/id_xmss
+debug1: Next authentication method: password
+it-security@its.fh-campuswien.ac.at's password:
+debug1: Authentication succeeded (password).
+Authenticated to its.fh-campuswien.ac.at ([91.213.77.219]:22).
+debug1: channel 0: new [client-session]
+debug1: Requesting no-more-sessions@openssh.com
+debug1: Entering interactive session.
+debug1: pledge: network
+debug1: client_input_global_request: rtype hostkeys-00@openssh.com want_reply 0
+debug1: Sending environment.
+debug1: Sending env LANG = C.UTF-8
+Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-77-generic x86_64)
+```
+
+<br>
+
+**Antwort:**

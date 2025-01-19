@@ -208,6 +208,26 @@ b) Betrachten Sie die folgende Konfigurationsdatei für einen OpenSSH Server (ss
 
 **Antwort:**
 
+a) <br>
+
+- password: Client übertragt Klartextpasswort über verschlüsselten Kanal an Server
+
+- publickey: für die Authentifizierung muss er Benutzer den Besitz eines privaten Schlüssels nachweisen, der Server kennt den öffentlkichen Teil des Keys
+
+- hostbased: ähnlich wie publickey, Prüfung erfolgt auf Host des Clients und der Server vertraut diesem Host
+
+b) <br>
+
+1. SSH Protocol 1 ist noch aktiv, es sollte nur 2 aktiv sein. Protocol 2 unterstützt stärkere Verschklüsselungsmethoden (AES, ECDSA, ED25519)
+
+2. Der noch aktive Host_key ist nicht unbedingt ein Risiko, es gibt aber effizientere Alternativen
+
+3. PermitRootLogin sollte auf no stehen. Sollten root Rechte gebraucht werden, kann man diese sich immer noch nach dem Login zuweisen
+
+4. PermitEmptyPasswords sollte auf no stehen, es könnte sonst sein das es Benutzer gibt die kein Passwort setzen und dies würde Angreifern ermöglichen sich mit diesen Benutzern ohne Passwort anzumelden
+
+5. hmac-md5, md5 ist ein schwacher Hashing-Algorithmus mit bekannten Fehlern und sollte nicht mehr verwendet werden.
+
 
 ## Frage 5
 
@@ -229,6 +249,60 @@ d) Ab weichem Zeitpunkt sind Client & Server in der Lage das notwendige symmetri
 
 **Antwort:**
 
+a) <br>
+
+Es gibt vier Phasen im SSL-Handshake-Protokoll. Die folgenden Nachrichten werden in diesen 4 Phasen verwendet.
+
+- Phase-1: Feststellen der security capabilities
+- Phase-2: Server-Authentifizierung und Schlüsselaustausch
+- Phase-3: Client-Authentifizierung und Schlüsselaustausch
+- Phase-4: Finish
+
+![TLS Handshake](https://www.ibm.com/docs/en/SSYKE2_8.0.0/com.ibm.java.security.component.80.doc/security-component/jsse2Docs/ssl-client.png)
+
+1. Die „Client Hello“-Nachricht: Der Client leitet den Handshake ein, indem er eine „Hello“-Nachricht an den Server sendet. Die Nachricht zeigt an, welche TLS-Version und welche Cipher Suites der Client unterstützt. Außerdem enthält sie eine Folge von zufälligen Bytes, die als „Client Random“ bezeichnet werden.
+
+2. Die „Server Hello“-Nachricht: Als Antwort auf die „Client Hello“-Nachricht sendet der Server eine Nachricht, die das SSL-Zertifikat des Servers, die vom Server ausgewählte Verschlüsselungssuite und die „Server Random“ (eine vom Server generierte zufällige Byte-Zeichenfolge) enthält.
+
+3. Authentifizierung: Der Client überprüft das SSL-Zertifikat des Servers bei der Zertifizierungsstelle, die es ausgestellt hat. Dieser Vorgang bestätigt, dass der Server der ist, der er vorgibt zu sein, und dass der Client mit dem tatsächlichen Eigentümer der Domain interagiert.
+
+4. Das Premaster Secret: Der Client sendet eine weitere zufällige Folge von Bytes, das „Premaster Secret“. Das Premaster Secret wird mit dem öffentlichen Schlüssel verschlüsselt und kann vom Server nur mit dem privaten Schlüssel entschlüsselt werden. (Der Client erhält den öffentlichen Schlüssel vom SSL-Zertifikat des Servers.)
+
+5. Privater Schlüssel wird verwendet: Der Server entschlüsselt das Premaster Secret.
+
+6. Sitzungsschlüssel werden erstellt: Sowohl Client als auch Server generieren Sitzungsschlüssel aus dem Client Random, dem Server Random und dem Premaster Secret. Sie sollten zu den gleichen Ergebnissen kommen.
+
+7. Client ist bereit: Der Client sendet eine „Fertig“-Nachricht, die mit einem Sitzungsschlüssel verschlüsselt ist.
+Server ist bereit: Der Server sendet eine „Fertig“-Nachricht, die mit einem Sitzungsschlüssel verschlüsselt ist.
+
+8. Sichere symmetrische Verschlüsselung erfolgreich: Der Handshake ist abgeschlossen und die Kommunikation wird mit den Sitzungsschlüsseln fortgesetzt.
+
+b) <br>
+
+Welcher Algorithmus verwendet werden soll, wird im Handshake Prozess, in den ersten beiden Schritten “Client Hello” und “Server Hello” festgelegt. Der Client schlägt dem Server Cipher Suites vor und der Server entscheidet sich für eine, die er ebenfalls unterstützt. Die Auswahl hängt von den gemeinsamen unterstützen Algorithmen ab. 
+
+c) <br>
+
+- Zertifikatsüberprüfung Browser überprüft das Zertifikat, welches der Server an den Client gesendet hat. 
+    - vertrauenswürdige Zertifizierungsstelle (CA)
+    - ob es bis zur Root-CA gültig ist 
+    - Hostname des Servers gleich mit Common Name im Zertifikat
+    - Gültigkeit des Zertifikats 
+    - Überprüfung der Signatur der CA 
+
+- Schlüsselaustausch / Authentifizierung: Nur der Server mit dem richtigen privaten Schlüssel kann den Handshake erfolgreich beenden (öff. Schlüssel des Servers im Zertifikat → nur echter Server der zugehörigen priv. Schlüssel hat kann die verschl. Nachrichten des Browsers entschlüsseln)
+
+- Forward Secrecy: Wenn ECDH für den Schlüsselaustausch verwendet wird → für jede Verbindung, wird ein neuer Sitzungsschlüssel generiert. Sogar wenn ein Angreifer den priv. Schlüssel des Servers hat, können vergangene Sitzungen nicht entschlüsselt werden, da der Sitzungsschlüssel nicht dauerhaft gespeichert wird. 
+
+- Finished- Message: stellt sicher, dass die Kommunikation nicht manipuliert wurde. Diese Nachricht enthält Hash aller bisherigen Nachrichten des Handshakes → Browser überprüft Korrektheit. (MitM- Hashwerte wären unterschiedlich) 
+
+d) <br>
+
+Zeitpunkt erzeugung symmetrisches Schlüsselmaterial
+- symmetrische Schlüssel kann nach der Berechnung des Master-Secret erzeugt werden.
+- Bei RSA: Nach der Client-Key-Exchange Nachricht 
+- Bei ECDHE: Nach Berechnung des gemeinsamen Schlüssels aus dem Schlüsselaustausch 
+
 
 ## Frage 6
 
@@ -246,6 +320,22 @@ Wie können Sie das Backup durch SSH Port Forwarding doch ausführen? Geben Sie 
 
 **Antwort:**
 
+Vom Client sollte zum Server eine SSH Verbindung mit einem reverse Port Forwarding aufgenommen werden.
+
+```bash
+ssh -R 9999:localhost:8888 user@server
+```
+Hiermit wird Port 9999 des Servers auf Port `8888` des lokalen Rechners weitergeleitet.
+
+Nun kann das Backup-Script wie folgt ausgeführt werden:
+
+```bash
+./backup.sh localhost 9999
+```
+
+Das Backup wird dann vom `localhost:9999` über das reverse Portforwarding an den vorher nicht erreichbaren Rechner auf Port `8888` weitergeleitet.
+
+
 ## Frage 7
 
 <span style="color:red">
@@ -259,23 +349,62 @@ Wie können Sie das Backup durch SSH Port Forwarding doch ausführen? Geben Sie 
 
 **Antwort:**
 
+Gemeinsamkeit: 
+
+- Beide verwenden asymmetrische Kryptographie, wobei ein öffentlicher Schlüssel für die Verschlüsselung und ein privater Schlüssel für die Entschlüsselung genutzt wird.
+
+- Beide Systeme nutzen eine Kombination aus asymmetrischer und symmetrischer Verschlüsselung:
+
+
+Unterschiede: 
+
+- S/MIME: 
+    - Basiert auf X.509-Standard und verwendet ein hierarchisches Public Key Infrastructure (PKI)-Modell
+
+    - Identität der Nutzer wird durch Zertifikatsstellen (Certificate Authorities) geprüft und verifiziert.
+
+    - Die Zertifikatsverwaltung passiert dabei teilweise auf Ebene des Betriebssystems (z.B. Outlook/Windows), teilweise im Mail Client selbst (z.B. Thunderbird)
+
+    - Bei internen Mails Austausch der Zertifikate über bspw. Exchange-Server, bei externen Mails muss erst eine unverschlüsselte aber signierte Mail gesendet werden.
+
+- PGP:
+    - Nutzt Web-of-Trust-Modell anstatt PKI 
+
+    - Nutzer können ihre Schlüssel gegenseitig signieren
+
+    - Zertifikate können auch selbst signiert sein
+
+    - Schlüssel werden von Nutzer selbst verwaltet
+
+    - Möglichkeit mehrere Schlüssel pro Identität zu verwenden, mit Verwaltung über Master und Sub Keys
+
+    - Austausch der Schlüssel/Zertifikate persönlich oder über öffentliche Server
+
+
 ## Frage 8
 
 <span style="color:red">
 <b>Frage:</b><br>
 <br>
 
+a) <br>
+
 Wie lauten die drei Bestandteile einer PKI laut PKIX (RFC5280) Standard und was ist ihre jeweilige Aufgabe?
- Welches fundamentale Problem von PKIX versucht Certificate Transparency (CT) wie zu lösen?
+
+b) <br>
+
+Welches fundamentale Problem von PKIX versucht Certificate Transparency (CT) wie zu lösen?
+
+c) <br>
 Sie sehen im Folgenden openssl Ausgabe des Inhaltes einer OCSP Antwort. 
 Beantworten Sie dazu folgende Fragen:
 
-Welche Seriennummer hat das geprüfte Zertifikat? 
-Welches Subject hat das geprüfte Zertifikat?
-Wann endet der Gültigkeitszeitraum des geprüften Zertifikats? 
-Wurde das Zertifikat widerrufen?
-Wie lande ist die OCSP Antwort gültig?
-Ist ein Dokument, welches mit dem geprüften Zertifikat am 24.12.2018 signiert wurde, gültig?
+1. Welche Seriennummer hat das geprüfte Zertifikat? 
+2. Welches Subject hat das geprüfte Zertifikat?
+3. Wann endet der Gültigkeitszeitraum des geprüften Zertifikats? 
+4. Wurde das Zertifikat widerrufen?
+5. Wie lande ist die OCSP Antwort gültig?
+6. Ist ein Dokument, welches mit dem geprüften Zertifikat am 24.12.2018 signiert wurde, gültig?
 
 Hinweis: Möglicherweise sind nicht alle Antworten aus der Angabe beantwortbar. Geben Sie das gegebenenfalls explizit an. 
 
@@ -287,14 +416,42 @@ Hinweis: Möglicherweise sind nicht alle Antworten aus der Angabe beantwortbar. 
 
 **Antwort:**
 
+a) <br>
+
+- CA - Certificate Authoritiy: Stellt das Zertifikat aus
+
+- VA - Validation Authority: Ist für die Validierung der ausgestellten Zertifikate verantwortlich
+
+- RA - Registration Authority: erhält Zertifikatsanfragen (CSR) und entscheidet ob daraufhin ein Zertifikat ausgestellt werden darf
+
+b) <br>
+
+Grundsätzlich kann jede CA jedes beliebige Zertifikat ausstellen. z.B. kann eine CA ein Zertifikat für google.com erstellen, ohne dass dies von Google angefordert wurde.
+
+Durch Certificate Transparency wird vorgeschrieben, dass die CAs jedes ausgestellte Zertifikat in ein öffentlich einsehbares CT Log geschrieben wird, wodurch Google zumindest feststellen kann, wenn ein falsches Zertifikat für google.com erstellt wurde.
+
+c) <br>
+
+1. `2E2E8D7DBD2D983695883FC2`
+2. keine Infos zum Subject
+3. nur die Gültigkeit der OCSP Response ist gegeben nicht des Zertifikats
+4. Nein das Zertifikat ist gültig
+5. Bis zum 07.02.2019 10:54:52 GMT
+6. Keine Info zum Gültigkeitszeitraum, 24.12.2018 kann vor Gültigkeistbeginn liegen.
+
 ## Frage 9
 
 <span style="color:red">
 <b>Frage:</b><br>
 <br>
 
-Erläutern Sie kurz das Trust on First use (TOFU) Prinzip und geben Sie 2 konkrete Anwendungen an, wo es in der Praxis eingesetzt wird. 
+a) <br>
+Erläutern Sie kurz das Trust on First use (TOFU) Prinzip und geben Sie 2 konkrete Anwendungen an, wo es in der Praxis eingesetzt wird.
+
+b) <br>
 Was müsste ein Angreifer tun, um eine Verbindung, bei der TOFU eingesetzt wird, erfolgreich als Machine-in-the-middle anzugreifen?
+
+c) <br>
 Erklären Sie, warum weder S/MIME noch PGP Verschlüsselung (Perfect) Forward Secrecy bieten können.
 
 
@@ -304,25 +461,98 @@ Erklären Sie, warum weder S/MIME noch PGP Verschlüsselung (Perfect) Forward Se
 
 **Antwort:**
 
+a) <br>
+
+- TOFU:
+    - beim erstmaligen Kontakt einem öffentlichen Schlüssel vertraut wird und dieser für die Zukunft gespeichert wird. Ein Fehler tritt bei einer unerwarteten Änderung auf.
+    - Das Modell basiert darauf, dass ein (MitM-)Angriff genau zum Zeitpunkt der erstmaligen Kontaktaufnahme mit einem Server extrem unwahrscheinlich ist.
+
+- Beispiele Praxis: 
+    - SSH Server Key 
+    - Signal (Messenger)
+    - HPKP (HTTP Public Key Pinning) 
+
+b) <br>
+
+Der Angreifer positioniert sich, während des erstmaligen Kontaktes (!), zwischen dem Client und dem echten Server (z. B. durch DNS-Spoofing, ARP-Spoofing). Er präsentiert seinen eigenen öffentlichen Schlüssel als den des Servers. Der Client speichert diesen falschen Schlüssel, da es sich um die erste Verbindung handelt und TOFU keine Authentizität sicherstellt.
+Alle zukünftigen Verbindungen des Clients laufen über den Angreifer, der die Kommunikation entschlüsseln und manipulieren kann. 
+
+c) <br>
+
+SMIME und PGP verwenden alte Technologien (entstanden in der ersten Hälfte der 1990er Jahre). Für die Verschlüsselung wird stets derselbe Schlüssel verwendet und es gibt keine Session-Keys. Sollte also der Langzeit-Schlüssel kompromittiert werden, ist damit auch die ganze bisherige Mail-Historie kompromittiert, daher keine Forward Secrecy gegeben ist.
+
 ## Frage 10
 
 <span style="color:red">
 <b>Frage:</b><br>
 <br>
 
-Worin besteht der Unterschied zwischen passiven und aktiven Attacken auf einen gesicherten Kommunikationskanal? Welche kryptographischen Schutzziele werden dabei jeweils angegriffen? 
+a) Worin besteht der Unterschied zwischen passiven und aktiven Attacken auf einen gesicherten Kommunikationskanal? Welche kryptographischen Schutzziele werden dabei jeweils angegriffen? 
 
-Nennen und beschreiben Sie 2 Angriffe, die sich gegen das bei einer gesicherten Kommunikation verwendete Protokoll richten. 
+b) Nennen und beschreiben Sie 2 Angriffe, die sich gegen das bei einer gesicherten Kommunikation verwendete Protokoll richten. 
 
-Nennen und beschreiben Sie 2 Angriffe, die sich gegen die bei einer gesicherten Kommunikation verwendete Verschlüsselung richten. 
+c) Nennen und beschreiben Sie 2 Angriffe, die sich gegen die bei einer gesicherten Kommunikation verwendete Verschlüsselung richten. 
 
-Kann ein asymmetrisches Kryptosystem die Eigenschaft der “unconditional security” erfüllen? Wenn ja, was muss gelten? Wenn nein, warum nicht?
+d) Kann ein asymmetrisches Kryptosystem die Eigenschaft der “unconditional security” erfüllen? Wenn ja, was muss gelten? Wenn nein, warum nicht?
 
 </span>
 
 <br>
 
 **Antwort:**
+a)
+
+Passive Attacke: 
+  
+  >  Ein Angreifer beobachtet den Kommunikationskanal, ohne ihn aktiv zu stören oder zu verändern. Das Ziel ist es, Informationen zu sammeln, ohne dass die Kommunikation beeinträchtigt wird oder der Angriff von den Kommunikationspartnern bemerkt wird. Hat nur Auswirkungen auf die Confidentiality
+
+Aktive Attacke:
+
+>Angreifer greift in den Nachrichtenstrom ein und versucht, Nachrichten zu löschen, zu verändern, zu erzeugen oder in anderer Form zu manipulieren. Hat Auswirkungen auf C, I , A und N.
+
+- Confidentiality: Nachricht kann nur vom beabsichtigten Empfänger verstanden werden 
+
+- Integrity: Nachricht kann nicht, für den Empfänger unbemerkt, verändert werden 
+
+- Authenticity: Identität des Senders einer Nachricht ist eindeutig feststellbar 
+
+- Non Repudiation: Sender kann nicht leugnen, Nachricht geschickt zu haben
+
+b) <br>
+
+Known-key 
+
+> Der Angreifer erhält Zugriff auf einige der verwendeten Schlüssel und kann daraus neue Schlüssel ableiten 
+
+Replay 
+
+> Der Angreifer zeichnet eine (oder Teile einer) Protokollsitzung auf und spielt sie zu einem späteren Zeitpunkt wieder ab
+
+c) <br>
+
+ Ciphertext-only 
+
+> Angreifer kennt nur den verschlüsselten Text, und kann daraus den Klartext rekonstruieren. Ein System, das für eine solche Attacke anfällig ist, gilt als völlig unsicher. Sehr leicht auszuführen (wenn auch hoffentlich sehr selten erfolgversprechend) 
+
+Chosen-ciphertext 
+
+> Angreifer wählt Ciphertext aus und erhält dafür den Klartext. Möglich z.b. bei Smartcards; der Angreifer hat keinen Zugriff auf den Schlüssel, aber sehr wohl auf die entschlüsselten Werte
+
+d) <br>
+
+Unconditional Security 
+- Stärkste Bewertung, mit informationstheoretischen Ansatz 
+- Hypothetischer Angreifer hat unbegrenzte Ressourcen zur Verfügung 
+- Geheimtext darf absolut keine Rückschlüsse auf Klartext zulassen 
+- Perfektes Kryptosystem 
+- Kein Public Key Kryptosystem kann unconditional security erfüllen
+    - Public key bekannt, einfach jeden möglichen Klartext verschlüsseln, bis abgefangener Ciphertext herauskommt
+
+Antwort:
+> Nein, da die Sicherheit asymmetrischer Kryptosysteme von der Rechenleistung und dem Algorithmus abhängen. Sogar wenn aktuell bekannte Angriffe ineffizient sind, können zukünftige Entdeckungen die Sicherheit gefährden. <br> Eine unconditional Security erfordert, dass es theoretisch unmöglich ist, Informationen aus dem Ciphertext zu extrahieren, sogar bei unendlicher Rechenleistung.
+
+
+
 
 ## Frage 11
 
@@ -416,3 +646,11 @@ Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-77-generic x86_64)
 <br>
 
 **Antwort:**
+
+1. SSH Protocol 2.0
+
+2. curve25519-sha256 (basically Elliptic Curve Diffie Helmann)
+
+3. Password, kein Public-Key konnte den User authentifizieren.
+
+4. Ja, der Server-Hostkey war bereits bekannt.

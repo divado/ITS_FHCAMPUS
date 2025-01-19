@@ -23,7 +23,7 @@ Geben Sie außerdem ein Argument an, dass für die andere Variante sprechen wür
 **Antwort:**
 
 a) <br>
-Plausible Deniability, ist eine steganographische Technik, die es ermöglicht die Existenz von verschlüsselten Dateien oder Nachrichten abgestritten werden kann. Ein Angreifer kann die existenz dieser Nachrichten/Dateien in einem Strom aus Daten, welche wie Zufallsdaten aussehen, nicht beweisen. Die Existenz dieser ist also plausibel abstreitbar.
+Plausible Deniability, ist eine steganographische Technik, die es ermöglicht, dass die Existenz von verschlüsselten Dateien oder Nachrichten abgestritten werden kann. Ein Angreifer kann die existenz dieser Nachrichten/Dateien in einem Strom aus Daten, welche wie Zufallsdaten aussehen, nicht beweisen. Die Existenz dieser ist also plausibel abstreitbar.
 <br>
 
 b) <br>

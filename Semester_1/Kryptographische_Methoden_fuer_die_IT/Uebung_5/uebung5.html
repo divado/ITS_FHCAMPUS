@@ -1,0 +1,282 @@
+<style>
+    body{
+       font-family: Arial !important;
+    }
+</style>
+
+<h1 id="hü4---ssh">HÜ4 - SSH</h1>
+<h2 id="intro">0. Intro</h2>
+<p><strong>Used equipment:</strong></p>
+<ul>
+<li>Ubuntu 24.04 LTS local machine</li>
+<li>Ubuntu 24.04 LTS remote machine</li>
+<li>Chrome Browser</li>
+</ul>
+<h2 id="ssh-tunneling">1. SSH tunneling</h2>
+<p>In the first step a pair of ne SSH keys needs to be generated, unless
+you want to use already existent ones.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> ssh-keygen <span class="at">-t</span> ed25519</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Generating</span> public/private ed25519 key pair.</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> file in which to save the key <span class="er">(</span><span class="ex">/home/philip/.ssh/id_ed25519</span><span class="kw">)</span><span class="bu">:</span> cryptmeth</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> passphrase <span class="er">(</span><span class="ex">empty</span> for no passphrase<span class="kw">)</span><span class="bu">:</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> same passphrase again:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Your</span> identification has been saved in cryptmeth</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Your</span> public key has been saved in cryptmeth.pub</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> key fingerprint is:</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">SHA256:wPQ60jzvVg9qwB/8zDtoxA8nPeTVsJ77u1nSPJEkNzk</span> philip@framework</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> key<span class="st">&#39;s randomart image is:</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">+--[ED25519 256]--+</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">|      .          |</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">|     o .    .   .|</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="st">|      o .    = E |</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">|     o o  . o = +|</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="st">|    ..*oS+ o . o |</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">|     .o+B B o  o.|</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="st">|       +.&amp; + ...+|</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">|       .B * o  +.|</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="st">|       +. .o .=o |</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="st">+----[SHA256]-----+</span></span></code></pre></div>
+<p>For the purpose of this exercise the SSH keys were saved in the
+<code>cryptmeth</code> (private key) file and the
+<code>kryptmeth.pub</code> (public key) file. For this exercise the keys
+are not protected with a passphrase.</p>
+<p>The public fingerprint of the SSH key was installed to the remote
+host on creation, if that is not possible the fingerprint can be added
+after remote machine setup with the following command (keep in mind for
+the second option the right permissions must be set on the remote
+machine):</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> ssh-copy-id <span class="at">-i</span> cryptmeth.pub root@64.225.100.185</span></code></pre></div>
+<p>After setting up the SSH keys we can check the SSH connection:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> ssh <span class="at">-i</span> cryptmeth root@64.225.100.185</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Welcome</span> to Ubuntu 24.04.1 LTS <span class="er">(</span><span class="ex">GNU/Linux</span> 6.8.0-51-generic x86_64<span class="kw">)</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> Documentation:  https://help.ubuntu.com</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> Management:     https://landscape.canonical.com</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> Support:        https://ubuntu.com/pro</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a> <span class="ex">System</span> information as of Sun Jan 19 18:06:35 UTC 2025</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">System</span> load:  0.01              Processes:             99</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Usage</span> of /:   20.7% of 8.65GB   Users logged in:       0</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Memory</span> usage: 38%               IPv4 address for eth0: 64.225.100.185</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Swap</span> usage:   0%                IPv4 address for eth0: 10.19.0.6</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="ex">Expanded</span> Security Maintenance for Applications is not enabled.</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="ex">7</span> updates can be applied immediately.</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="ex">3</span> of these updates are standard security updates.</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ex">To</span> see these additional updates run: apt list <span class="at">--upgradable</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="ex">Enable</span> ESM Apps to receive additional future security updates.</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="ex">See</span> https://ubuntu.com/esm or run: sudo pro status</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="ex">root@cryptographic-mehtods:~#</span></span></code></pre></div>
+<blockquote>
+<p>[NOTE] In this example we used a ssh key which was configured via the
+web interface of our hosting provider. With cloud providers this is one
+of the more common options. If ypu configure a remote system yourself
+keep in mind you will need to enable ssh and setup an inital password
+access and configure ssh key access after that.</p>
+</blockquote>
+<blockquote>
+<p>[WARNING] In this example the <code>root</code> account is used. This
+is NOT recommended for production environments. In production use
+dedicated accounts with a correct permission setup.</p>
+</blockquote>
+<h2 id="forwarding-browser-traffic">Forwarding browser traffic</h2>
+<p>With the following command we create a SOCKS proxy on port
+<code>8090</code>:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> ssh <span class="at">-i</span> cryptmeth <span class="at">-D</span> 8090 root@64.225.100.185</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Welcome</span> to Ubuntu 24.04.1 LTS <span class="er">(</span><span class="ex">GNU/Linux</span> 6.8.0-51-generic x86_64<span class="kw">)</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> Documentation:  https://help.ubuntu.com</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> Management:     https://landscape.canonical.com</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a> <span class="ex">*</span> Support:        https://ubuntu.com/pro</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a> <span class="ex">System</span> information as of Sun Jan 19 18:19:37 UTC 2025</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">System</span> load:  0.08              Processes:             104</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Usage</span> of /:   20.7% of 8.65GB   Users logged in:       0</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Memory</span> usage: 37%               IPv4 address for eth0: 64.225.100.185</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Swap</span> usage:   0%                IPv4 address for eth0: 10.19.0.6</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ex">Expanded</span> Security Maintenance for Applications is not enabled.</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ex">7</span> updates can be applied immediately.</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="ex">3</span> of these updates are standard security updates.</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="ex">To</span> see these additional updates run: apt list <span class="at">--upgradable</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ex">Enable</span> ESM Apps to receive additional future security updates.</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="ex">See</span> https://ubuntu.com/esm or run: sudo pro status</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="ex">Last</span> login: Sun Jan 19 18:06:35 2025 from 62.178.13.69</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="ex">root@cryptographic-mehtods:~#</span></span></code></pre></div>
+<p>Note that the SSH session starts normally and we can use the session
+to start/stop tasks on the remote machine. The session can also be
+stopped normally.</p>
+<p>In the <code>network settings</code> of our operating system we can
+now conmfigure our SOCKS proxy to be used to tunnel all network traffic
+through our remote machine.</p>
+<figure>
+<img src="./screenshots/networkmanager.png" alt="network settings" width="75%"/>
+<figcaption aria-hidden="true">network settings</figcaption>
+</figure>
+<p>For the host we use our localhost and the tunneled port
+<code>8090</code>. After saving the settings we can check if our proxy
+is working.</p>
+<p>First we check our IP address with our proxy active:</p>
+<figure>
+<img src="./screenshots/ipwithproxy.png" alt="proxy active" />
+<figcaption aria-hidden="true">proxy active</figcaption>
+</figure>
+<p>Then we compare this to our IP address without our proxy active:</p>
+<figure>
+<img src="./screenshots/2025-01-19_19-31.png" alt="proxy not active" />
+<figcaption aria-hidden="true">proxy not active</figcaption>
+</figure>
+<blockquote>
+<p>[NOTE] The second IP was partially blurred for privacy reasons.</p>
+</blockquote>
+<p>When using the verbose mode whe can also see connections which are
+tunneled via the SSH tunnel proxy:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">root@cryptographic-mehtods:~#</span> debug1: Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 3: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 4: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 5: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 6: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 7: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 8: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 9: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 10: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 11: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 12: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 13: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 14: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 15: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 16: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 17: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 18: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 19: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 20: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> Connection to port 8090 forwarding to socks port 0 requested.</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="ex">debug1:</span> channel 21: new dynamic-tcpip <span class="pp">[</span><span class="ss">dynamic</span><span class="pp">-</span><span class="ss">tcpip</span><span class="pp">]</span> <span class="er">(</span><span class="ex">inactive</span> timeout: 0<span class="kw">)</span></span></code></pre></div>
+<h2 id="ssh-audit">SSH audit</h2>
+<blockquote>
+<p>[NOTE] for the purpose of this exercise we will asume a SSH server is
+already installed and running. This would be the case in most linux
+distributions anyway.</p>
+</blockquote>
+<p>Using the connection setup from part one of this exercise we connect
+to our remote machine:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> ssh <span class="at">-i</span> cryptmeth root@64.225.100.185</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Welcome</span> to Ubuntu 24.04.1 LTS <span class="er">(</span><span class="ex">GNU/Linux</span> 6.8.0-51-generic x86_64<span class="kw">)</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">root@cryptographic-mehtods:~#</span></span></code></pre></div>
+<p>Now we can install the <code>ssh-audit</code>tool via pip on our
+remote machine:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">root@cryptographic-mehtods:~#</span> sudo apt install pipx <span class="at">-y</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ex">root@cryptographic-mehtods:~#</span> pipx install ssh-audit</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">installed</span> package ssh-audit 3.3.0, installed using Python 3.12.3</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">These</span> apps are now globally available</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-</span> ssh-audit</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">⚠️</span>   Note: <span class="st">&#39;/root/.local/bin&#39;</span> is not on your PATH environment variable. These apps will not be globally accessible until your PATH is updated. Run <span class="kw">`</span><span class="ex">pipx</span> ensurepath<span class="kw">`</span> to automatically add</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">it,</span> or manually modify your PATH in your shell<span class="st">&#39;s config file (i.e. ~/.bashrc).</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st">done! ✨ 🌟 ✨</span></span></code></pre></div>
+<p>First we install <code>pipx</code> which is the recommended way of
+installing Python packages globally. This is done to not interfere with
+the standard Python installation on your system. <code>pipx</code> will
+then manage the Python-venvs for your installed packages.</p>
+<p>After we install <code>ssh-audit</code> we can check the
+configuration of our remote machine.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">root@cryptographic-mehtods:~#</span> ssh-audit 64.225.100.185</span></code></pre></div>
+<p>The following output was generated by ssh-audit:</p>
+<figure>
+<img src="./screenshots/ssh-audit.png" alt="SSH audit" width="75%"/>
+<figcaption aria-hidden="true">SSH audit</figcaption>
+</figure>
+<p>As you can see in the output we get a variety of recommended
+cipher-suites which should be removed from our SSH servers config in
+order to harden it against attacks.</p>
+<h3 id="editing-the-ssh-server-config">Editing the SSH server
+config</h3>
+<p>In order to change the cipher suites which will be advertised by our
+server we need to edit the <code>/etc/ssh/sshd_config.d</code>. The
+changes we apply will be used to harden our server configuration. To get
+a configuration as clean as possible we will save our changes in a new
+file.</p>
+<p>The new <code>/etc/ssh/sshd_config.d/hard.conf</code> will be loaded
+by the SSH server and overwrite the default conf because it is placed in
+the <code>sshd_config.d</code> folder.</p>
+<blockquote>
+<p>[WARNING] Proceed with caution. Misconfiguration might result in lost
+access to your server. Configure your ssh server while keeping a
+seperate connection open in case you need emergency access. Leave the
+emergency session only when you are really sure that your configuration
+did not break your access.</p>
+</blockquote>
+<p>With our new hardend config file:</p>
+<pre><code># Only allow recommended kex algorithms
+KexAlgorithms  sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512
+# Host key algorithms - allowed for host keys
+HostKeyAlgorithms rsa-sha2-512,rsa-sha2-256,ssh-ed25519
+# Message authentication code algorithms
+MACs umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com</code></pre>
+<p>We only allow the ssh-audit recommended KEX, MAC and host key
+algorithms. With the following command we restart our SSH server.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">root@cryptographic-mehtods:~#</span> sudo systemctl restart ssh</span></code></pre></div>
+<p>With <code>ssh-audit</code> we can now see that only recommended
+cipher-suites are active.</p>
+<figure>
+<img src="./screenshots/ssh-audit_after.png" alt="ssh-audit 2" width="75%"/>
+<figcaption aria-hidden="true">ssh-audit 2</figcaption>
+</figure>
+<p>To manually check the advertised cipher-suites we can start a
+ssh-connection with <code>-vvv</code>.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">debug2:</span> peer server KEXINIT proposal</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ex">debug2:</span> KEX algorithms: sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,ext-info-s,kex-strict-s-v00@openssh.com</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ex">debug2:</span> host key algorithms: rsa-sha2-512,rsa-sha2-256,ssh-ed25519</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="ex">debug2:</span> ciphers ctos: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="ex">debug2:</span> ciphers stoc: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="ex">debug2:</span> MACs ctos: umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="ex">debug2:</span> MACs stoc: umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span></code></pre></div>
+<p>Here we can see that only the configured suites are advertised by the
+SSH server.</p>
+<h3 id="removing-unused-ssh-keys">Removing unused SSH keys</h3>
+<p>It is a best practice to remove unused SSH keys from your servers to
+further harden them. To remove a SSH key you need to remove the
+corresponding line in the <code>~/.ssh/authorized_keys</code> file.
+After removal the key would no longer be allowed to authenticated for
+connections to the server.</p>

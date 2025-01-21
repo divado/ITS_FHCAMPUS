@@ -182,7 +182,30 @@ debug1: channel 21: new dynamic-tcpip [dynamic-tcpip] (inactive timeout: 0)
 
 ## SSH audit
 
->[NOTE] for the purpose of this exercise we will asume a SSH server is already installed and running. This would be the case in most linux distributions anyway.
+>[NOTE] for the purpose of this exercise we will use a SSH server that is already installed and running. This would be the case in most linux distributions anyway.
+
+If you need to install a SSH server use the following steps on a ubuntu system:
+
+```bash
+sudo apt install openssh-server -y
+```
+
+After the installation enable the ssh service by using:
+
+```bash
+sudo systemctl enable ssh
+```
+
+To start the ssh server immediately and not wait for a full system restart use:
+
+```bash
+sudo systemctl start ssh
+```
+After that check if the ssh service is up and running with:
+
+```bash
+sudo systemctl status ssh
+```
 
 Using the connection setup from part one of this exercise we connect to our remote machine:
 

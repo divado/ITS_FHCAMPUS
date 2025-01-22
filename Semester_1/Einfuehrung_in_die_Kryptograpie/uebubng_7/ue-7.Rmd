@@ -1,0 +1,248 @@
+---
+title: "Einführung i. d. Kryptographie - Übung 7"
+date: "2025-01-22"
+output: pdf_document
+header-includes:
+  - \usepackage[table,xcdraw]{xcolor}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+```
+
+## Aufgabe 1
+
+\color{blue}
+**Ver- und Entschlüsseln** Sie mithilfe eines Feistelnetzwerkes mit Rundenfunktion 
+$F(R_i, K_i)$ und 4 Runden den Klartext $P$, bestehend aus den beiden
+Hälften $L_0$ und $R_0$ . Verwenden Sie dafür die Rundenschlüssel $K_1, \ldots, K_4$.
+
+* Wie viele Runden benötigen Sie mindestens, um jede Hälfte von $P$ verarbeitet zu haben?
+* Wie müssen die Hälften vertauscht werden, damit die Entschlüsselung mit demselben Netzwerk funktioniert?
+
+\color{black}
+### Verschlüsselung
+
+Nach der 1. Runde:
+
+\begin{align}
+L_1 &= R_0 \\
+R_1 &= L_0 \oplus F(R_0, K_1)
+\end{align}
+
+Die rechte Seite ist noch im Klartext, die linke ist XORed mit der verschlüsselten Hälfte.    
+    
+2. Runde:
+
+\begin{align}
+L_2 &= R_1\\ 
+    &= L_0 \oplus F(R_0, K_1) \\
+R_2 &= L_1 \oplus F(R_1, K_2) \\
+    &= R_0 \oplus F(L_0 \oplus F(R_0, K_1), K_2)
+\end{align}
+    
+Jetzt wurden beide Hälften bereits verschlüsselt.
+    
+3. Runde:
+
+\begin{align}
+L_3 &= R_2 \\ 
+R_3 &= L_2 \oplus F(R_2, K_3) 
+\end{align}
+
+
+
+4. Runde:
+
+\begin{align}
+L_4 &= R_3 \\
+R_4 &= L_3 \oplus F(R_3, K_4) 
+\end{align}
+
+### Entschlüsselung
+
+Zum Entschlüsseln von $C = (L_4, R_4)$ wenden wir das Feistelnetzwerk mit den Schlüsseln $K_4, \ldots, K_1$ in umgekehrter Reihenfolge und den Text $(L_0' = R_4, R_0' = L_4)$ an:
+
+1. Runde:
+
+\begin{align*}
+L'_1 &= R_0' = L_4 \overset{(9)}{=} R_3\\
+R'_1 &= L_0' \oplus F(R_0', K_4) \\
+     &= R_4 \oplus F(L_4, K_4) \\
+     &= R_4 \oplus F(R_3, K_4) \\
+     &\overset{(10)}{=} \big(L_3 \oplus F(R_3, K_4)\big) \oplus F(R_3, K_4) \\
+     &= L_3
+\end{align*}
+
+Die rechte Seite ist noch im Klartext, die linke ist XORed mit der verschlüsselten Hälfte.    
+    
+2. Runde:
+
+\begin{align*}
+L'_2 &= R_1' = L_3 \overset{(7)}{=} R_2 \\ 
+R'_2 &= L_1' \oplus F(R_1', K_3) \\
+    &= R_3 \oplus F(R_2, K_3) \\
+    &\overset{(8)}{=} \big(L_2 \oplus F(R_2, K_3)\big) \oplus F(R_2, K_3) \\
+    &= L_2
+\end{align*}
+    
+3. Runde:
+
+\begin{align*}
+L'_3 &= R_2' = L_2 \overset{(3)}{=} R_1 \\ 
+R'_3 &= L_2' \oplus F(R_2', K_2) \\
+    &= R_2 \oplus F(R_1, K_2) \\
+    &\overset{(5)}{=} \big(L_1 \oplus F(R_1, K_2)\big) \oplus F(R_1, K_2) \\
+    &= L_1
+\end{align*}
+
+
+
+4. Runde:
+
+\begin{align*}
+L'_4 &= R_3' = L_1 \overset{(1)}{=} R_0 \\
+R'_4 &= L_3' \oplus F(R_3', K_1) \\
+    &= R_1 \oplus F(R_0, K_1) \\
+    &\overset{(2)}{=} \big(L_0 \oplus F(R_0, K_1) \big) \oplus F(R_0, K_1) \\
+    &= L_0
+\end{align*}
+
+Der Plaintext ergibt sich nach vertauschen $P = (R_4', L_4') = (L_0, P_0)$.
+
+\newpage
+## Aufgabe 2
+
+\color{blue}
+Gegeben sei 
+
+\begin{equation} \label{eq:2a}
+2^x \mod 1155 = 338. 
+\end{equation}
+
+Bestimmen Sie $x$ ohne Taschenrechner. Verwenden Sie die Primfaktorzerlegung des Modulus.
+
+
+\color{black}
+Wir wissen, $1155 = 3 \cdot 5 \cdot 7 \cdot 11$. Wenn $a \equiv b \mod (p \cdot q)$, dann gilt auch $a \equiv b \mod p$ und $a \equiv b \mod q$. 
+Aus (\ref{eq:2a}) können wir also folgende Bedingungen folgern:
+
+\begin{align}
+  2^x \mod  3 &= 338 \mod  3 \equiv 2 &\Rightarrow x \equiv 1 \mod 3\\
+  2^x \mod  5 &= 338 \mod  5 \equiv 3 &\Rightarrow x \equiv 3 \mod 5 \\
+  2^x \mod  7 &= 338 \mod  7 \equiv 2 &\Rightarrow x \equiv 1 \mod 7 \\
+  2^x \mod 11 &= 338 \mod 11 \equiv 8 &\Rightarrow x \equiv 3 \mod 11 
+\end{align}
+
+So erhalten wir ein System Simultaner Kongruenzen (der Chinesische Restsatz 
+garantiert uns, dass es eine Eindeutige Lösung gibt) und wir berechnen für jeden 
+Primfaktor $m_i$ die Werte $M_i = m / m_i$ und $y_i = M_i^{-1} \mod m_i$:
+
+1. Kongruenz: $$x \equiv 1 \mod 3$$
+    a. $a_1 = 1$
+    a. $M_1 = 1155/3 = 385$ und $385 \equiv 1 \mod 3$
+    b. Weil $M_1 \equiv 1 \mod 3$, gilt $y_1 = 1$
+1. Kongruenz: $$x \equiv 3 \mod 5$$
+    a. $a_2 = 3$
+    a. $M_2 = 1155/5 = 231$ und $231 \equiv 1 \mod 5$
+    b. Weil $M_2 \equiv 1 \mod 5$, gilt $y_2 = 1$
+1. Kongruenz: $$x \equiv 1 \mod 7$$
+    a. $a_3 = 1$
+    a. $M_3 = 1155/7 = 165$ und $165 \equiv 4 \mod 7$
+    b. Weil $M_3 \equiv 4 \mod 7$, berechnen wir den erweiterten Euklid für 4 und 7 und erhalten $y_3 = 2$
+1. Kongruenz: $$x \equiv 3 \mod 11$$
+    a. $a_4 = 3$
+    a. $M_4 = 1155/11 = 105$ und $105 \equiv 6 \mod 11$
+    b. Weil $M_4 \equiv 6 \mod 11$, berechnen wir den erweiterten Euklid für 6 und 11 und erhalten $y_4 = 2$
+
+Wir berechnen $\sum_i (a_i \cdot y_i \cdot M_i) \mod 1155$, das ist 
+
+$$1 \cdot 1 \cdot 385 + 3 \cdot 1 \cdot 231 + 1 \cdot 2 \cdot 165 + 3 \cdot 2 \cdot 105 = 2038 \mod 1155 = 883$$
+
+Es gilt $2^{883} \equiv 338 \mod 1155$.
+
+Zusatz: weil $\varphi(1155) = 1155 \cdot \frac23 \frac45 \frac67 \frac{10}{11} = 2 \cdot 4 \cdot 6 \cdot 10 = 480$ finden wir sogar einen kleineren Exponenten, der die Gleichung erfüllt: $x = 403 \equiv 883 \mod \varphi(1155)$.
+ 
+## Aufgabe 3
+
+\color{blue}
+Zeigen Sie (mittels Satz von Euler Fermat): Für jede natüliche Zahl $a$ gilt $a^{13} \mod 10 = a \mod 10$
+
+\color{black}
+#### Fall 1:
+ggT$(a, 10) = 1$  
+
+Sei $a$ teilerfemd zu 10, d.h. $\text{ggT}(a, 10) = 1$, dann können wir den Satz von Euler-Fermat anwenden, wir wissen
+$\varphi(10) = (5-1)\cdot(2-1) = 4$ und $13 = 3 \cdot \varphi(10) + 1$. Daher gilt
+
+\begin{align}
+a^{13} \mod 10 &= a^{3 \cdot \varphi(10) + 1} \mod 10 = \\
+ &= \big(a^{\varphi(10)}\big)^3 \cdot a \mod 10 \equiv 1 \cdot a \mod 10
+\end{align}
+
+#### Fall 2: 
+ggT$(a, 10) = 10$  
+
+Weil $a \equiv 0 \mod 10$ das neutrale Element bzgl. der Multiplikation ist, gilt für diesen Fall sogar $a^k \equiv a \equiv 0 \mod 10$.
+
+#### Fall 3: 
+ggT$(a, 5) = 5$
+
+Sei $a = 5k$ für ein $k \in \mathbb{Z}$. Wir betrachten 
+
+\begin{equation}\label{eq:1}
+  a^{13} \mod 10 = (5k)^{13} \mod 15 = 5^{13}k^{13} \mod 10. 
+\end{equation}
+
+Weil ggt$(a, 10) = \text{ggT}(5k, 10) = 5$ wissen wir, dass ggT$(k, 10) = 1$.
+Indem wir Euler-Fermat anwenden, vereinfachen wir (\ref{eq:1}) wie in Fall 1 und haben
+
+\begin{equation}
+a^{13} \mod 10 \equiv 5^{13} \mod 10 = 1220703125 \mod 10 \equiv 5,
+\end{equation}
+
+wie behauptet.
+
+#### Fall 4: 
+ggT$(a, 10) = 2$
+
+Analog zu Fall 3 vereinfachen wir
+
+\begin{equation}
+  a^{13} \mod 10 \equiv 2^13 \mod 10 = 8192 \mod 10 \equiv 2
+\end{equation}
+ 
+\newpage
+## Aufgabe 4
+
+\color{blue}
+Alice und Bob vereinbaren mittels Diffie-Hellman einen symmetrischen
+Schlüssel. Bestimmen Sie für die folgende Primzahlen jeweils ein geeignetes $g_i$, $a_i$
+sowie $b_i$, und berechnen Sie jeweils $k_i$. 
+
+Sehen Sie Unterschiede zwischen den durch die Primzahlen jeweils aufgespannten multiplikativen Gruppen?
+
+1. $p_1 = 47$
+2. $p_2 = 31$
+
+\color{black}
+Für den Algorithmus brauchen wir $a, b < p-1$ und ein $g < p$ und berechnen
+
+1. $\alpha = g^a \mod p$ bzw. $\beta = g^b \mod p$
+2. $k = \beta^a \mod p = \alpha^b \mod p$
+
+Wir können die gleichen $a, b, g$ für $p_1$ und $p_2$ wählen, wenn $a, b < p_2 - 1$ und $g < p_2$.
+
+Sei $a = 7$, $b = 8$ und $g = 15$, dann haben wir
+
+|p|g|a|b|$\alpha$|$\beta$|$\beta^a \mod p$|$\alpha^b \mod p$|
+|---|---|---|---|---|---|:---:|:---:|
+|47|15|7|10|`r (15^7) %% 47`|`r (15^8) %% 47`|`r (36^7) %% 47`|`r (40^8) %% 47`|
+|31|15|7|10|`r (15^7) %% 31`|`r (15^8) %% 31`|`r  (4^7) %% 31`|`r (23^8) %% 31`|
+
+Mir fällt kein Unterschied zwischen den Gruppen auf, außer, dass $(\mathbb{Z}/31\mathbb{Z})^*$ 30 Elemente und $(\mathbb{Z}/47\mathbb{Z})^*$ 46 Elemente haben.
+
+
+
+

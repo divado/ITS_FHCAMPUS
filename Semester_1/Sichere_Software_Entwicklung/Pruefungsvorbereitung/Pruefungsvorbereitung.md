@@ -6,7 +6,7 @@
 
 a) Erklären Sie die Programmiersünde _Format String Problems_ (Bug). Bei welcher Art von Befehlen tritt diese auf?
 
-Ein Format String Bug wird durch die falsche Verwendung von Format String Funktionen verrursacht. Wenn im Code Format String Funktionen verwendet werden um nicht vertrauenswürdige Benutzereingaben zu formatieren, kann es bei falscher Nutzung dieser Funktion einem Nutzer möglich, durch die Verwendung von Format String Specifiern, beliebige Daten aus dem Programmspeicher auszulesen und evtl. sogar in diesen zu schreiben.
+Ein Format String Bug wird durch die falsche Verwendung von Format String Funktionen verrursacht. Wenn im Code Format String Funktionen verwendet werden um nicht vertrauenswürdige Benutzereingaben zu formatieren, kann es bei falscher Nutzung dieser Funktion einem Nutzer möglich sein, durch die Verwendung von Format String Specifiern als Eingabe, beliebige Daten aus dem Programmspeicher auszulesen und evtl. sogar in diesen zu schreiben.
 
 b) Geben Sie ein Beispiel in Codeform für ein _Format String_ Bug an.
 
@@ -16,7 +16,7 @@ Ein Beispiel wäre in C/C++:
 printf(userInput);
 ```
 
-UserInoput ist hier eine beliebige und ungeprüfte Eingabe durch einen Benutzer.
+UserInput ist hier eine beliebige und ungeprüfte Eingabe durch einen Benutzer.
 
 
 c) Welche Konsequenzen kann ein _Format String_ Bug haben? Nennen Sie mögliche Gegenmaßnahmen.
@@ -41,7 +41,7 @@ Betrachten Sie den folgenden Source Code:
 
 int main(int argc, char* argv[]) {  
   char input[50];  
-  int(input_lgth) = strlen(argv[1]);  
+  int input_lgth = strlen(argv[1]);  
   int copy_lgth;  
 
   if (input_lgth > 50) {  
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
       copy_lgth = input_lgth + 1;  
     }
     
-    strncpy(char input, argv[1], copy_lgth);  
+    strncpy(input, argv[1], copy_lgth);  
 
     printf("%s", input);  
     return 0;  
@@ -58,11 +58,11 @@ int main(int argc, char* argv[]) {
 ```
 a) Welche Sünde verbirgt sich in diesem Beispiel? Wo befindet sich diese? Gibt es Programmiersprachen, die nicht betroffen sind? Wenn ja, welche?
 
-Die Sünde ist ein Buffer Overflow, wenn die Eingabe genau eine Länge von 50 hat. Die copy_lgth wird dann auf 51 gesetzt und überschreibt den Speicher mit einem Zeichen zu viel. Bei einer Länge von genau 50 würde strncpy() auch den Puffer voll schreiben, und keinen Null-Terminator hinzufügen, was zu unerwartetem Verhalten führen kann. Programmiersprachen mit automatischer Speicherverwaltung und sicheren String-Funktionen wären von Buffer Overflows eher nicht betroffen, aber auch hier lässt es sich nicht ganz ausschließen. (z.B. Java, Python)
+Die Sünde ist ein Buffer Overflow, wenn die Eingabe genau eine Länge von 50 hat. Die copy_lgth wird dann auf 51 gesetzt und kopiert in den Speicher mit einem Zeichen zu viel. Bei einer Länge von genau 50 würde strncpy() auch den Puffer voll schreiben, und keinen Null-Terminator hinzufügen, was zu unerwartetem Verhalten führen kann. Programmiersprachen mit automatischer Speicherverwaltung und sicheren String-Funktionen wären von Buffer Overflows eher nicht betroffen, aber auch hier lässt es sich nicht ganz ausschließen. (z.B. Java, Python)
 
 b) Welche Konsequenzen verursacht diese Sünde? Geben Sie 2 konkrete Auswirkungen an.
 
-Ein Buffer Overflow überschreibt den benachbarten Speichern und die darin enthaltenen Daten. Dies kann entweder zu einem Absturz des Programms führen oder in Extremfällen einem Angreifer ermöglichen arbiträre Daten in den Speicher zu schreiben und so den Programmfluss zu ändern.
+Ein Buffer Overflow überschreibt den benachbarten Speichern und die darin enthaltenen Daten. Dies kann entweder zu einem Absturz des Programms (Denial of Service) führen oder in Extremfällen einem Angreifer ermöglichen arbiträre Daten in den Speicher zu schreiben und so den Programmfluss zu ändern (\[Remote\] Code Execution).
 
 c) Wie kann diese verhindert werden? Korrigieren Sie den betreffenden Code Abschnitt.
 
@@ -72,9 +72,9 @@ c) Wie kann diese verhindert werden? Korrigieren Sie den betreffenden Code Absch
 
 int main(int argc, char* argv[]) {  
   int input_lgth = strlen(argv[1])
-  char input[copy_lgth];  
+  char input[input_lgth];  
     
-  strncpy(char input, argv[1], input_lgth);
+  strncpy(input, argv[1], input_lgth);
 
   printf("%s", input);  
   return 0;  

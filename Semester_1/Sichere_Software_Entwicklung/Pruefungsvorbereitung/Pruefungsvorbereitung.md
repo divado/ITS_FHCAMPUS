@@ -109,7 +109,7 @@ Jeder Commit, sowie jedes File wird in Git mit einer Checksum durch SHA1 gekennz
 
 Die folgenden Fragen zielen auf das Security-Modell in Webbrowsern ab.
 
-a) Nehmen wir an, in einem Webbrowser sind zwei Tabs offen. In einem steht in der Adressleiste `https://www.example.com:443/dir1/index.html`, und in der Adressleiste des anderen Tabs steht `https://www.example.com/dir2/other.html`. Werden die beiden Seiten als derselbe _Origin_ betrachtet?
+a) Nehmen wir an, in einem Webbrowser sind zwei Tabs offen. In einem steht in der Adressleiste `https://example.com:443/dir1/index.html`, und in der Adressleiste des anderen Tabs steht `https://www.example.com/dir2/other.html`. Werden die beiden Seiten als derselbe _Origin_ betrachtet?
 
 Nein es handelt sich nicht um den gleichen _Origin_, da die Subdomains verscheiden sind.
 

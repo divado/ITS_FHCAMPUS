@@ -71,7 +71,7 @@ c) Wie kann diese verhindert werden? Korrigieren Sie den betreffenden Code Absch
 #include <string.h>  
 
 int main(int argc, char* argv[]) {  
-  int input_lgth = strlen(argv[1])
+  int input_lgth = strlen(argv[1]);
   char input[input_lgth];  
     
   strncpy(input, argv[1], input_lgth);
@@ -582,3 +582,12 @@ Im Code wird das umgesetzt durch:
   - **Synchronisations-Mechanismen**: Durch das Verwenden von Locks/Mutexes kann sichergestellt werden, dass nur ein Thread / Prozess auf kritischen Code zur selben Zeit zugreifen kann.
   - **Thread-sichere Datenstrukturen**: Viele Programmiersprachen bieten Thread- sichere Datenstrukturen an, wie beispielsweise Queues, Lists oder Maps.
   - **Immutable-Objekte**: Da immutable Objekte nach dem Erstellen nicht mehr verändert werden können, ist keine Synchronisation mehr notwendig.
+
+---
+
+## Threat Modeling
+
+**Merksatz:**
+
+Beim **Threat Modeling** schaut man sich speziell den Kreuzungspunkt von Datenfluss und Vertrauensgrenze (Trust Boundary) an.
+

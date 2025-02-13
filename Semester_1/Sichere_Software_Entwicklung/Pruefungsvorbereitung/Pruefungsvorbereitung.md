@@ -29,6 +29,7 @@ Mögliche Gegenmaßnahmen:
 - Korrekte Verwendung von Format String Funktionen mit den entsprechenden Specifiern, z.B.:
   - `printf("%s", userInput);`
 
+---
 
 ### Aufgabe 2 
 
@@ -80,7 +81,9 @@ int main(int argc, char* argv[]) {
 }  
 ```
 
-## Aufgabe 3 
+---
+
+### Aufgabe 3 
 
 a) Erklären Sie im Kontext von Git die Begriffe **Branches** und **Merge**.
 
@@ -99,6 +102,8 @@ b) Im folgenden sehen Sie einen Ausschnitt aus einer mit git-flow erstellten git
 c) Wie wird die Integrity in einem Git-Repository gewährleistet?
 
 Jeder Commit, sowie jedes File wird in Git mit einer Checksum durch SHA1 gekennzeichnet und gespeichert. Eine Änderung an einem Commit hätte so auch eine Änderung des Commit-Hashes zur folge.
+
+---
 
 ### Aufgabe 4 
 
@@ -131,25 +136,34 @@ c) Was bewirkt die Same-Origin Policy?
   - [x] Falsch
 
  Quelle: [Mozilla-DN](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+
+ ---
   
 ### Aufgabe 5 
 
 a) Was ist der Unterschied zwischen Authentifizierung und Autorisierung?
 
+Authentifizierung identifiziert mich gegenüber einem System/einer Anwendung, z.B. durch einen Login.
+Durch Autorisierung lässt sich prüfen welche Rechte ich in einem/r System/Anwendung habe.
+
+Man könnte sagen, dass wenn man sich gegenüber einem System authentifiziert hat, mit der Identität eine gewisse Autorisierung im System einhergeht.
+
 b) Was können Sie bei er Entwickliung einer Webapplikation gegen das Problem "unsichere direkte Objektreferenzen" tun? Es gibt genau eine richtige Antwort.
 
-- Die zugehörigkeit des aufgerufenen Objecktes zum/zur aktuell angemeldeten Benutzer*In überprüfen.
-  - [ ] Wahr 
+- Die zugehörigkeit des aufgerufenen Objektes zum/zur aktuell angemeldeten Benutzer*In überprüfen.
+  - [x] Wahr 
   - [ ] Falsch
 - Bei jeder Anfrage überprüfen, ob das aktuelle Konto die entsprechende Rolle hat, um die Funktion aufzurufen.
   - [ ] Wahr 
-  - [ ] Falsch 
+  - [x] Falsch 
 - TLS für die Transportverschlüsselung einsetzen.
   - [ ] Wahr 
-  - [ ] Falsch 
+  - [x] Falsch 
 - Aufsteigende Objekt-IDs verwenden.
   - [ ] Wahr
-  - [ ] Falsch 
+  - [x] Falsch 
+
+---
 
 ### Aufgabe 6
 
@@ -157,39 +171,51 @@ Welcher ist der Unterschied zwischen den Maßnahmen gegen Reflected Cross-Site S
 
 - Bei Stored XSS passiert die Ausgabekodierung in der Datenbank, bei Reflected XSS bei der Ausgabe
   - [ ] Wahr
-  - [ ] Falsch
+  - [x] Falsch
 - Bei Stored XSS ist die Ausgbaenkodierung unabhängig vom jeweiligen Ausgabekontext.
   - [ ] Wahr
-  - [ ] Falsch
+  - [x] Falsch
 - Es gibt keinen grundsätzlichen Unterschied
-  - [ ] Wahr
+  - [x] Wahr
   - [ ] Falsch
 - Whitelisting von Eingabeparametern ist bei Stored XSS wirkungslos
   - [ ] Wahr
-  - [ ] Falsch
+  - [x] Falsch
+
+> Ich bin mir hier nicht sicher, in einer Altprüfung gab dies volle Punktzahl, allerdings könnte man argumentieren, dass die Eingaben, welche in einer DB (Stored XSS) gespeichert werden, evtl. einen extra Sanitization Schritt durchlaufen müssen.
+
+---
 
 ### Aufgabe 7
 
-a) Wie funktionieren, generisch gesprochen, Injection-Angriffe, und zwar unabhängig von der Technologie (SQL, SMTPO, LDAP, etc.)?
+a) Wie funktionieren, generisch gesprochen, Injection-Angriffe, und zwar unabhängig von der Technologie (SQL, SMTP, LDAP, etc.)?
+
+Bei Injection Angriffen, wird schädlicher Code durch speziell zugeschnittene Eingaben in den auszuführenden Code eingeschleust um diesen vom System ausführen zu lassen. Gemein haben diese Angriffe, dass Benutzereingaben vom System verarbeitet werden indem sie direkt in die/den Query/Befehl eingebunden werden ohne diese zu prüfen oder zu isolieren.
 
 b) Nehmen wir an, es gebe eine OS-Command-Injection-Lücke in einer Webapplikation, die erfolgreich ausgenützt wird. Im Kontext welches Betriebssytembenutzers werden die injizierten Kommandos allgemein gesprochen ausgeführt?
 
 - Mit dem root-Benutzer
   - [ ] Wahr
-  - [ ] Falsch
+  - [x] Falsch
 - Als privelegierter Betriebssystembenutzer
   - [ ] Wahr
-  - [ ] Falsch
+  - [x] Falsch
 - Als jender Benutzer, unter dem der Webserver bzw. Applikationsserver läuft.
-  - [ ] Wahr
+  - [x] Wahr
   - [ ] Falsch
 - Als nichtprevilegierter Benutzer
   - [ ] Wahr
-  - [ ] Falsch
+  - [x] Falsch
+
+---
 
 ### Aufgabe 8
 
 Wann liegt eine Race Condition vor?
+
+Eine Race-Condition tritt auf, wenn zwei oder mehrere Prozesse/Threads auf eine geteilte Resource zugreifen wollen und die weitere korrekte Ausführung der Anwendung von der Reihenfolge der Zugriffe auf diese Ressource abhängig ist. Bei unzureichender Synchronisation führt dies zu unvorhergesehenen Ergebnissen.
+
+---
 
 ### Aufgabe 9
 
@@ -207,6 +233,8 @@ a) Welche Sünde verbrigt sich in diesem Beispiel? Erläutern Sie das vorliegend
 **Begangene Sünde**:
 
 Die Funktion speichert das Passwort im Klartext in einem Cookie und verwendet zudem eine falsche Datentypenverarbeitung.
+
+Es handelt sich also um: _Failure to protect stored data_.
 
 **Probleme im Detail**:
 
@@ -246,6 +274,8 @@ function persistLogin($username) {
   - **Cookie-Sicherheitsflags setzen**
     - Immer secure, httponly und samesite verwenden, um Cookie-Diebstahl zu erschweren.
 
+---
+
 ### Aufgabe 10
 
 a) Gitflow Best Practices - bitte vervollständigen Sie folgende Aussagen:
@@ -260,9 +290,78 @@ b) Wie wird die Integrity in einem Git-Repository gewährleistet?
 
 Siehe Antwort [Aufgabe 3](#aufgabe-3).
 
+---
+
 ### Aufgabe 11
 
 Was ist hinsichtlich Updates zu beachten? Nennen Sie 5 Dinge, die vermieden werden sollen und erläutern Sie diese kurz.
+
+**Haben wir nicht wirklich gemacht, darum hier AI generierte Antwort**
+
+Bei der Durchführung von Updates sind folgende **5 Fehler zu vermeiden**, um Sicherheit, Stabilität und Funktionalität zu gewährleisten:
+
+---
+
+### 1. Ungeprüfte Updates im Live-System einspielen  
+- **Was zu vermeiden ist**:  
+  Updates direkt in der Produktivumgebung ohne vorherige Tests durchführen.  
+- **Warum**:  
+  Ungetestete Updates können Fehler enthalten, die zu **Ausfallzeiten**, Datenverlust oder Sicherheitslücken führen.  
+- **Beispiel**:  
+  Ein fehlerhaftes Datenbank-Update könnte kritische Transaktionen blockieren.  
+
+---
+
+### 2. Kompatibilität ignorieren  
+- **Was zu vermeiden ist**:  
+  Updates installieren, ohne zu prüfen, ob sie mit bestehender Hardware/Software kompatibel sind.  
+- **Warum**:  
+  Inkompatible Updates können **Systemabstürze** oder Funktionsverluste auslösen (z. B. Treiber, die nicht mit älterer Hardware funktionieren).  
+- **Beispiel**:  
+  Ein neues Betriebssystem-Update unterstützt keine Legacy-Anwendungen mehr.  
+
+---
+
+### 3. Backups vor dem Update vernachlässigen  
+- **Was zu vermeiden ist**:  
+  Kein Backup von Daten, Konfigurationen oder Systemzuständen erstellen.  
+- **Warum**:  
+  Bei fehlgeschlagenen Updates gibt es **keine Rollback-Möglichkeit**, um den vorherigen Zustand wiederherzustellen.  
+- **Beispiel**:  
+  Ein beschädigtes Firmware-Update macht ein IoT-Gerät unbrauchbar – ohne Backup ist keine Reparatur möglich.  
+
+---
+
+### 4. Sicherheitsupdates verzögern 
+- **Was zu vermeiden ist**:  
+  Kritische Sicherheits-Patches aufschieben.  
+- **Warum**:  
+  Bekannte Schwachstellen bleiben ungeschlossen, was **Angriffe wie RCE (Remote Code Execution)** ermöglicht.  
+- **Beispiel**:  
+  Die Verzögerung eines Patches für eine Zero-Day-Lücke in einer Webanwendung führt zu einem Datenleck.  
+
+---
+
+### 5. Automatische Updates ohne Kontrolle
+- **Was zu vermeiden ist**:  
+  Updates vollständig automatisieren, ohne manuelle Überprüfung oder Staging-Phasen.  
+- **Warum**:  
+  Automatisierte Systeme könnten **instabile Beta-Versionen** einspielen oder Updates zur falschen Zeit durchführen (z. B. während Spitzenlastzeiten).  
+- **Beispiel**:  
+  Ein automatisches Update einer E-Commerce-Plattform während des Black Friday führt zum Ausfall des Shops.  
+
+---
+
+### Zusammenfassung  
+- Testen Sie Updates **immer in einer Staging-Umgebung**.  
+- Prüfen Sie **Kompatibilität** mit bestehender Infrastruktur.  
+- Erstellen Sie **Backups** vor jedem Update.  
+- Priorisieren Sie **Sicherheitsupdates** zeitnah.  
+- Nutzen Sie **kontrollierte Automatisierung** (z. B. mit Approval-Workflows).  
+
+Durch das Vermeiden dieser Fehler minimieren Sie Risiken und stellen sicher, dass Updates reibungslos und sicher ablaufen. 🔄🔒
+
+---
 
 ## Sünden
 
@@ -367,6 +466,8 @@ wie z. B. das "Zurücksetzen" auf 0 oder ein negatives Vorzeichen (Wraparound).
 **3. Kompilerschutz**
   - Aktivierung spezieller Compiler-Flags wie -ftrapv, die signierte Integer-Überläufe erkennen und eine Fehlermeldung ausgeben, anstatt den falschen Wert weiter zu verarbeiten.
 
+---
+
 ### Code Privileges and Stored Data Protection
 
 #### Code Privileges
@@ -388,6 +489,8 @@ Türöffner für Angreifer sein kann.
   - Least Privilege Principle: Ausführung von Code mit minimal notwendigen Rechten.
   - Separation of Privilege: Funktionen mit höheren Privilegien isolieren und in getrennten Accounts mit begrenzten Rechten ausführen.
 
+---
+
 #### Stored Data Protection
 Befasst sich mit dem Schutz gespeicherter Daten vor unbefugtem Zugriff und
 Diebstahl.
@@ -404,9 +507,24 @@ Diebstahl.
   - Verschlüsselung: Sensible Daten immer verschlüsselt speichern.
   - Zugriffskontrolle: Einschränken des Zugriffs auf sensible Dateien durch robuste Authentifizierungsmethoden.
 
+---
+
 ### C++ Catastrophes
 
-// TODO
+> 🚧 UNDER CONSTRUCTION 🚧
+
+Fehler in C++ sind meistens eine von zwei Varianten.
+
+1. Eine Klasse enthält einen _Function Pointer_. Wenn diese Klasse korrumpiert werden kann, kann der Programmfluß abgeändert werden
+
+2. Eine Klasse mit einer oder mehreren virtuellen Methoden enthält einen _virtual function pointer table_ (vtable). Wenn die Klasse so abgeändert werden kann, dass der Pointer auf den vtable geändert werden kann, kontrolliert der Angreifer direkt den ausgeführten Code.
+
+Ein Beispiel hier für wäre eine _double free_ Vulnerability, wird der gleiche Speicher zwei mal freigegeben, erlaubt dies einem Angreifer fast immer korrekt initialisierte Klassen im Speicher zu überschreiben.
+
+
+**Mitigation**:
+
+---
 
 ### Information Leakage Error and Exception Handling
 
@@ -438,6 +556,8 @@ Diebstahl.
 - \+ return "Connection failed, please try again.“;
 - Fehlermeldungen sammeln und analysieren
 - Nur spezifische Exceptions fangen
+
+---
 
 ### Race Conditions
 

@@ -74,7 +74,7 @@ id
 
 In the second step we set the right to execute our `cat` file for all users. After that we prepend the `$PATH` with the directory containing our `cat` file and execute `stage2`.
 
-Because our `cat` file will be the first one found when looking at the `$PATH` the system will choose the file which we control for execution.
+Because our `cat` file will be the first one found when looking at the `$PATH` the system will choose the file which we control for execution. [^1]
 
 By calling `stage2` we execute our controlled file with the rights of the `stage2` executable.
 
@@ -85,6 +85,8 @@ uid=1000(user) gid=1502(stage2) groups=1502(stage2),1000(user)
 ```
 
 ## Stage 3 
+
+Looking at the sourcecode for `stage3` shows us that the executable takes a user input and checks if a given file exists via the `stat()` function. The `stat()` function returns `0` if it executes correctly in any other case it would return a `-1`which would be the case if a file is non-existent. [^3]
 
 ```bash 
 user@eabdf37ef1a9:/home/stage3$ mkdir /tmp/stage3
@@ -127,3 +129,6 @@ user@2edddc8fc16e:/tmp/stage5$ sudo -g stage5 find -exec bash ";"
 user@2edddc8fc16e:/tmp/stage5$ id
 uid=1000(user) gid=1505(stage5) groups=1505(stage5),1000(user)
 ```
+
+[^1]: [$PATH order](https://stackoverflow.com/questions/13088800/order-of-files-to-be-executed-in-linux-and-how-to-change-it)
+[^3]: [Man pages for stat()](https://man7.org/linux/man-pages/man2/stat.2.html)

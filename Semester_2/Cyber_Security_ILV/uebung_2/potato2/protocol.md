@@ -104,6 +104,8 @@ $ pipx install pwntools
 
 **TODO**
 
+Instead of looking through the code manually the code was scanned for a list of functions, vulnerable to buffer overflows, using [ripgrep](https://github.com/BurntSushi/ripgrep) `rg` for short. `rg` scans all files in a directory, including sub-directories, for a given string and outputs the file in which the string was found as well as the line containing the string and the corresponding line number.
+
 ```bash
 $ rg -w -n \
   -e "gets" \
@@ -136,6 +138,24 @@ login2.c
 
 ```
 
+The `fscanf` function on line 187 in the *func.c* file looks like a prime candidate that can be used for a buffer overflow. The string read from `stdin` is not limited by any size and thus can be used to write over the given buffer size of `input_username`, which is 50 bytes, directly onto the stack. This can be used to write a maliciously chosen address to the stack to redirect the execution flow of the program.
+
+```C
+void change_name() {
+    char input_username[USERNAME_LENGTH];
+        
+    fprintf(stdout, "What is the name > ");
+    //fgets(input_username, sizeof(input_username), stdin);
+    fscanf(stdin, "%s", input_username); // TODO security
+    input_username[strcspn(input_username, "\n")] = 0x00; // terminator instead of a newline
+
+    strncpy(session.logged_in_user->name, input_username, strlen(input_username)+1);
+    fprintf(stdout, "Name changed.\n");
+}
+```
+
 ## Debugging
+
+**TODO**
 
 ### Environment Setup

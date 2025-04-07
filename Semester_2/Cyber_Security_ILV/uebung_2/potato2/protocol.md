@@ -362,10 +362,10 @@ uid=1000(philip) gid=1000(philip) groups=1000(philip),4(adm),24(cdrom),27(sudo),
 ```
 We can clearly see that we are no longer bound to the executed program but rather have full shell access with the rights of the user `philip`. 
 
-#### Ret2libc attac
+### Ret2libc attack
 
 **TODO**
 
-#### Custom shellcode or ROP chain
+### Custom shellcode or ROP chain
 
 **TODO**

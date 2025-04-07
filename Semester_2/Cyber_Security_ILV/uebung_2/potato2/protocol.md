@@ -262,7 +262,7 @@ Still a succesful redirect of the execution flow is possible.
 
 **TODO**
 
-### Shellcode executionm
+### Shellcode execution
 
 To execute shellcode the code had to be injected into the buffer which can be overflown and then have the return address point to the beginning address of this buffer. 
 

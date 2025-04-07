@@ -31,7 +31,7 @@ HFILES = \
 
 .PHONY: clean all
 
-all: potato potato_rop
+all: potato potato_rop potato_32
 
 # binary for usual attacks
 potato: $(CFILES) $(HFILES)
@@ -39,7 +39,10 @@ potato: $(CFILES) $(HFILES)
 
 # binary for ROP attack
 potato_rop: $(CFILES) $(HFILES)
-	gcc $(CCOPTS4ROP) -o potato_rop $(CFILES) -Lopenssl  -lssl -lcrypto 
+	gcc $(CCOPTS4ROP) -o potato_rop $(CFILES) -Lopenssl  -lssl -lcrypto
+
+potato_32: $(CFILES) $(HFILES)
+	gcc -m32 $(CCOPTS) -o potato_32 $(CFILES) -Lopenssl  -lssl -lcrypto 
 
 clean:
-	rm -f potato potato_rop
+	rm -f potato potato_rop potato_32

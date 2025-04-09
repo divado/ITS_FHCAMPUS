@@ -7,7 +7,7 @@ WARN_OPTS=-Wno-deprecated-declarations -Wno-unused-result
 SEC_OPTS=-fno-stack-protector -z execstack -no-pie
 DEBUG_OPTS=-ggdb3 -O0
 # turn on optimizations to get some ROP gadgets
-DEBUG_OPTS_ROP=-ggdb3 -O2
+DEBUG_OPTS_ROP=-ggdb3 -O0
 INCLUDES=-Iopenssl/include -I/usr/include -I/usr/include/x86_64-linux-gnu -Ipotato2/src
 DEFINES=-D_FORTIFY_SOURCE=0
 

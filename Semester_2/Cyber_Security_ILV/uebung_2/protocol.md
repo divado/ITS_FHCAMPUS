@@ -9,7 +9,18 @@ The steps in this writeup were performed on a Ubuntu 24.04 LTS (x64) system.
 For the building process the following packages have been installed. `pipx` is technically not used for the build process but the installation of `pwntools` a Python library enabling us to execute the attacks.
 
 ```bash
-$ sudo apt install libssl-dev gcc gcc-multilib pipx -y
+$ sudo apt install gcc gcc-multilib pipx -y
+```
+Install `openssl` from git repository.
+
+> It is important to use the most recent version of `openssl` with this build or else some of the attacks won't work.
+
+```bash
+$ git clone https://github.com/openssl/openssl.git
+$ cd openssl
+$ ./Configure -m32 linux-generic32
+$ make -sj
+$ cd ..
 ```
 
 To install the *GDB Enhanced Features* suite (GEF) the following `curl` command was used.
@@ -37,7 +48,7 @@ SEC_OPTS=-fno-stack-protector -z execstack -no-pie
 DEBUG_OPTS=-ggdb3 -O0
 # turn on optimizations to get some ROP gadgets
 DEBUG_OPTS_ROP=-ggdb3 -O2
-INCLUDES=-Iopenssl/include -I/usr/include -I/usr/include/x86_64-linux-gnu -Isrc
+INCLUDES=-Iopenssl/include -I/usr/include -I/usr/include/x86_64-linux-gnu -Ipotato2/src
 DEFINES=-D_FORTIFY_SOURCE=0
 
 CCOPTS = $(WARN_OPTS) $(SEC_OPTS) $(DEBUG_OPTS) $(INCLUDES) $(DEFINES)
@@ -45,22 +56,22 @@ CCOPTS = $(WARN_OPTS) $(SEC_OPTS) $(DEBUG_OPTS) $(INCLUDES) $(DEFINES)
 CCOPTS4ROP = -static $(WARN_OPTS) $(SEC_OPTS) $(DEBUG_OPTS_ROP) $(INCLUDES) $(DEFINES)
 
 CFILES = \
-	src/main.c \
-	src/runr.c \
-	src/sock.c \
-	src/userlist.c \
-	src/func.c \
-	src/login2.c
+	potato2/src/main.c \
+	potato2/src/runr.c \
+	potato2/src/sock.c \
+	potato2/src/userlist.c \
+	potato2/src/func.c \
+	potato2/src/login2.c
 
 HFILES = \
-	src/runr.h \
-	src/sock.h \
-	src/user.h \
-	src/userlist.h 
+	potato2/src/runr.h \
+	potato2/src/sock.h \
+	potato2/src/user.h \
+	potato2/src/userlist.h 
 
 .PHONY: clean all
 
-all: potato potato_rop
+all: potato potato_rop potato_32 potato_rop_32
 
 # binary for usual attacks
 potato: $(CFILES) $(HFILES)
@@ -68,19 +79,28 @@ potato: $(CFILES) $(HFILES)
 
 # binary for ROP attack
 potato_rop: $(CFILES) $(HFILES)
-	gcc $(CCOPTS4ROP) -o potato_rop $(CFILES) -Lopenssl  -lssl -lcrypto 
+	gcc $(CCOPTS4ROP) -o potato_rop $(CFILES) -Lopenssl  -lssl -lcrypto
+
+potato_32: $(CFILES) $(HFILES)
+	gcc -m32 $(CCOPTS) -o potato_32 $(CFILES) -Lopenssl  -lssl -lcrypto 
+
+potato_rop_32: $(CFILES) $(HFILES)
+	gcc -m32 $(CCOPTS4ROP) -o potato_rop_32 $(CFILES) -Lopenssl  -lssl -lcrypto
 
 clean:
-	rm -f potato potato_rop
+	rm -f potato potato_rop potato_32 potato_rop_32
 ```
 
 The `potato` and `potato_rop` files were built using the `make` command.
 
 ```bash
-$ make
+$ make -j
 
-gcc -Wno-deprecated-declarations -Wno-unused-result -fno-stack-protector -z execstack -no-pie -ggdb3 -O0 -Iopenssl/include -I/usr/include -I/usr/include/x86_64-linux-gnu -Ipotato2/src -D_FORTIFY_SOURCE=0 -o potato src/main.c src/runr.c src/sock.c src/userlist.c src/func.c src/login2.c -Lopenssl  -lssl -lcrypto
-gcc -static -Wno-deprecated-declarations -Wno-unused-result -fno-stack-protector -z execstack -no-pie -ggdb3 -O2 -Iopenssl/include -I/usr/include -I/usr/include/x86_64-linux-gnu -Ipotato2/src -D_FORTIFY_SOURCE=0 -o potato_rop src/main.c src/runr.c src/sock.c src/userlist.c src/func.c src/login2.c -Lopenssl  -lssl -lcrypto
+gcc -Wno-deprecated-declarations -Wno-unused-result -fno-stack-protector -z execstack -no-pie -ggdb3 -O0 -Iopenssl/include -I/usr/include -I/usr/include/x86_64-linux-gnu -Ipotato2/src -D_FORTIFY_SOURCE=0 -o potato potato2/src/main.c potato2/src/runr.c potato2/src/sock.c potato2/src/userlist.c potato2/src/func.c potato2/src/login2.c -Lopenssl  -lssl -lcrypto 
+gcc -static -Wno-deprecated-declarations -Wno-unused-result -fno-stack-protector -z execstack -no-pie -ggdb3 -O2 -Iopenssl/include -I/usr/include -I/usr/include/x86_64-linux-gnu -Ipotato2/src -D_FORTIFY_SOURCE=0 -o potato_rop potato2/src/main.c potato2/src/runr.c potato2/src/sock.c potato2/src/userlist.c potato2/src/func.c potato2/src/login2.c -Lopenssl  -lssl -lcrypto
+gcc -m32 -Wno-deprecated-declarations -Wno-unused-result -fno-stack-protector -z execstack -no-pie -ggdb3 -O0 -Iopenssl/include -I/usr/include -I/usr/include/x86_64-linux-gnu -Ipotato2/src -D_FORTIFY_SOURCE=0 -o potato_32 potato2/src/main.c potato2/src/runr.c potato2/src/sock.c potato2/src/userlist.c potato2/src/func.c potato2/src/login2.c -Lopenssl  -lssl -lcrypto 
+gcc -m32 -static -Wno-deprecated-declarations -Wno-unused-result -fno-stack-protector -z execstack -no-pie -ggdb3 -O2 -Iopenssl/include -I/usr/include -I/usr/include/x86_64-linux-gnu -Ipotato2/src -D_FORTIFY_SOURCE=0 -o potato_rop_32 potato2/src/main.c potato2/src/runr.c potato2/src/sock.c potato2/src/userlist.c potato2/src/func.c potato2/src/login2.c -Lopenssl  -lssl -lcrypto
+
 ```
 
 The `potato` executables can now be used as follows.
@@ -387,6 +407,8 @@ $3 = {int (const char *)} 0x155554a58750 <__libc_system>
 gef➤  p exit
 $5 = {void (int)} 0x155554a47ba0 <__GI_exit>
 ```
+
+**IS THIS EVEN POSSIBLE IN THE x64 EXECUTABLE?**
 
 ### Custom shellcode or ROP chain
 

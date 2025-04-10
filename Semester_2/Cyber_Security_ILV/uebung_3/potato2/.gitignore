@@ -1,6 +1,3 @@
-openssl
-openssl64
-
 testing/
 
 potato
@@ -12,5 +9,3 @@ attack_32.py
 
 shellcode.o
 shellcode
-
-core.*

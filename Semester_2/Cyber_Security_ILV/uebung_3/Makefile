@@ -9,14 +9,11 @@ DEBUG_OPTS=-ggdb3 -O0
 # turn on optimizations to get some ROP gadgets
 DEBUG_OPTS_ROP=-ggdb3 -O2
 INCLUDES=-Iopenssl/include -I/usr/include -I/usr/include/x86_64-linux-gnu -Ipotato2/src
-INCLUDES64=-Iopenssl64/include -I/usr/include -I/usr/include/x86_64-linux-gnu -Ipotato2/src
 DEFINES=-D_FORTIFY_SOURCE=0
 
 CCOPTS = $(WARN_OPTS) $(SEC_OPTS) $(DEBUG_OPTS) $(INCLUDES) $(DEFINES)
-CCOPTS64 = $(WARN_OPTS) $(SEC_OPTS) $(DEBUG_OPTS) $(INCLUDES64) $(DEFINES)
 # include glibc statically to get additional gadgets
 CCOPTS4ROP = -static $(WARN_OPTS) $(SEC_OPTS) $(DEBUG_OPTS_ROP) $(INCLUDES) $(DEFINES)
-CCOPTS4ROP64 = -static $(WARN_OPTS) $(SEC_OPTS) $(DEBUG_OPTS_ROP) $(INCLUDES64) $(DEFINES)
 
 CFILES = \
 	potato2/src/main.c \
@@ -36,20 +33,17 @@ HFILES = \
 
 all: potato potato_rop potato_32 potato_rop_32
 
-# Binaries for 64 Bit
-
 # binary for usual attacks
 potato: $(CFILES) $(HFILES)
-	gcc $(CCOPTS64) -o potato $(CFILES) -Lopenssl64  -lssl -lcrypto 
+	gcc $(CCOPTS) -o potato $(CFILES) -Lopenssl  -lssl -lcrypto 
+
 # binary for ROP attack
 potato_rop: $(CFILES) $(HFILES)
-	gcc $(CCOPTS4ROP64) -o potato_rop $(CFILES) -Lopenssl64  -lssl -lcrypto
-
-
-# Binaries for 32 Bit
+	gcc $(CCOPTS4ROP) -o potato_rop $(CFILES) -Lopenssl  -lssl -lcrypto
 
 potato_32: $(CFILES) $(HFILES)
 	gcc -m32 $(CCOPTS) -o potato_32 $(CFILES) -Lopenssl  -lssl -lcrypto 
+
 potato_rop_32: $(CFILES) $(HFILES)
 	gcc -m32 $(CCOPTS4ROP) -o potato_rop_32 $(CFILES) -Lopenssl  -lssl -lcrypto
 

@@ -16,18 +16,18 @@ CCOPTS = $(WARN_OPTS) $(SEC_OPTS) $(DEBUG_OPTS) $(INCLUDES) $(DEFINES)
 CCOPTS4ROP = -static $(WARN_OPTS) $(SEC_OPTS) $(DEBUG_OPTS_ROP) $(INCLUDES) $(DEFINES)
 
 CFILES = \
-	src/main.c \
-	src/runr.c \
-	src/sock.c \
-	src/userlist.c \
-	src/func.c \
-	src/login2.c
+	potato2/src/main.c \
+	potato2/src/runr.c \
+	potato2/src/sock.c \
+	potato2/src/userlist.c \
+	potato2/src/func.c \
+	potato2/src/login2.c
 
 HFILES = \
-	src/runr.h \
-	src/sock.h \
-	src/user.h \
-	src/userlist.h 
+	potato2/src/runr.h \
+	potato2/src/sock.h \
+	potato2/src/user.h \
+	potato2/src/userlist.h 
 
 .PHONY: clean all
 

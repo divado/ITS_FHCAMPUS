@@ -313,11 +313,11 @@ Then we are waiting for the initialization. After that step we should be able to
 
 <!-- For the Firewall we will use Pfsense -->
 
-For our firewall we are using a Jupiter Networks vSRX Firewall with the following virutal hardware.
+For our firewall we are using a Juniper Networks vSRX Firewall with the following virutal hardware.
 
 ![](screenshots/screen16.png)
 
-The firewall was installed using the cqow2 Image provided by Jupiter Networks.
+The firewall was installed using the cqow2 Image provided by Juniper Networks.
 
 Configuration steps:
 

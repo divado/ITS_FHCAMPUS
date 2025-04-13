@@ -1,10 +1,3 @@
----
-title: "Übung 1 und 2"
-author: "Astrid Kuzma-Kuzniarski, Philip Magnus"
-date: "`r Sys.Date()`"
-output: pdf_document
----
-
 # Übungsblatt 1. Planung eines Netzwerk (Übung 1.1)
 
 
@@ -319,7 +312,222 @@ For our firewall we are using a Juniper Networks vSRX Firewall with the followin
 
 The firewall was installed using the cqow2 Image provided by Juniper Networks.
 
-Configuration steps:
+For an initial configuration we executed the following basic configuration steps.
+
+First we entered `cli mode` in the JunOS system on our vSRX VM.
+
+```bash
+root#cli
+root@>
+```
+
+From the `cli` we activated the configuration mode to start editing our comfiguration.
+
+```bash
+configure
+[edit]
+root@#
+```
+
+Next we set a new password for our root user, for this we chose the password `Firewall`. 
+
+```bash
+[edit]
+root@# set system root-authentication plain-text-password
+New password: ********
+Retype new password: ********
+```
+
+After setting a new password we also set a new host-name for our firewall for which we chose `vSRX`.
+
+```bash
+[edit]
+root@# set system host-name vSRX
+```
+
+Next we set up the `fxp0`managemnt interface to be active and use a dhcp-client to obtain an out-of-band management IP address. This address will later be used to acces the J-Web GUI for easier configuration of the firewall.
+
+```bash
+[edit]
+root@# set interfaces fxp0 unit 0 family inet dhcp-client
+```
+
+After the management interface we setup an initial generic interface and added it to a security trust zone. This interface can later be changed via the web GUI.
+
+```bash
+[edit]
+root@# set interfaces ge-0/0/0 unit 0 family inet dhcp-client
+```
+
+```bash
+[edit]
+root@# set security zones security-zone trust interfaces ge-0/0/0.0
+```
+
+Lastly we checked our changes before a commit for any errors. After the checks completed successfully we commited the changes to the configuration.
+
+```bash
+[edit]
+root@# commit check
+configuration check succeeds
+```
+
+```bash
+[edit]
+root@#commitcommit
+complete
+```
+
+With the `show` command we can view the config after the initial configuration steps.
+
+```bash
+root@vSRX# show 
+## Last changed: 2025-04-13 19:07:36 UTC
+version 23.2R2.21;
+system {
+    host-name vSRX;
+    root-authentication {
+        encrypted-password "$6$TsmRNjet$g6erK1vNp5XNZsIACUfAlemcyYuGaaMxOda0jfaIVppW49eLw0SxU1Z.ltWCHWNxofbvU/F4IpARVHEOqy4Uv."; ## SECRET-DATA
+    }
+    services {
+        ssh;
+        web-management {
+            http {
+                interface fxp0.0;
+            }
+            https {
+                system-generated-certificate;
+                interface fxp0.0;
+            }
+        }
+    }
+    syslog {
+        file interactive-commands {
+            interactive-commands any;
+        }                               
+        file messages {                 
+            any any;                    
+            authorization info;         
+        }                               
+    }                                   
+    license {                           
+        autoupdate {                    
+            url https://ae1.juniper.net/junos/key_retrieval;
+        }                               
+        keys {                          
+            key "E419777401 aeaqic apaeor 4altdy arwhqb impacr i6bmed embrgu ydgmbz bqihmu 2slawu u5lonf ygk4sf ozqwyb ziukrz o4t4tq 73ypay 2pgysd icl7im u5x4l3 4pgvmf cggson fslbu7 atr27n sh6zqe s2rq";
+        }                               
+    }                                   
+}                                       
+security {                              
+    pki {                               
+        ca-profile ISRG_Root_X1 {       
+            ca-identity ISRG_Root_X1;   
+            pre-load;                   
+        }                               
+        ca-profile Lets_Encrypt {       
+            ca-identity Lets_Encrypt;   
+            enrollment {                
+                url https://acme-v02.api.letsencrypt.org/directory;
+            }                           
+        }                               
+    }                                   
+    screen {                            
+        ids-option untrust-screen {     
+            icmp {                      
+                ping-death;             
+            }                           
+            ip {                        
+                source-route-option;    
+                tear-drop;              
+            }                           
+            tcp {                       
+                syn-flood {             
+                    alarm-threshold 1024;
+                    attack-threshold 200;
+                    source-threshold 1024;
+                    destination-threshold 2048;
+                    queue-size 2000; ## Warning: 'queue-size' is deprecated
+                    timeout 20;         
+                }                       
+                land;                   
+            }                           
+        }                               
+    }                                   
+    policies {                          
+        from-zone trust to-zone trust { 
+            policy default-permit {     
+                match {                 
+                    source-address any; 
+                    destination-address any;
+                    application any;    
+                }                       
+                then {                  
+                    permit;             
+                }                       
+            }                           
+        }                               
+        from-zone trust to-zone untrust {
+            policy default-permit {     
+                match {                 
+                    source-address any; 
+                    destination-address any;
+                    application any;    
+                }                       
+                then {                  
+                    permit;             
+                }                       
+            }                           
+        }                               
+        pre-id-default-policy {         
+            then {                      
+                log {                   
+                    session-close;      
+                }                       
+            }                           
+        }                               
+    }                                   
+    zones {                             
+        security-zone trust {           
+            tcp-rst;                    
+            interfaces {                
+                ge-0/0/0.0;             
+            }                           
+        }                               
+        security-zone untrust {         
+            screen untrust-screen;      
+        }                               
+    }                                   
+}                                       
+interfaces {                            
+    ge-0/0/0 {                          
+        unit 0 {                        
+            family inet {               
+                dhcp;                   
+            }                           
+        }                               
+    }                                   
+    fxp0 {                              
+        unit 0 {                        
+            family inet {               
+                dhcp;                   
+            }                           
+        }                               
+    }                                   
+}
+```
+
+All further configuration will take place via the J-Web GUI which can be reached by calling the webserver running on the management interface of the vSRX-Firewall. The interface can be reached over its out-of-band IP address. This would be equivalent to setting up a hardware firewall through its management port.
+
+> NOTE: The management IP can be set to an in-band address. This is highly discouraged by the manufacturer through their best practices. This is done mainly to reduce security risks and attack surfaces.
+
+We can login to the management GUI with the known user password combination of `root:Firewall`. 
+
+![J-Web Interface](screenshots/screen17.png)
+
+After a succesful login we are presented with the basic settings screen.
+
+![Basic settings](screenshots/screen18.png)
 
 ## SIEM 
 

@@ -15,11 +15,12 @@ During work, we also switched the Servers from the Windows 12 Server to an Ubunt
 
 IP Ranges:
 
-| Network | IP-(Range)            | What     | Interface |
-|:------- |:--------------------- |:-------- |:--------- |
-| Green   | 192.168.10.121/24     | Internet | eno1      |
-| Yellow  | 10.120.[0-127].0/17   | DMZ      | enp3s0f0  |
-| Red     | 10.120.[128-255].0/17 | LAN      | enp3s0f1  | 
+| Network | IP-(Range)            | What      | Interface |
+|:--------|:----------------------|:----------|:----------|
+| Green   | 192.168.10.121/24     | Internet  | eno1      |
+| Yellow  | 10.120.[0-127].0/17   | DMZ       | enp3s0f0  |
+| Red     | 10.120.[128-255].0/17 | LAN       | enp3s0f1  |
+| Blue    | 10.0.0.0/24           | Managment |           |
 
 Green (Internet):
 

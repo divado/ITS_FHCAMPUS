@@ -42,7 +42,7 @@ Blue (management):
 
     10.0.0.2 - vSRX Firewall # WiP
 
-![](JvbJQTC.png)
+![](screenshots/JvbJQTC.png)
 
 ## Installation 
 
@@ -58,11 +58,11 @@ The following clients have beed installed:
 After the cloning of a machine, we go to the "Settings" -> "Network" and set the adapters as "Bridged Adapter" and connect with the correct interfaces:
 
 ###### YELLOW: 
-![](screen2.png)
+![](screenshots/screen2.png)
 
 
 ###### RED:
-![](screen3.png)
+![](screenshots/screen3.png)
 
 
 
@@ -72,7 +72,7 @@ Now we use the following command do activate the physical interfaces:
 $ for x in enp3s0f0 enp3s0f1 ; do suodp ip l set $x up ; done
 ```
 
-![](screen4.png)
+![](screenshots/screen4.png)
 
 To configure the networks in the router, we modify the `/etc/netplan/00-installer-config.yaml`:
 
@@ -134,6 +134,14 @@ For making the ipv4 forwarding rule permanent we created a file under ` /etc/sys
 net.ipv4.ip_forward = 1
 ```
 
+For our `DNS` and `DHCP` configuration we installed `dnsamasq`. 
+
+```bash
+sudo apt install dnsmasq -y
+```
+
+
+
 Now we configure the DNS forwarding:
 
 ```console
@@ -141,19 +149,19 @@ $ sudo apt install bind9
 ```
 in the `/etc/bind/named.conf.options` the following config needs to be changed:
 
-![](screen5.png)
+![](screenshots/screen5.png)
 
 
 ### Windows 7 settings: 
 
 We started our client machine on a Windows 7 VM and set the configuration of the Internet to satic, as follows: 
 
-![](screen6.png)
+![](screenshots/screen6.png)
 
 Now we test, if we have a connection, by usind the `ping`command to our router:
 
 
-![](screen7.png)
+![](screenshots/screen7.png)
 
 
 ### Windows 12:
@@ -164,10 +172,10 @@ Start > Systemsteuerung > Netzwerk- und Freigabecenter
 
 - disable the Firewall (which in general in not recomended)
 
-![](screen8.png)
+![](screenshots/screen8.png)
 
 
-![](screen9.png)
+![](screenshots/screen9.png)
 
 Then we tried to download and install the XAMPP for the DVWA. 
 ATTENTION: Issues with the installed Browser, we needed to install Mozilla Firefox first to continue with the task. 
@@ -188,7 +196,7 @@ Main changes:
 
 #### New network plan: 
 
-![](screen10.png)
+![](screenshots/screen10.png)
 
 
 
@@ -275,7 +283,7 @@ Then we start Nessus daemon:
 $ sudo systemctl start nessusd.service
 ```
 
-![](screen11.jpeg)
+![](screenshots/screen11.jpeg)
 
 
 ### Setup Nessus
@@ -284,12 +292,12 @@ The setup wizard pops up and we need to follow the following steps:
 
 - We choose the selection option "Register for Nessus Essentials", which offers the free version of Nessus for educators, students, and hobbyists.
 
-![](screen12.jpeg)
+![](screenshots/screen12.jpeg)
 
 
 Here we receive the valid licence and the activation code:
 
-![](screen13.jpeg)
+![](screenshots/screen13.jpeg)
 
 
 Then we need to create an account: 
@@ -298,11 +306,11 @@ Passwort: fhcampus6
 
 
 Then we are waiting for the initialization. After that step we should be able to start our first scannings. 
-![](screen14.jpeg)
+![](screenshots/screen14.jpeg)
 
 
 
-![](screen15.jpeg)
+![](screenshots/screen15.jpeg)
 
 
 

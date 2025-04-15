@@ -106,14 +106,14 @@ iptables -A FORWARD -i ens21 -o ens22 -j ACCEPT
 iptables -A FORWARD -o ens21 -i ens22 -m state --state RELATED,ESTABLISHED -j ACCEPT
 ```
 
-Setting up nat on router:
-NAT : 
+We set up NAT on the router using the following commands.
+NAT: 
 
 ```bash
 iptables -t nat -P OUTPUT ACCEPT
 iptables -t nat -P PREROUTING ACCEPT
 iptables -t nat -P POSTROUTING ACCEPT
-iptables -t nat -A POSTROUTING -o ens22 -j MASQUERADE
+iptables -t nat -A POSTROUTING -o ens20 -j MASQUERADE
 ```
 
 To save our `iptables` configuration the `iptables-persistent` package was installed.
@@ -140,17 +140,58 @@ For our `DNS` and `DHCP` configuration we installed `dnsamasq`.
 sudo apt install dnsmasq -y
 ```
 
+To configure dhcp nad dns we create the following config file under `/etc/dnsmasq.d/seclab.conf`.
 
+```conf
+# 
+# DNS config
+#
 
-Now we configure the DNS forwarding:
+server=9.9.9.10
+server=8.8.8.8
 
-```console
-$ sudo apt install bind9
+local=/yellow.lab.phi255.at/
+local=/red.lab.phi255.at/
+
+interface=ens20
+interface=ens21
+interface=ens22
+
+# 
+# DHCP config
+#
+
+log-dhcp
+
+no-dhcp-interface=ens20
+
+# Red network
+dhcp-range=ens21,10.120.128.2,10.120.255.204,12h
+dhcp-option=ens21,3,10.120.128.1
+domain=red.lab.phi255.at,10.120.128.0/17
+
+# Yellow network
+dhcp-range=ens22,10.120.0.2,10.120.127.204,12h
+dhcp-option=ens22,3,10.120.0.1
+domain=yellow.lab.phi255.at,10.120.0.0/17
+
+# Static IPs
+dhcp-host=bc:24:11:c7:fa:1b,dwua,10.120.0.3
 ```
-in the `/etc/bind/named.conf.options` the following config needs to be changed:
 
-![](screenshots/screen5.png)
+To activate `dnsmasq` we disable the default dns service on our ubuntu server and then activate the `dnsmasq.service`.
 
+```bash
+systemctl stop systemd-resolved
+systemctl disable systemd-resolved
+systemctl enable dnsmasq
+```
+
+To check if the `dnsmasq.service` started successfully we can run the following `systemctl` command.
+
+```bash
+systemctl status dnsmasq
+```
 
 ### Windows 7 settings: 
 
@@ -182,33 +223,41 @@ ATTENTION: Issues with the installed Browser, we needed to install Mozilla Firef
 
 ## Proxmox
 
+We moved our lab setup to a private Proxmox cluster.
+
 The main reasons that we switched to Proxmox: 
 - hardware performance 
 - persistent: 
-    - We don´t have to copay the VMs on the computer on which we are working in the lab. 
+    - We don´t have to copy the VMs to and from the computer on which we are working in the lab. 
     - Internet connection works better and we have an improvement in speed
     - Constant access --> We can work from anywhere at anytime 
 
 Main changes: 
 
-- Switching from Windows 12 Server to Ubuntu 24.04
+- Switching from Windows 12 Server to Ubuntu Server 24.04 LTS
 - Vulnerable Web App (DVWA) on Docker
 
 #### New network plan: 
 
-![](screenshots/screen10.png)
+![](screenshots/NetworkPlan_SecLab.excalidraw.png)
 
 
 
 ### Installation
 
-The installation didn´t change much, but we needed to adapt a few things. 
+The installation didn´t change much, but we needed to adapt a few things. Mainly we needed to reinstall our virtual machines but kept the configuration to the original as close as possible.
 
-- Reinstall Windows 7 
+In Proxmox we setup virtual networks equivalent to those available to us in the lab.
 
 ## Setup DVWA
 
+To setup the Damn Vulnerable Web Application, DVWA for short, we setup a second Ubuntu 24.04 LTS server. We installed docker and launched the DVWA docker image which can be pulled from docker hub.
+
 ### Installation Docker
+
+The following commands from the official docker documentation were used to install docker and its cli on the server. 
+First the official docker repositories are added to our list of repositories. The docker signing keys have also been added to verify the sources from the docker repositories. 
+Lastly the information from the newly added repositories was updated.
 
 ```bash
 sudo apt update
@@ -217,23 +266,39 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o 
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update
 ```
+
+The following software was installed from the docker respositories.
+
 ```bash
-sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 ```
+
+To run the docker image with the dvwa we ran the following command. This command also exposes the machines port 80 to the docker port 80 so the webserver can be reached from outside the ubuntu server itself.
 
 ```bash
 docker run --rm -it -p 80:80 vulnerables/web-dvwa
 ```
 
+To make the webserver accessible from the `green` network (the Internet) we needed to activate port forwarding on our router.
+
+```bash
+iptables -t nat -A PREROUTING -p tcp -i ens20 --dport 80 -j DNAT --to-destination 10.120.0.3:80
+iptables -A FORWARD -p tcp -d 10.120.0.3 --dport 80 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+```
+
+From the Kali machine we can now try to reach the dvwa server simply by trying to connect to the routers IP address on port 80.
+
+![DVWA](screenshots/screen19.png)
+
 ## Vulnerability Scanner - Nessus
 
-We install a new Kali VM and download Nessus from: https://www.tenable.com/downloads/nessus
+In our Kali VM we download and install Nessus from: https://www.tenable.com/downloads/nessus
 The correct version needs to be selected to work on the operating system. Therefore, for Kali we install: `Linux - Debian - amd64`
 
 
 After the download process, we install the `.deb` package:
 
-```shell=
+```shell
 sudo dpkg -i ~/Downloads/Nessus-10.8.3-ubuntu1604_amd64.deb 
 [sudo] Passwort für kali: 
 Vormals nicht ausgewähltes Paket nessus wird gewählt.
@@ -278,7 +343,8 @@ Unpacking Nessus Scanner Core Components...
  - Then go to https://kali:8834/ to configure your scanner   
 ```
 
-Then we start Nessus daemon:
+Then we started the Nessus daemon.
+
 ```bash
 $ sudo systemctl start nessusd.service
 ```
@@ -305,7 +371,7 @@ For the Username we choose: fh-campus-team6
 Passwort: fhcampus6
 
 
-Then we are waiting for the initialization. After that step we should be able to start our first scannings. 
+Then we are waiting for the initialization. After that step we should be able to start our first scan. 
 ![](screenshots/screen14.jpeg)
 
 

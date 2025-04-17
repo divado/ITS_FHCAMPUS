@@ -378,8 +378,45 @@ Then we are waiting for the initialization. After that step we should be able to
 
 ![](screenshots/screen15.jpeg)
 
+Within Nessus we can configure our settings for a fist scan of the DVWA. Our first scan was conducted from inside the same Network.
 
+First we chose to setup a new scan. Here we first choose the `Basic Network Scan` template.
 
+![](screenshots/screen20.png)
+
+In the "New Scan" window we can configure the host we want to scan. Simply setting the host IP will be enough for our first scan.
+
+![](screenshots/screen21.png)
+
+After saving the configuration we can see the saved scan in the "My Scans" folder. By clicking the `Launch` button we can start our first scan.
+
+![](screenshots/screen22.png)
+
+After completing the scan we get the option to generate a report consisting of the scanned hosts and the corresponding found vulnerabilities.
+
+![](screenshots/screen23.png)
+
+In our report we can see that we do not find many vulnerabilities. This stems from the fact that our server itself is running a recent version and the vulnerabilities provided by the DVWA are strictly web vulnerabilities like cross-site scripting or sql injections.
+
+To those vulnerabilities we can start a `Web Application Test` and provide the login credentials to access the site containing the vulnerabilities.
+
+We created a new `Web Application Test` and configured the host to scan as well as the needed credentials.
+
+![](screenshots/screen24.png)
+
+![](screenshots/screen25.png)
+
+Launching the scan resulted in the following report.
+
+![](screenshots/screen26.png)
+
+For comparison we set up a machine which is not only vulnerable to web vulnerabilities but also other vulnerabilities resulting from the usage of outdated software and misconfigurations on the server. For this we chose the `Metasploitable2` server provided by Rapid7 the developers of the metasploit framework.
+
+We started the machine on `10.120.25.59`. A basic network scan resulted in the following report.
+
+![](screenshots/screen27.png)
+
+Scanning the DVWA from the external network, i.e. through the port forwarding on our router, resulted in the same report we saw from inside the same network.
 
 ## Firewall
 

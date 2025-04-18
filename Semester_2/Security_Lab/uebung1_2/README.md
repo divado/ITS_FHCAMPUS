@@ -649,6 +649,12 @@ After a succesful login we are presented with the basic settings screen.
 
 For the SIEM we will use ELK Stack, Apache Metron
 
+In our DMZ (yellow network) we set up an `ELK-Stack` instance as our SIEM system. The `ELK-Stack` or sometimes known as `Elastic-Stack` is a suite of different tools to ingest and display log, event and process data from different sources. The stack is made up of `Elasticsearch`, `Logstash` and `Kibana`.
+
+The system was set up on an Ubuntu Server 24.04 LTS system with the user:password combination `siem:siem`.
+
+
+
 ## EDR
 
 OSSEC

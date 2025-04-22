@@ -1,3 +1,10 @@
+---
+title: "Übung 1 und 2"
+author: "Astrid Kuzma-Kuzniarski, Philip Magnus"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
 # Übungsblatt 1 & 2. Planung eines Netzwerk (Übung 1.1)
 
 

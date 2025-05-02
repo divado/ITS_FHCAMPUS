@@ -122,7 +122,6 @@ $ pipx install pwntools
 
 ## Scanning for vulnerabilities
 
-**TODO**
 
 Instead of looking through the code manually the code was scanned for a list of functions, vulnerable to buffer overflows, using [ripgrep](https://github.com/BurntSushi/ripgrep) `rg` for short. `rg` scans all files in a directory, including sub-directories, for a given string and outputs the file in which the string was found as well as the line containing the string and the corresponding line number.
 
@@ -384,8 +383,6 @@ We can clearly see that we are no longer bound to the executed program but rathe
 
 ### Ret2libc attack
 
-**TODO**
-
 The 'Return to LibC' attack or `ret2libc` for short is a little more complicated to execute on a x64 system than on a x32 system.
 The basic idea of `ret2libc`is to not inject sehllcode into the buffer and execute our buffer but rather find exisiting linked libc functions we can use to spawn our shell. This may be necessary because the stack of our application might not be executable.
 
@@ -558,8 +555,6 @@ $ $ id -a
 uid=1000(kali) gid=1000(kali) Gruppen=1000(kali),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),100(users),101(netdev),116(bluetooth),121(wireshark),123(lpadmin),129(scanner),134(kaboxer)
 $ $  
 ```
-
-**IS THIS EVEN POSSIBLE IN THE x64 EXECUTABLE?**
 
 ### Custom shellcode or ROP chain
 

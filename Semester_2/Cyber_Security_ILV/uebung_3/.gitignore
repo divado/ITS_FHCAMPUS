@@ -1,13 +1,4 @@
-openssl
-
-testing/
-
-potato
-potato_rop
-potato_32
-potato_rop_32
-
-attack_32.py
-
-shellcode.o
-shellcode
+/libheap
+/lib
+/bin
+/openssl

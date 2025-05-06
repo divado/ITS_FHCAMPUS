@@ -197,7 +197,7 @@ We can see that the address space we need to overwrite is 0x34 bytes big, which 
 If we provide a string of length 52 + 1, strncpy will overwrite the 0x27 byte in memory with 0x00. Subsequently providing a string of length 52, strncpy will overwrite the 0x10 byte with 0x00.
 We will need to do this in two steps because we can not manually write a 0x00 byte to our desired memory addresses. For this we craft the following script with the needed payloads.
 
-```python3
+```python
 #!/usr/bin/env python3
 
 from pwn import *
@@ -248,7 +248,137 @@ user(name='peter' id=0 gid=10000 home='/home/peter' shell='/usr/bin/rbash')
 
 ## find a memory leak to identify a heap bin or chunk (look at the session and whoami; it's enough to show the chunk or memory location in gdb)
 
-**TODO**
+
+To identify possible memory heap memory leaks we need to identify locations in the given code where memory allocation is not handled correctly.
+
+For quickly identifying possible misshandled allocations of memory we can use the following command.
+
+```bash
+$ rg malloc
+
+login2.c
+14:    char *out = (char*)malloc(90); // md5 plus null terminator for snprintf
+40:    user = (t_user *) malloc(sizeof(t_user));
+
+userlist.c
+104:     t_user_list_element* new_element = (t_user_list_element*) malloc(sizeof(t_user_list_element));
+238:    t_user* parsed_user = (t_user *)malloc(sizeof(t_user));
+```
+
+We can see that in the `login2.c` file on line 14 there is an allocation of 90 bytes on the heap. Those 90 bytes need to be freed after the function in which they are allocated needs to be freed after usage.
+
+```C
+char *str2md5(const char *str, int length) {
+    int n;
+    MD5_CTX c;
+    unsigned char digest[16];
+    char *out = (char*)malloc(90); // md5 plus null terminator for snprintf
+
+    MD5_Init(&c);
+    while (length > 0) {
+        if (length > 512) {
+            MD5_Update(&c, str, 512);
+        } else {
+            MD5_Update(&c, str, length);
+        }
+        length -= 512;
+        str += 512;
+    }
+    MD5_Final(digest, &c);
+
+    for (n = 0; n < 16; ++n) {
+        snprintf(&(out[n*2]), 16*2+1, "%02x", (unsigned int)digest[n]);
+    }
+
+    return out;
+} 
+```
+
+In the code we can see that the allocated memory is not freed after usage in the function itself and thus must be freed by the calling function.
+
+Looking into the calling functions `change_password()` and `check_password()` both call the function but are not freeing the allocated memory after its use.
+
+```C
+void
+change_password()
+{
+    //char* input_password;
+    //input_password = getpass("Password: "); fflush(stdout);
+
+    char input_password[PASSWORD_LENGTH];
+    fprintf(stdout, "Password: ");
+    fgets(input_password, sizeof(input_password), stdin);
+    input_password[strcspn(input_password, "\n")] = 0x00; // terminator instead of a newline
+
+    strncpy(session.logged_in_user->password_hash, 
+            str2md5(input_password, strlen(input_password)), 
+	    32);
+    fprintf(stdout, "Password changed.\n");
+}
+```
+
+```C
+int
+check_password(t_user* user, char* password)
+{
+    return (0 == strncmp(
+                        user->password_hash, 
+		        str2md5(password, strlen(password)), 
+			32)); // md5 length
+}
+```
+
+This way a memory leak can be caused by a trial login attempt for this it does not matter if the login attempt is successful or not, the digest of the entered password will be leaked. With the following script we set a breakpoint at line 32 in `login2.c` and will check the contents of `out` and subsequently if we can view the allocated memory after the function closes.
+
+```python
+#!/usr/bin/env python3
+
+from pwn import *
+import sys
+
+elf = ELF("./potato_32")
+# context.binary = elf
+# context.arch = 'i386'
+# context.bits = 32
+# context.endian = 'little'
+# context.os = 'linux'
+
+p = elf.process(["console"], stdin=PTY, aslr=False) # stdin=PTY for "getpass" password input
+gdb.attach(p, '''
+break login2.c:32
+continue
+''')
+
+print(p.recvuntil(b"cmd> "))
+p.sendline(b"login")
+# test user
+p.sendline(b"root")
+p.sendline(b"12345")
+print(p.recvuntil(b"cmd> "))
+
+p.interactive()
+```
+
+Inspecting the value of out when we hit the breakpoint shows us the MD5 digest of the entered password.
+
+```bash
+gef➤  p out
+$1 = 0x804f770 "827ccb0eea8a706c4c34a16891f84e7b"
+```
+
+After stepping over some instructions and out of the `*str2md5()` function we can examine the allocated memory again.
+
+```bash
+gef➤  x/32bx 0x804f770
+0x804f770:      0x38    0x32    0x37    0x63    0x63    0x62    0x30    0x65
+0x804f778:      0x65    0x61    0x38    0x61    0x37    0x30    0x36    0x63
+0x804f780:      0x34    0x63    0x33    0x34    0x61    0x31    0x36    0x38
+0x804f788:      0x39    0x31    0x66    0x38    0x34    0x65    0x37    0x62
+```
+
+Decoding the hex encoded memory contents we will receive the following string `827ccb0eea8a706c4c34a16891f84e7b` which is again the user entered password as a digest.
+
+Thus we can see the allcated memory was never freed and leaked after its use.
 
 ## gain a shell with root privileges (look at the allocator with ltrace while creating and deleting users)
 

@@ -384,6 +384,24 @@ Thus we can see the allcated memory was never freed and leaked after its use.
 
 **TODO**
 
+I can here only give a rudimentary description because I did not complete this task and had to rely on Ernst Schwaigers solution. In his solution he had to comment out the `walk_list()` function call and recompile so `potato2` binaries to make this exploit work. In a real world test scenario where you are given software written by a customer this would not be possible, because you can`t add vulnerabilities to a customers software during testing. This should be self explanatory.
+
+```C
+void 
+delete_user()
+{
+    int id;
+
+    // walk_list(print_list_element);
+    fprintf(stdout, "Which one? > ");
+    scanf("%d", &id);
+    if(!delete_user_by_id(id)) {
+         fprintf(stderr, "not found.\n");
+    }
+}
+```
+
+
 ## demonstrate a use after free or double free condition in the program
 
 **TODO**

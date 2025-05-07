@@ -4,7 +4,7 @@ from pwn import *
 
 import sys
 
-elf = ELF("./potato_32")
+elf = ELF("./potato")
 
 p = elf.process(["console"], stdin=PTY, aslr=False) # stdin=PTY for "getpass" password input
 gdb.attach(p, '''

@@ -55,7 +55,7 @@ delete_user()
 {
     int id;
 
-    walk_list(print_list_element);
+    // walk_list(print_list_element);
     fprintf(stdout, "Which one? > ");
     scanf("%d", &id);
     if(!delete_user_by_id(id)) {

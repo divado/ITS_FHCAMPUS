@@ -2,7 +2,7 @@
 
 Student: Philip Magnus
 
-The steps in this writeup were performed on a Ubuntu 24.04 LTS (x64) system.
+The steps in this writeup were performed on a Kali 2024.4 (x64) system.
 
 ## Building potato
 

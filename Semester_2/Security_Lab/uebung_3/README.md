@@ -60,7 +60,7 @@ set firewall filter dmz-traffic term webserver2 then routing-instance webserver2
 ```
 
 
-### Firewall Troubleshooting 
+## Firewall Troubleshooting 
 
 We used a Juniper vSRX firewall. However, since our license is set to expire at the end of May, we were unable to use certain features that were essential to continue with the exercise. Extending the license was not a viable option, as it would have required us to reconfigure everything from scratch. As a result, we were forced to switch to a different firewall. We will now switch to the open-source firewall OPNsense, which will also require a complete reconfiguration. As a result, many of the steps from Exercise 2 will have to be repeated. The full configuration process will not be documented again in detail here; instead, we will resume documentation from this point onward.
 
@@ -70,7 +70,7 @@ We used a Juniper vSRX firewall. However, since our license is set to expire at 
 
 Because the test license for our firewall was only valid and useable for 30 days we needed to replace our vSRX firewall with an open source alternative. For this we use OPNSense as we originally intended.
 
-### Configuration of firewall
+### Configuration of new firewall as drop in replacement
 
 We configured the firewall analogous to our vSRX firewall configuration.
 We try to use the new firewall as a drop in replacement to not disrupt our work in progress to much. For this we assigned the three network interfaces in the same way as in the first firewall. We configured a port forwarding to our DVWA in the DMZ. 
@@ -83,3 +83,24 @@ The following are some sample screenshots from our configuration. We thought it 
 
 ![Port Forwarding](./screenshots/port_forwarding.png)
 
+![Port Forwarding 2](./screenshots/port_forwarding_2.png)
+
+### Configuring firewall for SIEM
+
+The firewall also needs to be configured to send its logs `via syslog` to our SIEM.
+
+The configuration of the SIEM to work with our new firewall turned out to be a little more complicated than initially expected.
+
+We also noticed that the machine running our SIEM system was already low on hard disk space because of saved log files. We plan on cleaning up the saved files as well as the installation of our SIEM.
+
+![Disk Usage](./screenshots/disk_usage.png)
+
+## Planned next steps
+
+After replacing the old firewall completly we can activate the IDPS on our firewall as we initially planned in this exercise.
+
+We plan on using the catch up lab day to get upo to speed on the tasks we wanted to accomplish with this exercise. 
+
+Juniper claims to give a 60 day trial on their vSRX firewall system. Sadly this trial only contains the barebone functionality and does not include IDPS and many more features (the trial period for IDPS and the firewalls malware engine ends after 30 days) we would need to use to accomplish meaningful results.
+
+We will try to compensate this set back as best as possible.

@@ -222,3 +222,17 @@ LSvMZRI+JOcEU0lGPaf7zgUOiVAxLdYnizCmyvj3
 -----END CERTIFICATE-----
 ```
 
+**TODO:** Configuring Elastic Agent and Fleet Server
+
+![](./screenshots/Elastic_search_fleet_conf_1.png)
+![](./screenshots/Elastic_search_fleet_conf_2.png)
+![](./screenshots/Elastic_search_fleet_conf_3.png)
+
+**TODO:** Elastic agent monitoring and resources
+
+![](./screenshots/Elastic_search_fleet_conf_4.png)
+![](./screenshots/Elastic_agent_metric_1.png)
+
+**TODO:** Burp Webscan before IDPS
+
+![](./screenshots/Burp_scan_before_idps.png)

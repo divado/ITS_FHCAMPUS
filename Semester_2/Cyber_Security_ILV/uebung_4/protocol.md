@@ -14,7 +14,7 @@ First `Android Studio` was installed via the JetBrains Toolbox.
 
 ![Install Android Studio](./screenshots/install_android_studio.png)
 
-In `Android Studio` we open the `Virtual Device Manager` and open the setup wizard for creating a new virtual device.
+In `Android Studio` I open the `Virtual Device Manager` and open the setup wizard for creating a new virtual device.
 
 ![VirtualDev Manager](./screenshots/android_virtual_dev_manager.png)
 
@@ -58,3 +58,10 @@ After the approval I was able to see all traffic on the device. For example open
 ## 2 Perform Static and Dynamic Analysis
 
 ### 2.1 Static: inspect the source code to analyze the HTTP(S) implementation
+
+#### 2.1.1 Decompile the application, e.g. using Bytecode Viewer, APK Editor Studio, apktool, JADX, Ghidra, etc.
+
+First I downloaded the `JADX` software from the official Github repository. After extracting the downloaded archive, `JADX` can be started through the included .exe file.
+
+![JADX initial](./screenshots/jadx_initial.png)
+

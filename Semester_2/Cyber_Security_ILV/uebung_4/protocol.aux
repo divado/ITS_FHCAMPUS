@@ -1,0 +1,43 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Lab + App Network Traffic Inspection/Interception Setup}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Lab environment using a Android device and/or emulator (e.g. Android Emulator)}{1}{subsection.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Install Android Studio}}{1}{figure.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces VirtualDev Manager}}{2}{figure.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Device APIs}}{2}{figure.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Emulator Install}}{3}{figure.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Fresh device emulator}}{3}{figure.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Choose an arbitrary app with HTTP(S) backend communication}{4}{subsection.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces ApkPure}}{4}{figure.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces ORF.at}}{5}{figure.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces via ADB}}{5}{figure.8}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces approve toolkit}}{6}{figure.9}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces article in app}}{6}{figure.10}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces http toolkit traffic}}{7}{figure.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Perform Static and Dynamic Analysis}{7}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Static: inspect the source code to analyze the HTTP(S) implementation}{7}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Decompile the application, e.g. using Bytecode Viewer, APK Editor Studio, apktool, JADX, Ghidra, etc.}{7}{subsubsection.2.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces JADX start}}{7}{figure.12}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Opening APK}}{8}{figure.13}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Decompiled code}}{8}{figure.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}How is HTTP(S) is implemented?}{8}{subsubsection.2.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces OkHttp}}{9}{figure.15}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Retrofit2 decompilation}}{9}{figure.16}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Retrofit2 OkHttp implementation}}{10}{figure.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Which TLS versions and cipher suites are supported?}{10}{subsubsection.2.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Is a Network Security Configuration (NSC) used? Is Certificate Pinning implemented?}{10}{subsubsection.2.1.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces No NSC found in AndroidManifest.xml}}{10}{figure.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Dynamic: inspect generated network traffic \& analyze communication to backend servers}{10}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Is any sensitive information sent to the backend server?}{10}{subsubsection.2.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Traffic analyzation}}{11}{figure.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Does the app collect analytics?}{11}{subsubsection.2.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Ad Tracking}}{11}{figure.20}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Minor Tracking}}{12}{figure.21}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces Firebase integration}}{12}{figure.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Are there any hard-coded secrets in the app (i.e. authorization tokens, etc.)?}{12}{subsubsection.2.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}Any other interesting findings in the communication (e.g. in regard to OWASP Mobile Top 10)?}{12}{subsubsection.2.2.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces Unmaintained repository - httpclient}}{13}{figure.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Conclusion}{13}{section.3}\protected@file@percent }
+\gdef \@abspage@last{13}

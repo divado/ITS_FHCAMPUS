@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.5.28)  30 MAY 2025 23:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.5.28)  31 MAY 2025 20:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -356,13 +356,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <14.4> on input line 19.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 19.
-<./screenshots/install_android_studio.png, id=60, 326.72063pt x 526.96875pt>
+<./screenshots/install_android_studio.png, id=64, 326.72063pt x 526.96875pt>
 File: ./screenshots/install_android_studio.png Graphic file (type png)
 <use ./screenshots/install_android_studio.png>
 Package pdftex.def Info: ./screenshots/install_android_studio.png  used on inpu
 t line 33.
 (pdftex.def)             Requested size: 182.09486pt x 293.70137pt.
-<./screenshots/android_virtual_dev_manager.png, id=62, 591.71063pt x 481.04718p
+<./screenshots/android_virtual_dev_manager.png, id=66, 591.71063pt x 481.04718p
 t>
 File: ./screenshots/android_virtual_dev_manager.png Graphic file (type png)
 <use ./screenshots/android_virtual_dev_manager.png>
@@ -378,7 +378,7 @@ s been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.44 
       <./screenshots/install_android_studio.png>]
-<./screenshots/dev_apis.png, id=74, 679.03688pt x 520.19344pt>
+<./screenshots/dev_apis.png, id=78, 679.03688pt x 520.19344pt>
 File: ./screenshots/dev_apis.png Graphic file (type png)
 <use ./screenshots/dev_apis.png>
 Package pdftex.def Info: ./screenshots/dev_apis.png  used on input line 49.
@@ -397,13 +397,13 @@ s been already used, duplicate ignored
 l.55 
       <./screenshots/android_virtual_dev_manager.png> <./screenshots/dev_apis.p
 ng>]
-<./screenshots/android_em_install.png, id=83, 679.03688pt x 490.08093pt>
+<./screenshots/android_em_install.png, id=87, 679.03688pt x 490.08093pt>
 File: ./screenshots/android_em_install.png Graphic file (type png)
 <use ./screenshots/android_em_install.png>
 Package pdftex.def Info: ./screenshots/android_em_install.png  used on input li
 ne 58.
 (pdftex.def)             Requested size: 364.19667pt x 262.85251pt.
-<./screenshots/fresh_virtual_dev.png, id=84, 292.84406pt x 674.52pt>
+<./screenshots/fresh_virtual_dev.png, id=88, 292.84406pt x 674.52pt>
 File: ./screenshots/fresh_virtual_dev.png Graphic file (type png)
 <use ./screenshots/fresh_virtual_dev.png>
 Package pdftex.def Info: ./screenshots/fresh_virtual_dev.png  used on input lin
@@ -423,12 +423,12 @@ s been already used, duplicate ignored
 l.70 \clearpage
                 <./screenshots/android_em_install.png> <./screenshots/fresh_vir
 tual_dev.png>]
-<./screenshots/apkpure.png, id=93, 730.98094pt x 712.91344pt>
+<./screenshots/apkpure.png, id=97, 730.98094pt x 712.91344pt>
 File: ./screenshots/apkpure.png Graphic file (type png)
 <use ./screenshots/apkpure.png>
 Package pdftex.def Info: ./screenshots/apkpure.png  used on input line 78.
 (pdftex.def)             Requested size: 364.19667pt x 355.19397pt.
-<./screenshots/orfat_app.png, id=94, 1284.8pt x 2866.71pt>
+<./screenshots/orfat_app.png, id=98, 1284.8pt x 2866.71pt>
 File: ./screenshots/orfat_app.png Graphic file (type png)
 <use ./screenshots/orfat_app.png>
 Package pdftex.def Info: ./screenshots/orfat_app.png  used on input line 86.
@@ -442,13 +442,13 @@ s been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.89 
       <./screenshots/apkpure.png>]
-<./screenshots/http_toolkit_adb.png, id=101, 221.32687pt x 180.675pt>
+<./screenshots/http_toolkit_adb.png, id=105, 221.32687pt x 180.675pt>
 File: ./screenshots/http_toolkit_adb.png Graphic file (type png)
 <use ./screenshots/http_toolkit_adb.png>
 Package pdftex.def Info: ./screenshots/http_toolkit_adb.png  used on input line
  94.
 (pdftex.def)             Requested size: 273.14923pt x 222.99257pt.
-<./screenshots/approve_toolkit.png, id=102, 1284.8pt x 2866.71pt>
+<./screenshots/approve_toolkit.png, id=106, 1284.8pt x 2866.71pt>
 File: ./screenshots/approve_toolkit.png Graphic file (type png)
 <use ./screenshots/approve_toolkit.png>
 Package pdftex.def Info: ./screenshots/approve_toolkit.png  used on input line 
@@ -467,13 +467,13 @@ s been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.105 
        <./screenshots/orfat_app.png> <./screenshots/http_toolkit_adb.png>]
-<./screenshots/article_app.png, id=111, 1284.8pt x 2866.71pt>
+<./screenshots/article_app.png, id=115, 1284.8pt x 2866.71pt>
 File: ./screenshots/article_app.png Graphic file (type png)
 <use ./screenshots/article_app.png>
 Package pdftex.def Info: ./screenshots/article_app.png  used on input line 110.
 
 (pdftex.def)             Requested size: 113.81102pt x 253.92473pt.
-<./screenshots/httptoolkit.png, id=112, 1017.8025pt x 572.89032pt>
+<./screenshots/httptoolkit.png, id=116, 1017.8025pt x 572.89032pt>
 File: ./screenshots/httptoolkit.png Graphic file (type png)
 <use ./screenshots/httptoolkit.png>
 Package pdftex.def Info: ./screenshots/httptoolkit.png  used on input line 116.
@@ -493,13 +493,13 @@ as been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.119 
        <./screenshots/approve_toolkit.png> <./screenshots/article_app.png>]
-<./screenshots/jadx_initial.png, id=121, 1001.24063pt x 563.85657pt>
+<./screenshots/jadx_initial.png, id=125, 1001.24063pt x 563.85657pt>
 File: ./screenshots/jadx_initial.png Graphic file (type png)
 <use ./screenshots/jadx_initial.png>
 Package pdftex.def Info: ./screenshots/jadx_initial.png  used on input line 133
 .
 (pdftex.def)             Requested size: 364.19667pt x 205.09613pt.
-<./screenshots/opening_apk.png, id=122, 432.86719pt x 269.50688pt>
+<./screenshots/opening_apk.png, id=126, 432.86719pt x 269.50688pt>
 File: ./screenshots/opening_apk.png Graphic file (type png)
 <use ./screenshots/opening_apk.png>
 Package pdftex.def Info: ./screenshots/opening_apk.png  used on input line 141.
@@ -520,13 +520,13 @@ as been already used, duplicate ignored
 l.143 \end{figure}
                    <./screenshots/httptoolkit.png> <./screenshots/jadx_initial.
 png>]
-<./screenshots/jadx_decompiled.png, id=132, 1001.24063pt x 563.85657pt>
+<./screenshots/jadx_decompiled.png, id=136, 1001.24063pt x 563.85657pt>
 File: ./screenshots/jadx_decompiled.png Graphic file (type png)
 <use ./screenshots/jadx_decompiled.png>
 Package pdftex.def Info: ./screenshots/jadx_decompiled.png  used on input line 
 149.
 (pdftex.def)             Requested size: 364.19667pt x 205.09613pt.
-<./screenshots/okhttp.png, id=133, 241.65282pt x 242.40562pt>
+<./screenshots/okhttp.png, id=137, 241.65282pt x 242.40562pt>
 File: ./screenshots/okhttp.png Graphic file (type png)
 <use ./screenshots/okhttp.png>
 Package pdftex.def Info: ./screenshots/okhttp.png  used on input line 161.
@@ -544,13 +544,13 @@ as been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.164 
        <./screenshots/opening_apk.png> <./screenshots/jadx_decompiled.png>]
-<./screenshots/retrofit_dec.png, id=142, 1445.4pt x 776.9025pt>
+<./screenshots/retrofit_dec.png, id=146, 1445.4pt x 776.9025pt>
 File: ./screenshots/retrofit_dec.png Graphic file (type png)
 <use ./screenshots/retrofit_dec.png>
 Package pdftex.def Info: ./screenshots/retrofit_dec.png  used on input line 167
 .
 (pdftex.def)             Requested size: 364.19667pt x 195.75438pt.
-<./screenshots/retrofit_okhttp.png, id=143, 846.16125pt x 487.06969pt>
+<./screenshots/retrofit_okhttp.png, id=147, 846.16125pt x 487.06969pt>
 File: ./screenshots/retrofit_okhttp.png Graphic file (type png)
 <use ./screenshots/retrofit_okhttp.png>
 Package pdftex.def Info: ./screenshots/retrofit_okhttp.png  used on input line 
@@ -570,119 +570,111 @@ as been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.176 
        <./screenshots/okhttp.png> <./screenshots/retrofit_dec.png>]
-<./screenshots/no_nsc.png, id=153, 1024.57782pt x 63.98906pt>
+<./screenshots/no_nsc.png, id=157, 1024.57782pt x 63.98906pt>
 File: ./screenshots/no_nsc.png Graphic file (type png)
 <use ./screenshots/no_nsc.png>
 Package pdftex.def Info: ./screenshots/no_nsc.png  used on input line 192.
 (pdftex.def)             Requested size: 364.19667pt x 22.74507pt.
-<./screenshots/Traffic_analyzation.png, id=154, 1017.8025pt x 572.89032pt>
-File: ./screenshots/Traffic_analyzation.png Graphic file (type png)
-<use ./screenshots/Traffic_analyzation.png>
-Package pdftex.def Info: ./screenshots/Traffic_analyzation.png  used on input l
-ine 206.
-(pdftex.def)             Requested size: 364.19667pt x 204.99904pt.
  [10
 pdfTeX warning (ext4): destination with the same identifier (name{figure.17}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.208 \end{figure}
-                  
+l.204 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{figure.18}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.208 \end{figure}
-                   <./screenshots/retrofit_okhttp.png> <./screenshots/no_nsc.pn
-g>]
-<./screenshots/ad_tracking.png, id=163, 1017.8025pt x 572.89032pt>
+l.204 
+       <./screenshots/retrofit_okhttp.png> <./screenshots/no_nsc.png>]
+<./screenshots/Traffic_analyzation.png, id=166, 1017.8025pt x 572.89032pt>
+File: ./screenshots/Traffic_analyzation.png Graphic file (type png)
+<use ./screenshots/Traffic_analyzation.png>
+Package pdftex.def Info: ./screenshots/Traffic_analyzation.png  used on input l
+ine 207.
+(pdftex.def)             Requested size: 364.19667pt x 204.99904pt.
+<./screenshots/ad_tracking.png, id=167, 1017.8025pt x 572.89032pt>
 File: ./screenshots/ad_tracking.png Graphic file (type png)
 <use ./screenshots/ad_tracking.png>
-Package pdftex.def Info: ./screenshots/ad_tracking.png  used on input line 217.
+Package pdftex.def Info: ./screenshots/ad_tracking.png  used on input line 218.
 
-(pdftex.def)             Requested size: 364.19667pt x 204.99904pt.
-<./screenshots/minor_tracking.png, id=164, 1017.8025pt x 572.89032pt>
-File: ./screenshots/minor_tracking.png Graphic file (type png)
-<use ./screenshots/minor_tracking.png>
-Package pdftex.def Info: ./screenshots/minor_tracking.png  used on input line 2
-25.
 (pdftex.def)             Requested size: 364.19667pt x 204.99904pt.
  [11
 pdfTeX warning (ext4): destination with the same identifier (name{figure.19}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.228 
+l.223 
       
 pdfTeX warning (ext4): destination with the same identifier (name{figure.20}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.228 
+l.223 
        <./screenshots/Traffic_analyzation.png> <./screenshots/ad_tracking.png>]
-<./screenshots/Firebase_integration.png, id=173, 259.7203pt x 126.4725pt>
+<./screenshots/minor_tracking.png, id=176, 1017.8025pt x 572.89032pt>
+File: ./screenshots/minor_tracking.png Graphic file (type png)
+<use ./screenshots/minor_tracking.png>
+Package pdftex.def Info: ./screenshots/minor_tracking.png  used on input line 2
+26.
+(pdftex.def)             Requested size: 364.19667pt x 204.99904pt.
+<./screenshots/Firebase_integration.png, id=177, 259.7203pt x 126.4725pt>
 File: ./screenshots/Firebase_integration.png Graphic file (type png)
 <use ./screenshots/Firebase_integration.png>
 Package pdftex.def Info: ./screenshots/Firebase_integration.png  used on input 
-line 234.
+line 235.
 (pdftex.def)             Requested size: 364.19667pt x 177.34782pt.
 [12
 pdfTeX warning (ext4): destination with the same identifier (name{figure.21}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.247 
+l.248 
       
 pdfTeX warning (ext4): destination with the same identifier (name{figure.22}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.247 
+l.248 
        <./screenshots/minor_tracking.png> <./screenshots/Firebase_integration.p
 ng>]
-<./screenshots/old_repository.png, id=183, 959.08313pt x 574.39594pt>
+<./screenshots/old_repository.png, id=187, 959.08313pt x 574.39594pt>
 File: ./screenshots/old_repository.png Graphic file (type png)
 <use ./screenshots/old_repository.png>
 Package pdftex.def Info: ./screenshots/old_repository.png  used on input line 2
-52.
+53.
 (pdftex.def)             Requested size: 364.19667pt x 218.11494pt.
  [13
 pdfTeX warning (ext4): destination with the same identifier (name{figure.23}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.264 \end{document}
+l.265 \end{document}
                      <./screenshots/old_repository.png>] (./protocol.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-
-
-Package rerunfilecheck Warning: File `protocol.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `protocol.out':
-(rerunfilecheck)             Before: 50887D89CBE6E815DFF0AEA8D4AA323C;5761
-(rerunfilecheck)             After:  598989447030192FDDA0EE54C553585E;5855.
+Package rerunfilecheck Info: File `protocol.out' has not changed.
+(rerunfilecheck)             Checksum: 598989447030192FDDA0EE54C553585E;5855.
  ) 
 Here is how much of TeX's memory you used:
- 10932 strings out of 476182
- 171128 string characters out of 5795595
- 1929975 words of memory out of 5000000
- 32790 multiletter control sequences out of 15000+600000
+ 10933 strings out of 476182
+ 171139 string characters out of 5795595
+ 1928975 words of memory out of 5000000
+ 32791 multiletter control sequences out of 15000+600000
  560968 words of font info for 46 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 75i,6n,79p,664b,462s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,6n,79p,664b,460s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on protocol.pdf (13 pages, 3973736 bytes).
+Output written on protocol.pdf (13 pages, 3973911 bytes).
 PDF statistics:
- 225 PDF objects out of 1000 (max. 8388607)
- 154 compressed objects within 2 object streams
+ 228 PDF objects out of 1000 (max. 8388607)
+ 157 compressed objects within 2 object streams
  52 named destinations out of 1000 (max. 500000)
- 228 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 236 words of extra memory for PDF output out of 10000 (max. 10000000)
 

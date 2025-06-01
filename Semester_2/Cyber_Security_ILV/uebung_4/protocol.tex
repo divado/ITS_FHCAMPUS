@@ -174,12 +174,41 @@ The app seems to use \texttt{Retrofit2} for making https calls. \texttt{Retrofit
 \caption{Retrofit2 OkHttp implementation}
 \end{figure}
 
+The app does not only use \texttt{Retrofit2} and \texttt{OkHttp} for network requests, it also uses \texttt{android-async-http} from \texttt{loopj} for some network requests.
+\texttt{android-async-http} in turn implements the \texttt{httpclient-android} library to handle the actual network requests. This library is a port of the Apache HttpClient to Android.
+
+The following code snippet shows the usage of \texttt{android-async-http} in the decompiled code:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{./screenshots/asyncHttpClient.png}
+\caption{AsyncHttpClient}
+\end{figure}
+
+As we can see in the code snippet, the \texttt{httpclient-android} library is imported and used to make network requests.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{./screenshots/msebera_http.png}
+\caption{httpclient-android import}
+\end{figure}
+
+
 \subsubsection{Which TLS versions and cipher suites are supported?}
 
 Accordrding to the official \texttt{OkHttp} documentation "OkHttp supports modern TLS features (TLS 1.3, ALPN, certificate pinning)".
 Given that the app uses \texttt{OkHttp} to handle the network requests, it can be assumed that the app supports TLS 1.3 and the cipher suites provided by \texttt{OkHttp}.
 
 For more information on the supported cipher suites, the official \href{https://github.com/square/okhttp}{Github repository} can be consulted.
+
+For requests made with \texttt{android-async-http} the supported TLS versions and cipher suites depend on the underlying \texttt{httpclient-android} library. In the implementation I could not find any
+specific supported TLS version but the library uses the Cypher Suites provided by the Android system.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{./screenshots/system_cyphersuites.png}
+\caption{System Cipher Suites}
+\end{figure}
 
 \subsubsection{Is a Network Security Configuration (NSC) used? Is Certificate Pinning implemented?}
 
@@ -238,7 +267,23 @@ The app seems to send some analytics data to \texttt{Firebase} for further proce
  
 \subsubsection{Are there any hard-coded secrets in the app (i.e. authorization tokens, etc.)?}
 
-I was not able to find any hard-coded secrets in the app. The app seems to rely on the backend server for authentication and does not store any sensitive information locally.
+One secrets seem to be hard-coded in the app. The app does use a hardcoded API auth-token for accessing the backend server.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{./screenshots/Auth_header.png}
+\caption{Auth Header}
+\end{figure}
+
+The following code snippet shows the usage of the hardcoded API auth-token in the decompiled code:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{./screenshots/hardcoded_token.png}
+\caption{Hardcoded Auth Token}
+\end{figure}
+
+Beyond that I was not able to find any hard-coded secrets in the app. The app seems to rely on the backend server for further authentication and does not store any sensitive information locally.
 
 \subsubsection{Any other interesting findings in the communication (e.g. in regard to OWASP Mobile Top 10)?}
 
@@ -257,9 +302,7 @@ If those packages have been downloaded by another library or were purposefully i
 \section{Conclusion}
 
 In conclusion, the app does not seem to have any major security issues. The app uses \texttt{OkHttp} and \texttt{Retrofit2} for handling network requests, which are both well-known libraries in the Android ecosystem. 
-The app does not use a Network Security Configuration (NSC) or Certificate Pinning, but it does not seem to send any sensitive information to the backend server. 
-The app does collect some analytics data, but nothing major seems to be sent to the backen server. The app developers should check their supply chain and update the used libraries to the latest versions to ensure that no vulnerabilities are present in the app.
+The app does not use a Network Security Configuration (NSC) or Certificate Pinning, also it does not seem to send any sensitive information to the backend server. It should be noted that NSC was introduced in API level 23, which is higher than the minimum API level of the app (21).
 They also should consider switching to libraries that are actively maintained.
-
 
 \end{document}

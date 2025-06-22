@@ -262,3 +262,126 @@ Auch hier konnten wir keine Paper oder CVEs zu dem analysierten Sample finden. I
 
 ## YARA
 
+Anhand der Virus Total Analyse konnten wir einige vorgefertigte YARA Regeln finden. Wir haben diese Regeln geklont um sie verwedenen zu können.
+
+```bash
+remnux@remnux:~/workspace/AppSec$ git clone https://github.com/InQuest/yara-rules-vt.git
+Cloning into 'yara-rules-vt'...
+remote: Enumerating objects: 92, done.
+remote: Counting objects: 100% (21/21), done.
+remote: Compressing objects: 100% (12/12), done.
+remote: Total 92 (delta 14), reused 15 (delta 9), pack-reused 71 (from 1)
+Unpacking objects: 100% (92/92), 35.82 KiB | 1.16 MiB/s, done.
+```
+
+Wir haben die Regeln mit dem `yara yara-rules-vt/*.yar [Sample]` Kommando auf die Samples angewendet.
+
+### Sample 1
+
+```bash
+remnux@remnux:~/workspace/AppSec$ yara yara-rules-vt/*.yar fb5ed444ddc37d748639f624397cff2a.bin 
+warning: rule "Microsoft_Excel_with_Macrosheet" in yara-rules-vt/Microsoft_Excel_with_Macrosheet.yar(16): string "$olemacrosheet" may slow down scanning
+error: rule "Microsoft_Outlook_Phish" in yara-rules-vt/Microsoft_Outlook_Phish.yar(25): undefined identifier "file_type"
+remnux@remnux:~/workspace/AppSec$ mv yara-rules-vt/Microsoft_Outlook_Phish.yar yara-rules-vt/Microsoft_Outlook_Phish.yar.dis
+remnux@remnux:~/workspace/AppSec$ yara yara-rules-vt/*.yar fb5ed444ddc37d748639f624397cff2a.bin 
+warning: rule "Microsoft_Excel_with_Macrosheet" in yara-rules-vt/Microsoft_Excel_with_Macrosheet.yar(16): string "$olemacrosheet" may slow down scanning
+warning: rule "PDF_with_Embedded_RTF_OLE_Newlines" in yara-rules-vt/PDF_with_Embedded_RTF_OLE_Newlines.yar(20): string "$obs" may slow down scanning
+warning: rule "Powershell_Case" in yara-rules-vt/Powershell_Case.yar(16): string "$ps_normal2" may slow down scanning
+warning: rule "Powershell_Case" in yara-rules-vt/Powershell_Case.yar(18): string "$ps_wide2" may slow down scanning
+Microsoft_Excel_with_Macrosheet fb5ed444ddc37d748639f624397cff2a.bin
+```
+Eine der Regeln hat nicht funktioniert, daher haben wir diese für unsere Analyse deaktiviert und anschließend das Kommando erneut ausgeführt.
+
+Wir können sehen, dass die Regel `Microsoft_Excel_with_Macrosheet` auf das Sample angewendet wurde und dieses erkannt hat.
+
+Anschließend haben wir mit den Regeln das entschlüsselte Sampple analysiert.
+
+```bash
+remnux@remnux:~/workspace/AppSec$ yara yara-rules-vt/*.yar sample1.xls 
+warning: rule "Microsoft_Excel_with_Macrosheet" in yara-rules-vt/Microsoft_Excel_with_Macrosheet.yar(16): string "$olemacrosheet" may slow down scanning
+warning: rule "PDF_with_Embedded_RTF_OLE_Newlines" in yara-rules-vt/PDF_with_Embedded_RTF_OLE_Newlines.yar(20): string "$obs" may slow down scanning
+warning: rule "Powershell_Case" in yara-rules-vt/Powershell_Case.yar(16): string "$ps_normal2" may slow down scanning
+warning: rule "Powershell_Case" in yara-rules-vt/Powershell_Case.yar(18): string "$ps_wide2" may slow down scanning
+Microsoft_Excel_Hidden_Macrosheet sample1.xls
+Microsoft_Excel_with_Macrosheet sample1.xls
+Windows_API_Function sample1.xls
+```
+Die Regeln `Microsoft_Excel_Hidden_Macrosheet`, `Microsoft_Excel_with_Macrosheet` und `Windows_API_Function` wurden von dem entschlüsselten Sample getriggert.
+
+### Sample 2
+
+Anschließend haben wir noch die Regeln auf das zweite Sample angewandt.
+
+```bash
+remnux@remnux:~/workspace/AppSec$ yara yara-rules-vt/*.yar b5d469a07709b5ca6fee934b1e5e8e38.bin 
+warning: rule "Microsoft_Excel_with_Macrosheet" in yara-rules-vt/Microsoft_Excel_with_Macrosheet.yar(16): string "$olemacrosheet" may slow down scanning
+warning: rule "PDF_with_Embedded_RTF_OLE_Newlines" in yara-rules-vt/PDF_with_Embedded_RTF_OLE_Newlines.yar(20): string "$obs" may slow down scanning
+warning: rule "Powershell_Case" in yara-rules-vt/Powershell_Case.yar(16): string "$ps_normal2" may slow down scanning
+warning: rule "Powershell_Case" in yara-rules-vt/Powershell_Case.yar(18): string "$ps_wide2" may slow down scanning
+Microsoft_Excel_Hidden_Macrosheet b5d469a07709b5ca6fee934b1e5e8e38.bin
+Microsoft_Excel_with_Macrosheet b5d469a07709b5ca6fee934b1e5e8e38.bin
+Windows_API_Function b5d469a07709b5ca6fee934b1e5e8e38.bin
+```
+
+Hier erhalten wir ähnliche Ergebnisse wie beim ersten entschlüsselten Sample. Die Regeln `Microsoft_Excel_Hidden_Macrosheet`, `Microsoft_Excel_with_Macrosheet` und `Windows_API_Function` wurden getriggert. Es sollte allerdings erwähnt werden, dass keine dieser Regeln eindeutig einordnet, dass diese Samples tatsächlich gefährlich sind sondern lediglich, dass gewisse Funktionen genutzt werden.
+
+### Custom YARA Regel
+
+Für unsere Custom YARA Regel haben wir eine Regel aus den bereits getesteten Regeln erweitert und diese auf das entschlüsselte Sample angewandt.
+
+Wir haben die Regel so erweitert, dass auf den String `SehllExecuteA` geprüft wird. Dieser wurde in unserem Sample aus einem Hidden Sheet heraus aufgerufen und deutet auf eine Ausführuing einer Shell hin.
+Das ein Excel Sheet eine Shell ausführt ist oft ein Indikator für eine schädliche Aktivität.
+
+Unsere YARA Regel wäre auch noch erweiterbar, wenn man weitere `$malicious[*]` Strings definiert, auf welche geprüft werden soll.
+
+```yara
+rule AppSec_Malicious_Excel
+{
+        meta:
+                author = "L. Haidinger, A. Kuzma-Kuzniarski, P. Magnus"
+                description = "Excel with hidden macros executes shell command, based on Microsoft_Excel_Hidden_Macrosheet from InQuest"
+        // https://github.com/InQuest/yara-rules-vt/blob/main/Microsoft_Excel_Hidden_Macrosheet.yar
+
+        strings:
+                // Based on Microsoft_Excel_Hidden_Macrosheet
+                $ole_marker     = {D0 CF 11 E0 A1 B1 1A E1}
+                $macro_sheet_h1 = {85 00 ?? ?? ?? ?? ?? ?? 01 01}
+                $macro_sheet_h2 = {85 00 ?? ?? ?? ?? ?? ?? 02 01}
+                $hidden_xlsx_01 = /hidden\s*=\s*["'][12]["']/ nocase
+                $hidden_xlsx_02 = /state\s*=\s*["'](very)?Hidden["']/ nocase
+
+                $malicious1 = "ShellExecuteA"
+
+        condition:
+                // Microsoft_Excel_Hidden_Macrosheet
+                (($ole_marker at 0 and 1 of ($macro_sheet_h*)) or any of ($hidden_xlsx*))
+
+                and 1 of ($malicious*)
+}
+```
+
+Die Regel wurde in der `Malicious_Excel.yar` Datei gespeicert und auf das erste entschlüsselte Sample angewandt.
+
+```bash
+remnux@remnux:~/workspace/AppSec$ yara Malicious_Excel.yar sample1.xls 
+AppSec_Malicious_Excel sample1.xls
+```
+
+Aus neugierde haben wir die Regel auch auf das zweite Sample angewandt.
+
+```bash
+remnux@remnux:~/workspace/AppSec$ yara Malicious_Excel.yar b5d469a07709b5ca6fee934b1e5e8e38.bin 
+AppSec_Malicious_Excel b5d469a07709b5ca6fee934b1e5e8e38.bin
+```
+
+Wir können sehen, dass unsere Regel bei beiden Samples funktioniert hat und diese somit fast sicher als schädlich eingestuft werden können.
+
+Als kontrolle wurde die Regel noch auf das verschlüsselte Sample angewandt, hierbei wurde die Regel nicht getriggert.
+
+```bash
+remnux@remnux:~/workspace/AppSec$ yara Malicious_Excel.yar fb5ed444ddc37d748639f624397cff2a.bin 
+remnux@remnux:~/workspace/AppSec$ 
+```
+## Zurücksetzen des Systems
+
+Wie in den Slides zur Malwareanalyse, als Best Practices beschrieben, sollte das System nach der Analyse zurückgesetzt werden. Dies kann mit dem Snapshot, den wir zu Beginn der Übung erstellt haben, erfolgen.

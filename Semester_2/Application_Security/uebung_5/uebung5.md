@@ -1,10 +1,18 @@
 # Übung 5 - Malware Analyse
 
+### Datum
+
+24.06.2025
+
 ## Gruppenmitglieder
 
 - Lorenzo Haidinger
 - Astrid Kuzma-Kuzniarski
 - Philip Magnus
+
+## Aufgabenstellung
+
+Diese Laborübung beschäftigt sich mit der Analyse von zwei Malware-Samples. Ziel ist es verscheidene Informationen über die Samples zu extrahieren und diese zu analysieren. Hierbei sollen verscheidene Tools und Techniken der Malwareanylse, bspw. YARA, eingesetzt und kennengelernt werden.
 
 ## System Setup
 
@@ -99,7 +107,15 @@ remnux@remnux:~/workspace/AppSec$ rgrep http ole_out
 
 Das Sample ist ein *Trojaner*, *Trojan Horse* oder auch *Trojan Dropper*.[\[3\]](https://en.wikipedia.org/wiki/Dropper_(malware))
 
+Das Sample noch verschlüsselte Sample hat den SHA265 Hash: `0ff0692939044528e396512689cbb6ccee6d4ef14712b27c1efd832a00e24818` mit diesem Hash können wir auf [malwarebazaar](bazaar.abuse.ch) nach weiteren Informationen suchen.
+
+Hier haben wir die Malware Family `DrideX` gefunden.
+
+![Malware Bazaar](./screenshots/screen_16.png)
+
 Das Ziel der Malware ist es, weitere Schadsoftware auf dem System des Opfers zu installieren.
+
+Teilweise findet man Online auch die Information, dass es sich bei der Malware um eine *Banking Trojaner* handelt.
 
 ### Sample 2
 
@@ -226,7 +242,22 @@ Die populärsten Signaturen enthalten hier aber die Begriffe:
 
 **3. Welche Informationen finden Sie dazu (CVE, Paper, Repo,etc.)?**
 
-Im Community Tab konnten wir nicht viele weitere Informationen finden. Es scheinen keine CVEs oder Paper zu existieren. Die meisten der Einträge verlinken zu Ergebnissen aus eigenen Sandbox-Analysen, wie z.B. https://www.joesandbox.com/analysis/894103/0/html .
+Im Community Tab konnten wir nicht viele weitere Informationen finden. Es scheinen keine CVEs oder Paper zu existieren. Die meisten der Einträge verlinken zu Ergebnissen aus eigenen Sandbox-Analysen, wie z.B. https://www.joesandbox.com/analysis/894103/0/html.
+
+Weitere Suchen im Internet zur `DrideX` Malware-Familie haben uns aber folgende Informationen zu der Malware geliefert:
+
+CVEs:
+- [Microsoft Office Zero-day CVE-2017-0199 threat information](https://success.trendmicro.com/en-US/solution/KA-0007834)
+- [Equation Editor allows RCE 2018-0802](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-0802)
+
+Blogs:
+- [MalDocs in Word and Excel: A Persistent Cybersecurity Challenge](https://blog.checkpoint.com/security/maldocs-in-word-and-excel-a-persistent-cybersecurity-challenge/)
+
+Best-Practices:
+- [DrideX Malware](https://www.cisa.gov/news-events/cybersecurity-advisories/aa19-339a)
+- [DrideX MITRE](https://attack.mitre.org/software/S0384/)
+
+Dies sind nur einige Beispiele aus den gefundenen Informationen, eine komplette Auflistung würde den Rahmen sprengen.
 
 ### Sample 2
 
@@ -258,7 +289,15 @@ Die populärsten Signaturen enthalten hier die Begriffe:
 
 **3. Welche Informationen finden Sie dazu (CVE, Paper, Repo,etc.)?**
 
-Auch hier konnten wir keine Paper oder CVEs zu dem analysierten Sample finden. Im Community Tab finden wir einige Analysen von anderen Nutzern, und deren Reports aus eigenen Sandbox-Analysen. Beispielsweise https://www.joesandbox.com/analysis/678942/0/html .
+Hier konnten wir keine Paper oder CVEs zu dem analysierten Sample finden. Im Community Tab finden wir einige Analysen von anderen Nutzern, und deren Reports aus eigenen Sandbox-Analysen. Beispielsweise https://www.joesandbox.com/analysis/678942/0/html.
+
+Eine Suche nach dem Sha256 Hash des Samples `7d7f9477110643a6f9065cc9ed67440aa091e323ba6b981c1fb504fdd797535c` liefert kein direktes Ergebnis einer Malware Familie, allerdings gibt es ein Hinweis von [Any.Run](https://any.run/), dass es sich um eine Variante von `Emotet` handeln könnte.
+
+![Screen 17](./screenshots/screen_17.png)
+
+Eine Internetrecherche liefert zu Emotet Zahlreiche Informationen, deren Auflistung hier den Rahmen sprengen würde. Da eine hunderprozentige zuordnung zu Emotet nicht möglich ist, verweisen wir an dieser Stelle nur auf die Informationsseite von MITRE.
+
+- [Emotet](https://attack.mitre.org/software/S0367/)
 
 ## YARA
 

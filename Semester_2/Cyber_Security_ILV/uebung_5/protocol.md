@@ -216,7 +216,9 @@ cmd> Type 'help' to print the usage.
 cmd> What is the name > Password: [1]    2165476 segmentation fault  ./potato console <
 ```
 
-If we investigate the output further in our debugger we can see that the fuzzer tried to create a new user  with an empty username and password. This leads to a `Segmentation Fault` in the `potato2` binary.
+If we investigate the output further in our debugger we can see that the fuzzer tried to create a new user  with an empty username and password. This leads to a `Segmentation Fault` in the `potato2` binary. This may not be the buffer overvlow we were looking for, but it is a crash nonetheless. At this point I can spoiler a little bit and say that we will encounter the buffer overflow with LibFuzzer.
+
+```bash
 
 ![Debugger Crash 000000](./screenshots/image-2.png)
 
@@ -305,7 +307,7 @@ username: password: potato: src/func.c:173: void login(): Assertion `0' failed.
 ```
 ## Use sanitizers or assertions to identify another vulnerabiltiy
 
-Done in together with the usage of libfuzzer.
+Done in combination with the usage of LibFuzzer.
 
 ## Use libfuzzer to fuzz a vulnerable function
 
@@ -380,10 +382,9 @@ main(int argc, char** argv)
 static void doFuzz()
 {
     init();
-    // for now, fuzz with an empty list
-    //read_list("userlist");
+
     handle_client();
-    // do a manual cleanup
+
     purge_list();
 }
 

@@ -1,0 +1,6 @@
+# environment variables:
+AFL_CUSTOM_INFO_PROGRAM=./potato
+AFL_CUSTOM_INFO_PROGRAM_ARGV=console
+AFL_CUSTOM_INFO_OUT=out/default
+# command line:
+'afl-fuzz' '-i' './seeds' '-o' 'out' '-p' 'fast' '-x' './potato.dict' '--' './potato' 'console'

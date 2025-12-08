@@ -10,10 +10,27 @@
     author: "Philip Magnus",
     date: datetime.today(),
 )
-#set text(lang: "en")
+#set text(lang: "en", font: "Arial")
 
+#let clean_numbering(..schemes) = {
+  (..nums) => {
+    let (section, ..subsections) = nums.pos()
+    let (section_scheme, ..subschemes) = schemes.pos()
 
-//Include chapters:
+    if subsections.len() == 0 {
+      numbering(section_scheme, section)
+    } else if subschemes.len() == 0 {
+      numbering(section_scheme, ..nums.pos())
+    }
+    else {
+      clean_numbering(..subschemes)(..subsections)
+    }
+  }
+}
+
+#set heading(numbering: "1.")
+
+//Include titlepage
 #include "titlepage.typ"
 
 #set page(
@@ -23,9 +40,11 @@
     ]
 )
 
-#outline()
 
+//Include table of contents
+#outline()
 #pagebreak()
 
+//Include chapters
 #include "chapters/chapter1.typ"
 #include "chapters/chapter2.typ"

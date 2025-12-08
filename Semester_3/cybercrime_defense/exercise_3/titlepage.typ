@@ -13,18 +13,18 @@
 
 #box(image("figures/Hochschule_Campus_Wien_logo.pdf", width: 4.5cm))
 
-#v(5cm)
+#v(7.5cm)
 
 #align(center, block[
 
   #set align(center)
   #text(1.1em)[
-    #strong[Exercise 3]
+    #strong[Assignment 3]
   ]   
 
   Cybercrime Defense
 
-  #text(2.5em, weight: "bold")[TLS/SSL]
+  #text(2.5em, weight: "bold")[Secure HTTPS Webserver]
 
   #strong[Author:] \
   Philip Magnus \

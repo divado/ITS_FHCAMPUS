@@ -12,6 +12,8 @@
 )
 #set text(lang: "en", font: "Arial")
 
+#show figure: set block(breakable: true)
+
 #let clean_numbering(..schemes) = {
   (..nums) => {
     let (section, ..subsections) = nums.pos()
@@ -48,3 +50,5 @@
 //Include chapters
 #include "chapters/chapter1.typ"
 #include "chapters/chapter2.typ"
+#include "chapters/chapter3.typ"
+#include "chapters/chapter4.typ"

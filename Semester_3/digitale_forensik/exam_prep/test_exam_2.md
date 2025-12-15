@@ -64,7 +64,7 @@
 - [ ] is a hard thing that is easy to be done wrong
 - [X] saves a forensics guy from being accused to have manipulated the data
 
-### Software vs hardware RAM aquisition?
+### Software vs hardware RAM acquisition?
 - [X] Software is cheaper
 - [ ] Software is OS-independent
 

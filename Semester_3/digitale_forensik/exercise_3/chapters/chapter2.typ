@@ -1,4 +1,5 @@
 = Assignment - Part 1
+#v(0.5cm)
 
 == Setup and Acquisition of RAM Dump
 #v(0.5cm)
@@ -151,6 +152,9 @@ I then placed the generated `linux-6.14.json.xz` file in the `volatility3/sybols
 == Analysis of RAM Dump
 #v(0.5cm)
 
+=== Analysis of Running and Terminated Processes
+#v(0.5cm)
+
 With the setup complete I started the analysis of the RAM dump. First I executed the following two commands:
 
 - `vol -f ram.dump linux.pslist`
@@ -162,7 +166,7 @@ First I listed the interesting running processes using the `linux.pslist` plugin
 
 #align(center, block[
   #figure(
-    image("../figures/pslist.png"),
+    image("../figures/pslist.png", width: 80%),
     caption: "vol -f ram.dump linux.pslist output"
   )<fig-pslist>
 ])
@@ -173,7 +177,7 @@ Next I used the `linux.psscan` plugin to find terminated processes that are stil
 
 #align(center, block[
   #figure(
-    image("../figures/psscan.png"),
+    image("../figures/psscan.png", width: 80%),
     caption: "vol -f ram.dump linux.psscan output"
   )<fig-psscan>
 ])
@@ -182,5 +186,81 @@ Next I used the `linux.psscan` plugin to find terminated processes that are stil
 
 All in all the `pslist` plugin found $489$ processes, while the `psscan` plugin found $2775$ processes.
 
+=== Analysis of Open Network Connections
+#v(0.5cm)
+
+With the command shown in @list-sockstat I listed all open network connections using the `linux.socket.sockstat` plugin.
+
+#v(0.5cm)
+
+#align(center, block[
+  #figure(
+    ```bash
+    $ vol -f ram.dump linux.sockstat.Sockstat
+    ```,
+    caption: "Listing open network connections using linux.sockstat.Sockstat plugin."
+  )<list-sockstat>
+])
+
+#v(0.5cm)
+
+The output of the command is shown in @fig-sockstat. Here I can see all the open sockets in different states, including `LISTEN`, `ESTABLISHED` and `CLOSE_WAIT`.
+
+#v(0.5cm)
+
+#align(center, block[
+  #figure(
+    image("../figures/netstat1.png", width: 80%),
+    caption: "Sockstat output."
+  )<fig-sockstat>
+])
+
+#v(0.5cm)
+
+To narrow down the results I filtered for the sockets of the `vivaldi-bin` processes using the command shown in @list-filteredSockstat. This shows that the process `vivaldi-bin` handles around $410$ open sockets.
+
+#v(0.5cm)
+
+#align(center, block[
+  #figure(
+    image("../figures/netstat2.png", width: 80%),
+    caption: "Sockstat output."
+  )<list-filteredSockstat>
+])
+
+#v(0.5cm)
+
+=== Finding the Unique Artefact in Memory
+#v(0.5cm)
+
+To find the unique artefact I searched for the string `giphy-3348127193.gif` in memory using the command shown in @list-gifSearch.
+
+#v(0.5cm)
+
+#align(center, block[
+  #figure(
+    ```bash
+    $ strings ram.dump | grep giphy-3348127193.gif
+
+      giphy-3348127193.gif
+      /home/philip/Pictures/giphy-3348127193.gif
+      [...]
+    ```,
+    caption: "Searching for unique artefact in memory."
+  )<list-gifSearch>
+])
+
+#v(0.5cm)
+
+The simple string search already revealed the full path of the opened image, see @list-gifSearch. Opening the file path in the default image viewer application indeed shows the correct `gif` image, see @fig-uniqueArtefactFound.
+
+#v(0.5cm)
+
+#align(center, block[
+  #figure(
+    image("../figures/openiArtifact.png", width:80%),
+    caption: "Unique artefact found in memory."
+  )<fig-uniqueArtefactFound>
+])
 
 #pagebreak()

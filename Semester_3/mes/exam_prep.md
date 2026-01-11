@@ -119,19 +119,111 @@ Es handelt sich um Full-Image Updates.
 
 ![SFOTA](sfota.png)
 
-## Why is Key Management essential? Describe the phases of the Key Management Life Cycle in general.
+## Why is Key Management essential? Describe the phases of the Key Management Life Cycle in general
 
-## Describe and compare 3 different key distribution possibilities.
+Für kryptographische Operationen (Encryption, Decryption, Signature, etc.) werden Keys benötigt. Diese Keys müssen sicher verwaltet werden, kurz Key Management (Keys erstellen, verteilen, speichern, austauschen etc.).
 
-## Describe the correlation of key management life cycle, key life cycle states, and key management objectives.
+4 Phasen des Key Management Life Cycle:
 
-## Describe the various types of keys thoroughly.
+1. Pre-Operational (Key wird noch nicht genutzt)
+   - Key Zustände: Pre-Active
+   - Aufgaben:
+     - Key Generierung
+     - Key Agreement
+     - Key Distribution
+
+2. Operational (Key wird genutzt)
+    - Key Zustände: Active, Suspended
+    - Aufgaben:
+      - Key Nutzung
+      - Key Derivation
+      - Key Recovery
+
+3. Post-Operational (Key wird nicht mehr genutzt)
+    - Key Zustände: Deactivated, Compromised
+    - Aufgaben:
+      - Key Archiving
+      - Key Destruction
+      - Key Reconstruction
+
+4. Destruction (Key ist nicht mehr existent)
+    - Key Zustände: Destroyed
+    - Aufgaben:
+      - Keine Aktionen möglich
+  
+
+## Describe and compare 3 different key distribution possibilities
+
+1. **Key Distribution Center (KDC):**
+   - Zentraler Server, der Keys generiert und an berechtigte Parteien verteilt.
+   - Vorteile: Einfach zu verwalten, zentralisierte Kontrolle.
+   - Nachteile: Single Point of Failure, Skalierbarkeitsprobleme.
+  
+2. **Public Key Infrastructure (PKI):**
+   - Verwendung von asymmetrischer Kryptographie, bei der öffentliche Schlüssel verteilt werden.
+   - Vorteile: Skalierbar, keine Notwendigkeit für sichere Kanäle zur Verteilung von Schlüsseln.
+   - Nachteile: Komplexität, Verwaltung von Zertifikaten erforderlich.
+
+3. **Pre-Shared Keys (PSK):**
+   - Schlüssel werden vorab zwischen den Parteien ausgetauscht.
+   - Vorteile: Einfach zu implementieren, keine Notwendigkeit für komplexe Infrastruktur.
+   - Nachteile: Skalierbarkeitsprobleme, unsicher bei vielen Teilnehmern, Schlüssel müssen sicher gespeichert werden
+
+## Describe the correlation of key management life cycle, key life cycle states, and key management objectives
+
+|State| Correlation to Life Cycle| Allowed Actions |
+|-----|--------------------------|-----------------|
+|Pre-activation|Pre-operational|Key exists but cannot yet be used for cryptographic operations|
+|Active|Operational|Key can be used to both protect (encrypt/sign) and process (decrypt/verify) data.|
+|Suspended|Operational|Usage is temporarily halted (e.g., during a pending investigation).|
+|Deactivated|Post-operational|Key can no longer protect new data but is used to process old data.|
+|Compromised|Any|Key is revoked; used only under high-risk scenarios to recover data.|
+|Destroyed|Destruction|No actions allowed; the key material is gone.|
+
+The Life Cycle provides the workflow, the States provide the technical enforcement, and the Objectives provide the justification.
+
+For example, when a key moves from Active to Deactivated (a State change) during the Key Rotation (a Life Cycle phase), the primary Objective being met is Risk Mitigation (limiting the amount of data encrypted by a single key to preserve Confidentiality).
+
+## Describe the various types of keys thoroughly
+
+**Key-Encrypting Key (KEK):**
+
+A cryptographic key that is used for the encryption or decryption of other keys to provide confidentiality protection for those keys.
+
+**Key-Wrapping Key (KWK):** 
+
+A symmetric key that is used to provide both confidentiality and integrity protection for other keys.
+
+**Key-Derivation Key (KDK):**
+
+A key used with a key-derivation method to derive additional keys. Sometimes called a master key.
+
+**Data Authentication Key (DAK)**
+
+A key used for the computation of Message Authentication Codes (MACs) in order to provide assurance of content integrity and (some level of) source authentication for cryptographically protected information.
+
+**Endorsement Key (EK):**
+
+An EK is stored by the manufacturer and used to decrypt certificates and pass passwords into the TPM during provisioning. Group Key is a key used to secure communication within a group of entities.
+
+**Session Key:**
+
+Keys used only for the duration of an active session. A session is the duration in which two entities have a logical connection between each other.
 
 ## STRIDE
 
-### 4. (a) What are the 3 main threats, i.e. attack scenarios in the loT? Elaborate thoroughly what each means and provide an example for each. 
+### 4. (a) What are the 3 main threats, i.e. attack scenarios in the IoT? Elaborate thoroughly what each means and provide an example for each. 
+
+- Taking control of devices: An attacker gains control over IoT devices to manipulate their behavior, steal data, or use them for malicious purposes. Example: A hacker takes control of smart home devices to unlock doors or disable security systems. An example is the Jeep Hack, in which attackers remotely took control of a Jeep Cherokee's systems.
+
+- Stealing sensitive data: IoT devices often collect and transmit sensitive information. An attacker may intercept this data during transmission or extract it from the device itself. Example: A fitness tracker transmitting health data over an unsecured connection, which is intercepted by an attacker.
+
+- Disrupting services: IoT devices can be targeted to disrupt their normal operation, leading to denial of service or other interruptions. Example: Disruption of service for connected medical devices, such as insulin pumps or pacemakers, which can have life-threatening consequences.
 
 ### (b) The IEEE characterized the Thing by 2 main properties. Name and explain these properties.
+
+- globally unique identifier - a Thing must be uniquely identifiable globally
+- ubuiquitious accessibility from anywhere - a Thing must be accessible from anywhere at any time
 
 ## Elaborate the firmware update process security issues thoroughly.
 

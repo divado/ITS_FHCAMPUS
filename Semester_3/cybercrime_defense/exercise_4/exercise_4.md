@@ -231,3 +231,19 @@ Ja, dies wurde bereits im vorangehenden Abschnitt gezeigt.
 Die Client-Server-Kommunikation von Matrix, im Fall von Element, ist neben der Ende-zu-Ende-Verschlüsselung zusätzlich durch Transportverschlüsselung abgesichert. In den Netzwerkaufzeichnungen sind TLS-Handshakes erkennbar (ClientHello, Handshake-Typ 1), einschließlich SNI mit dem Eintrag `matrix-client.matrix.org`.
 
 ### 5.1 MitM Attacke
+
+Zuerst habe ich `mitmproxy` installiert um den TLS Verkehr zu intercepten:
+
+```bash
+sudo apt install -y mitmproxy
+```
+
+Anschließend habe ich `mitmproxy` auf Port `8080` gestartet:
+
+```bash
+mitmproxy -p 8080
+```
+
+Nach dem Start von `mitmproxy` habe ich `Burp Suite` geöffnet um dort entsprechende Einstellungen für den `Intercept Proxy` vorzunehmen und das von `Burp Suite` breitgestellte `CA Certificate` zu exportieren.
+
+![Burp Suite CE](burp_ce.png)

@@ -88,8 +88,13 @@ By analyzing these traces, it is possible to identify if a chip is performing a 
 ## SFOTA
 ### (a) The process of remotely updating a firmware is one the most critical processes within the IoT. Why? 
 
+Das Gerät könnte durch einen fehlerhaften Updateprozess unbrauchbar gemacht werden (Bricking). Zudem könnte ein Angreifer versuchen, eine manipulierte Firmware aufzuspielen, um so Kontrolle über das Gerät zu erlangen oder sensible Daten auszulesen.
+
 
 ### (b) Name at least 2 examples what might go wrong during a remote firmware update process. 
+
+- Bitfehler während der Übertragung der Firmware -> beschädigte Firmware -> Bricking (wenn kein Rollback möglich)
+- nur ein Teil der Firmware Dateien aktualisiert -> Updateprozess nicht atomic
 
 
 ### (c) Your boss asks you to design a Secure Firmware Update Over the Air (SFOTA) for a recent product idea. This device is a sensor measuring various sensitive data which is sent to a central- app server at the customer for further processing. The usual setting contains 15-20 nodes. A firmware management server at your company distributes the new firmware to the customers. The sensor is based on a SAMR21 (Cortex M0+) which holds a 125kB flash memory. 
@@ -97,6 +102,22 @@ By analyzing these traces, it is possible to identify if a chip is performing a 
 - I. Which requirements are reasonable for this setting? 
 - II. Choose a suitable SFOTA strategy and explain it thoroughly. 
 - III. Draw a sketch for your designed SFOTA
+
+(I) 
+- Update muss secure sein ( Confidentiality durch Encryption, Integrity durch Hash, Authenticity durch Signatur)
+- Update muss robust sein (Rollback, Atomic Update) -> im Fehlerfall kann alte Firmware wiederhergestellt werden
+- Geräte haben Keys bereits beim initialen Flashen (Pre-shared Keys)
+
+(II)
+
+**SUIT mit zusätzlicher Encryption der Firmware:**
+  
+Am Build System wird eine neue Firmware gebaut. Diese wird verschlüsselt und der Hash der Firmware wird mit weiteren Infos wie, Updatezeitpunkt, Version, betroffene Geräte, Update-File-Location, u.ä. in ein Manifest geschrieben, dieses Manifest wird signiert. Das Manifest & die enc. FW wird auf den Firmware Management Server (FWS) geladen. Dies geschieht über SSH/SCP, dafür findet die Authentifizierung mit Crypto-Token statt. Der FMS sendet eine Nachricht an die zu aktualisierenden Geräte, welche das Manifest herunterladen, dessen Signatur überprüfen und im Falle einer erfolgreichen Überprüfung die FW herunterladen. Von der FW wird der Hash geprüft, die FW entschlüsselt und anschließend im zweiten Slot installiert, um die Möglichkeit eines Rollback zu haben (Slot 0 laufende FW, Slot 1 installiert Update). Anschließend wird die FW im Slot 1 gestartet. Im Fehlerfall wird die FW im Slot 0 wiederhergestellt.
+Es handelt sich um Full-Image Updates.
+
+(III)
+
+![SFOTA](sfota.png)
 
 ## Why is Key Management essential? Describe the phases of the Key Management Life Cycle in general.
 
@@ -113,6 +134,28 @@ By analyzing these traces, it is possible to identify if a chip is performing a 
 ### (b) The IEEE characterized the Thing by 2 main properties. Name and explain these properties.
 
 ## Elaborate the firmware update process security issues thoroughly.
+
+## Discuss general requirements for a firmware update.
+
+## Discuss firmware integrity in the context of SFOTA.
+
+## Name to advantages that high end HSM has over a standard smartcard.
+
+## How can a CoAP connection be secured? Describe different security modes.
+
+## How can resources be obeserved with CoAP? Describe and compare the possibilities.
+
+## Power analysis
+
+
+### (a) Explain the principle why measuring the supply current allows to detect that a component of a microcomputer system is currently processing data in a specific manner. (6)
+
+### (b) What information can generally be extracted from the correlation of two signals? In particular, what quantitative conclusions can be drawn from the graphs below and why? (6)
+
+![alt text](image-5.png)
+
+### (c) Name three methods to prevent power analysis / EM emissions based side channel attacks. (3)
+
 
 ## Given the following source code for a JavaCard applet:
 

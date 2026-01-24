@@ -1,4 +1,4 @@
-# Exercise 4: Messaging Security
+# Assignment 4: Messaging Security
 
 Student: Philip Magnus
 
@@ -39,9 +39,9 @@ Installiert wurde die folgende Software:
 
 - Element Client (Matrix)
 - Wireshark
-- Burp Suite Community Edition
+- mitmproxy
 
-Der Element Client wurde mit den folgenden Commands installiert:
+Der Element Client wurde mit den folgenden Commands installiesrt:
 
 ```bash
 sudo apt install -y wget apt-transport-https
@@ -244,6 +244,62 @@ Anschließend habe ich `mitmproxy` auf Port `8080` gestartet:
 mitmproxy -p 8080
 ```
 
-Nach dem Start von `mitmproxy` habe ich `Burp Suite` geöffnet um dort entsprechende Einstellungen für den `Intercept Proxy` vorzunehmen und das von `Burp Suite` breitgestellte `CA Certificate` zu exportieren.
+Da es sich beim Element Client um eine Electron App handelt, musste ich das Proxy Zertifikat in eine NSS Datenbank importieren. Dazu habe ich die folgenden Commands genutzt:
 
-![Burp Suite CE](burp_ce.png)
+```bash
+mkdir -p ~/.pki/nssdb
+
+certutil -N -d sql:$HOME/.pki/nssdb
+
+certutil -A \
+  -n "mitmproxy CA" \
+  -t "C,," \
+  -i ~/.mitmproxy/mitmproxy-ca-cert.pem \
+  -d sql:$HOME/.pki/nssdb
+```
+
+Anschließend konnte ich den Element Client über die Konsole mit folgendem Command starten, damit der Proxy genutzt wird:
+
+```bash
+element-desktop --proxy-server="http://127.0.0.1:8080"
+```
+
+Als Test habe ich eine unverschlüsselte Nachricht in dem nicht Ende-zu-Ende verschlüsselten Raum gesendet. In `mitmproxy` konnte ich die Nachricht im Klartext sehen:
+
+![MitM Proxy Message](mitm_tls_noe2ee.png)
+
+Nachfolgend die gesendete Nachricht im Element Client:
+
+![Element Client Message](mitm_noe2ee_element.png)
+
+Im Auszug aus dem `mitmproxy` Capture ist die unverschlüsselte Nachricht "TEST EINER UNVERSCHLÜSSELTEN NACHRICHT ÜBER TLS" klar lesbar. Dies bestätigt, dass der TLS-Verkehr erfolgreich abgefangen und entschlüsselt wurde. Außerdem kann man sehen, an welchen Raum die Nachricht gesendet wurde.
+
+Im folgenden Screenshot ist auch eine eingehende Nachricht, welche vom Handy und nicht E2EE gesendet wurde, im Klartext sichtbar:
+
+![MitM Proxy Incoming Message](incoming.png)
+
+Ich konnte außerdem nachvolllziehen, wenn eine Nachricht ein Bild enthält. Die folgenden Screenshots zeigen die Übertragung eines Bildes im nicht Ende-zu-Ende verschlüsselten Raum. Im `mitmproxy` sind Informationen zum Bild ersichtlich, wie z.B. der Dateiname und die Dateigröße, der dritte Screenshot zeigt das Bild im Element Client:
+
+![MitM Proxy Image Transfer](incomingimage_1.png)
+
+![MitM Proxy Image Details](incomingimage_2.png)
+
+![Element Client Image](incoming_in_element.png)
+
+Als Vergleich habe ich anschließend versucht eine Nachricht in dem Ende-zu-Ende verschlüsselten Raum zu senden. In `mitmproxy` war die Nachricht jedoch nicht lesbar:
+
+![MitM Proxy E2EE](mitm_tls_e2ee.png)
+
+
+Nachfolgend die gesendete Nachricht im Element Client:
+
+![Element Client E2EE Message](mitm_e2ee_element.png)
+
+Im Auszug aus dem `mitmproxy` Capture ist die Ende-zu-Ende verschlüsselte Nachricht nicht lesbar. Dies bestätigt, dass trotz erfolgreichem TLS-MitM die eigentliche Chatnachricht durch die Ende-zu-Ende-Verschlüsselung geschützt bleibt. Sichtbar ist nur der verwendete Algorithmus und die Raum ID, nicht jedoch der Nachrichteninhalt.
+
+## Quellen
+
+1. https://spec.matrix.org/latest
+2. https://element.io/de/features/device-verification
+3. https://docs.rs/matrix-sdk/latest/matrix_sdk/encryption/index.html
+4. https://docs.mitmproxy.org/stable/

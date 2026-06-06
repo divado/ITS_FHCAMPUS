@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Privacy in Internet — Flashcards</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --ink: #0e1116;
+                --ink2: #161b22;
+                --paper: #f4ece0;
+                --paper-line: #e3d6c2;
+                --accent: #d98c3f; /* amber */
+                --accent2: #5fb6a8; /* teal */
+                --muted: #8a93a0;
+                --text: #1b1714;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html,
+            body {
+                height: 100%;
+            }
+            body {
+                font-family: "Newsreader", Georgia, serif;
+                background:
+                    radial-gradient(
+                        1200px 600px at 80% -10%,
+                        #1c2632 0%,
+                        transparent 60%
+                    ),
+                    radial-gradient(
+                        900px 500px at 0% 110%,
+                        #1a2420 0%,
+                        transparent 55%
+                    ),
+                    var(--ink);
+                color: var(--paper);
+                min-height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 32px 18px 48px;
+                position: relative;
+            }
+            body::before {
+                /* grain */
+                content: "";
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                opacity: 0.045;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            }
+            header {
+                width: 100%;
+                max-width: 760px;
+                text-align: center;
+                margin-bottom: 22px;
+            }
+            .eyebrow {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.32em;
+                text-transform: uppercase;
+                color: var(--accent2);
+            }
+            h1 {
+                font-family: "Fraunces", serif;
+                font-weight: 900;
+                font-size: clamp(28px, 6vw, 46px);
+                line-height: 1.02;
+                letter-spacing: -0.01em;
+                margin: 6px 0 2px;
+                color: var(--paper);
+            }
+            h1 em {
+                font-style: italic;
+                color: var(--accent);
+            }
+            .sub {
+                color: var(--muted);
+                font-size: 14px;
+                font-style: italic;
+            }
+
+            .topwrap {
+                width: 100%;
+                max-width: 760px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 12px;
+                flex-wrap: wrap;
+            }
+            .progress {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                color: var(--muted);
+                letter-spacing: 0.08em;
+            }
+            .progress b {
+                color: var(--paper);
+            }
+            .modes {
+                display: flex;
+                gap: 6px;
+            }
+            .chip {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.06em;
+                color: var(--muted);
+                background: transparent;
+                border: 1px solid #2c3440;
+                padding: 6px 11px;
+                border-radius: 999px;
+                cursor: pointer;
+                transition: 0.18s;
+            }
+            .chip:hover {
+                color: var(--paper);
+                border-color: #3d4756;
+            }
+            .chip.on {
+                color: var(--ink);
+                background: var(--accent2);
+                border-color: var(--accent2);
+                font-weight: 700;
+            }
+
+            .bar {
+                width: 100%;
+                max-width: 760px;
+                height: 3px;
+                background: #222a33;
+                border-radius: 3px;
+                overflow: hidden;
+                margin-bottom: 20px;
+            }
+            .bar > i {
+                display: block;
+                height: 100%;
+                width: 0;
+                background: linear-gradient(
+                    90deg,
+                    var(--accent),
+                    var(--accent2)
+                );
+                transition: width 0.35s ease;
+            }
+
+            /* CARD */
+            .scene {
+                width: 100%;
+                max-width: 760px;
+                perspective: 2000px;
+                cursor: pointer;
+            }
+            .card {
+                position: relative;
+                width: 100%;
+                min-height: 380px;
+                transform-style: preserve-3d;
+                transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+            }
+            .card.flipped {
+                transform: rotateY(180deg);
+            }
+            .face {
+                position: absolute;
+                inset: 0;
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                background: var(--paper);
+                color: var(--text);
+                border-radius: 14px;
+                padding: 34px 36px 64px;
+                display: flex;
+                flex-direction: column;
+                box-shadow:
+                    0 24px 60px -20px rgba(0, 0, 0, 0.7),
+                    0 2px 0 rgba(255, 255, 255, 0.04);
+                background-image: repeating-linear-gradient(
+                    transparent,
+                    transparent 33px,
+                    var(--paper-line) 34px
+                );
+                overflow: hidden;
+            }
+            .face::before {
+                /* margin line */
+                content: "";
+                position: absolute;
+                left: 54px;
+                top: 0;
+                bottom: 0;
+                width: 1px;
+                background: #e0b9a8;
+                opacity: 0.6;
+            }
+            .back {
+                transform: rotateY(180deg);
+            }
+            .tag {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10.5px;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: #a8744a;
+                margin-bottom: auto;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .tag .num {
+                color: #b9a489;
+            }
+            .qlabel,
+            .alabel {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                margin: 14px 0 8px;
+            }
+            .qlabel {
+                color: var(--accent);
+            }
+            .alabel {
+                color: #3f8a7e;
+            }
+            .qtext {
+                font-family: "Fraunces", serif;
+                font-weight: 600;
+                font-size: clamp(20px, 3.4vw, 27px);
+                line-height: 1.28;
+                letter-spacing: -0.005em;
+            }
+            .atext {
+                font-size: clamp(15px, 2.3vw, 17px);
+                line-height: 1.6;
+            }
+            .atext strong {
+                font-weight: 600;
+                color: #7a3f12;
+                background: #f6dcb6;
+                padding: 0 3px;
+                border-radius: 3px;
+            }
+            .atext .lead {
+                display: block;
+                margin-bottom: 2px;
+            }
+            .hint {
+                position: absolute;
+                left: 36px;
+                bottom: 20px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10.5px;
+                letter-spacing: 0.14em;
+                color: #b7a98f;
+                text-transform: uppercase;
+            }
+            .star {
+                position: absolute;
+                right: 30px;
+                bottom: 16px;
+                font-size: 22px;
+                line-height: 1;
+                cursor: pointer;
+                color: #cdbfa6;
+                transition: 0.15s;
+                user-select: none;
+            }
+            .star:hover {
+                transform: scale(1.18);
+            }
+            .star.on {
+                color: var(--accent);
+            }
+
+            /* CONTROLS */
+            .controls {
+                width: 100%;
+                max-width: 760px;
+                display: flex;
+                gap: 10px;
+                margin-top: 22px;
+                align-items: stretch;
+            }
+            button.nav {
+                flex: 1;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 13px;
+                letter-spacing: 0.06em;
+                border: 1px solid #2c3440;
+                background: var(--ink2);
+                color: var(--paper);
+                padding: 14px;
+                border-radius: 11px;
+                cursor: pointer;
+                transition: 0.16s;
+            }
+            button.nav:hover {
+                border-color: var(--accent2);
+                color: #fff;
+                transform: translateY(-1px);
+            }
+            button.flip {
+                flex: 1.6;
+                background: var(--accent);
+                color: #241405;
+                border-color: var(--accent);
+                font-weight: 700;
+            }
+            button.flip:hover {
+                filter: brightness(1.06);
+                border-color: var(--accent);
+            }
+            button.nav:active {
+                transform: translateY(0);
+            }
+            .util {
+                width: 100%;
+                max-width: 760px;
+                display: flex;
+                gap: 10px;
+                margin-top: 10px;
+            }
+            button.small {
+                flex: 1;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11.5px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                border: 1px dashed #333c48;
+                background: transparent;
+                color: var(--muted);
+                padding: 11px;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: 0.16s;
+            }
+            button.small:hover {
+                color: var(--paper);
+                border-color: var(--accent2);
+            }
+            .foot {
+                margin-top: 26px;
+                color: #586374;
+                font-size: 12px;
+                font-style: italic;
+                text-align: center;
+                max-width: 760px;
+            }
+            .empty {
+                display: none;
+                text-align: center;
+                color: var(--muted);
+                font-style: italic;
+                padding: 40px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="eyebrow">IT-Security · Master</div>
+            <h1>Privacy in <em>Internet</em></h1>
+            <div class="sub">
+                35 cards · click the card or press Space to flip
+            </div>
+        </header>
+
+        <div class="topwrap">
+            <div class="progress">
+                CARD <b id="pos">1</b> / <b id="total">35</b>
+            </div>
+            <div class="modes">
+                <button class="chip on" id="mAll">All 35</button>
+                <button class="chip" id="mStar">★ Review</button>
+            </div>
+        </div>
+        <div class="bar"><i id="barFill"></i></div>
+
+        <div class="scene" id="scene">
+            <div class="card" id="card">
+                <div class="face front">
+                    <div class="tag">
+                        <span id="tagF">TOPIC</span
+                        ><span class="num" id="numF">#01</span>
+                    </div>
+                    <div class="qlabel">Question</div>
+                    <div class="qtext" id="qtext">…</div>
+                    <div class="hint">click / space to reveal</div>
+                </div>
+                <div class="face back">
+                    <div class="tag">
+                        <span id="tagB">TOPIC</span
+                        ><span class="num" id="numB">#01</span>
+                    </div>
+                    <div class="alabel">Answer</div>
+                    <div class="atext" id="atext">…</div>
+                    <div class="hint">click / space to hide</div>
+                    <div class="star" id="star" title="mark for review">☆</div>
+                </div>
+            </div>
+        </div>
+        <div class="empty" id="empty">
+            No starred cards yet — tap ★ on a card's answer to add it here.
+        </div>
+
+        <div class="controls">
+            <button class="nav" id="prev">← Prev</button>
+            <button class="nav flip" id="flip">Flip ⟳</button>
+            <button class="nav" id="next">Next →</button>
+        </div>
+        <div class="util">
+            <button class="small" id="shuffle">⤮ Shuffle</button>
+            <button class="small" id="reset">↺ Reset order</button>
+        </div>
+
+        <div class="foot">
+            Keys: ← / → navigate · Space flip · S shuffle · F star. Answers are
+            condensed for recall — see the full study guide for detail &amp;
+            references.
+        </div>
+
+        <script>
+            const CARDS = [
+                {
+                    n: 1,
+                    t: "Foundations",
+                    q: "Where do IT-security and privacy goals conflict?",
+                    a: "<span class='lead'>Security wants more data/identity; privacy wants less.</span><strong>Logging/accountability</strong> ↔ minimisation · <strong>authentication/ID</strong> ↔ anonymity · monitoring/DPI ↔ confidentiality · backups/availability ↔ right to erasure · central identity ↔ unlinkability.<br>Frame: CIA triad vs Unlinkability/Transparency/Intervenability.",
+                },
+                {
+                    n: 2,
+                    t: "Foundations",
+                    q: "The 8 OECD Privacy Principles?",
+                    a: "Collection Limitation · Data Quality · Purpose Specification · Use Limitation · Security Safeguards · Openness · Individual Participation · <strong>Accountability</strong>. (OECD 1980/2013)",
+                },
+                {
+                    n: 3,
+                    t: "GDPR",
+                    q: "Defined roles in the GDPR?",
+                    a: "Data Subject · <strong>Controller</strong> (4(7)) · <strong>Processor</strong> (4(8)) · Joint Controllers (26) · Recipient (4(9)) · Third Party (4(10)) · DPO (37–39) · Supervisory Authority (51) · Representative (27) · EDPB (68).",
+                },
+                {
+                    n: 4,
+                    t: "GDPR · PbD",
+                    q: '"Privacy by Design" strategies (lecture / Chow)?',
+                    a: "<span class='lead'>Build privacy in at the <strong>design stage</strong> — not only via law or bolt-on PETs (GDPR Art 25). Two strategies:</span><strong>1 · Data minimization</strong> — \"you cannot lose what you don't have\" (Art 5(1)(c)). Ask: what data? how long? how many copies? what purpose?<br><strong>2 · Pseudonymisation</strong> — no attribution without separately-kept extra info (Art 4(5); reversible ≠ anonymisation). Via encryption · hashing · masking · aggregation · indirect references. Controller measure → lower breach harm & fine (Arts 25, 32, 34).",
+                },
+                {
+                    n: 5,
+                    t: "GDPR",
+                    q: "The 4 sections a DPIA must contain (Art 35(7))?",
+                    a: "(a) <strong>description</strong> of processing + purposes · (b) <strong>necessity & proportionality</strong> · (c) <strong>risks</strong> to rights & freedoms · (d) <strong>measures</strong> to address the risks.",
+                },
+                {
+                    n: 6,
+                    t: "U-Prove",
+                    q: "U-Prove: actors and their interactions?",
+                    a: "Actors: <strong>Issuer · Prover · Verifier</strong>.<br><strong>Issuance</strong> (Issuer↔Prover): blinded — issuer can't relink the token later.<br><strong>Presentation</strong> (Prover↔Verifier): discloses chosen attributes; tokens mutually unlinkable.",
+                },
+                {
+                    n: 7,
+                    t: "U-Prove",
+                    q: "U-Prove selective disclosure mechanism?",
+                    a: "Token carries issuer signature over all attributes (A₁…Aₙ). Per attribute the prover chooses <strong>disclose or hide</strong>. Hidden attrs stay committed, yet the signature still verifies over the full set; prover can also prove <strong>predicates</strong> on hidden attrs.",
+                },
+                {
+                    n: 8,
+                    t: "SSI",
+                    q: "Describe the SSI architecture.",
+                    a: "<strong>Trust triangle:</strong> Issuer →VC→ Holder →VP→ Verifier.<br>+ <strong>Verifiable Data Registry</strong> (ledger): DIDs, public keys, schemas, revocation — <em>not</em> personal data. Holder is central and controls disclosure.",
+                },
+                {
+                    n: 9,
+                    t: "SSI · DID",
+                    q: "What is a DID designed and used for?",
+                    a: "A globally unique identifier needing <strong>no central authority</strong>. Form <em>did:method:id</em>. Gives decentralisation, self-control, persistence, cryptographic verifiability; resolves to a DID document.",
+                },
+                {
+                    n: 10,
+                    t: "PKI",
+                    q: "How to replace the CA in a decentralized PKI?",
+                    a: "<strong>Distributed ledger</strong> as public-key registry (consensus replaces the CA) · <strong>Web of Trust</strong> (peer cross-signing) · <strong>self-certifying IDs</strong> (id derived from the key) · key-transparency logs.",
+                },
+                {
+                    n: 11,
+                    t: "SSI · VC",
+                    q: "Structure of a Verifiable Credential?",
+                    a: "(1) <strong>Metadata</strong> — @context, id, type, issuer, dates, status/schema.<br>(2) <strong>Claims</strong> — credentialSubject.<br>(3) <strong>Proof</strong> — signature.<br>A VP wraps VCs + the holder's proof.",
+                },
+                {
+                    n: 12,
+                    t: "SSI",
+                    q: "Privacy enhancements in SSI interactions?",
+                    a: 'Selective disclosure · <strong>ZK / predicate proofs</strong> (prove age≥18) · pairwise/peer DIDs (no correlation) · no issuer "phone home" · local wallet storage · <strong>unlinkable presentations</strong> (BBS+/CL signatures).',
+                },
+                {
+                    n: 13,
+                    t: "SSI · DID",
+                    q: "What does a DID document contain?",
+                    a: "id · @context · controller · <strong>verificationMethod (public keys)</strong> · verification relationships (authentication, assertionMethod, keyAgreement, capabilityInvocation/Delegation) · <strong>service endpoints</strong>. No personal data.",
+                },
+                {
+                    n: 14,
+                    t: "SSI",
+                    q: "Challenges for the spread of SSI?",
+                    a: "Interoperability/standards · key management & recovery · usability · network effects (chicken-egg) · governance/trust frameworks · <strong>GDPR erasure ↔ immutable ledger</strong> · revocation · scalability/cost · incentives.",
+                },
+                {
+                    n: 15,
+                    t: "eIDAS",
+                    q: "Advantages of eIDAS compared to SSI?",
+                    a: "<strong>Legal certainty/effect</strong> (QES = handwritten signature) · high assurance (state-rooted identity) · mandatory mutual recognition · established trust framework (QTSPs, Trusted Lists) + liability · mandated standardisation.",
+                },
+                {
+                    n: 16,
+                    t: "eIDAS",
+                    q: '"Verified & secure identification is essential" — implications for EU people?',
+                    a: "Every Member State must <strong>offer an EUDI Wallet by end 2026</strong> (use is voluntary). Strong, state-rooted verified identity → less fraud, cross-border use, selective disclosure. Safeguards mandated: <strong>unobservability, pseudonyms, privacy by design/default</strong>.",
+                },
+                {
+                    n: 17,
+                    t: "eIDAS",
+                    q: "Advanced SSI features also in eIDAS 2.0?",
+                    a: "Holder wallet + VCs (EAA/QEAA) · <strong>selective disclosure</strong> (basic feature) · ZK proofs (envisioned; ARF uses SD-JWT/mdoc commitments) · combine multiple attestations · pseudonyms · unobservability · OpenID4VCI/VP.",
+                },
+                {
+                    n: 18,
+                    t: "Diff. Privacy",
+                    q: "The database privacy problem — and what a good solution achieves?",
+                    a: "<span class='lead'>Release useful statistics without revealing any individual (differencing/linkage attacks).</span><strong>Good solution:</strong> utility + privacy + robust to auxiliary knowledge + composition + a <strong>provable</strong> guarantee → Differential Privacy.",
+                },
+                {
+                    n: 19,
+                    t: "Diff. Privacy",
+                    q: "Local vs Global differential privacy?",
+                    a: "<strong>Global:</strong> trusted curator noises the outputs → less noise, better utility, must trust curator.<br><strong>Local:</strong> each user noises own data before sending → no trusted curator, more noise (Apple, RAPPOR).",
+                },
+                {
+                    n: 20,
+                    t: "Diff. Privacy",
+                    q: "What does Differential Privacy guarantee?",
+                    a: "Presence/absence of one record barely changes the output distribution.<br><strong>Pr[M(D)∈S] ≤ e^ε · Pr[M(D′)∈S] (+δ)</strong>.<br>Plausible deniability regardless of side knowledge. Aggregate facts are still learnable.",
+                },
+                {
+                    n: 21,
+                    t: "Diff. Privacy",
+                    q: "How to calculate the sensitivity of a query?",
+                    a: "<strong>Δf = max over neighbouring D,D′ of ‖f(D)−f(D′)‖₁.</strong><br>Max influence of one record. Count → 1 · Sum on [0,m] → m · Mean → m/n.",
+                },
+                {
+                    n: 22,
+                    t: "Diff. Privacy",
+                    q: "What is ε, and how does it relate to Laplacian noise?",
+                    a: "ε = <strong>privacy budget</strong>; smaller ε → more privacy, more noise.<br>Laplace: <strong>M = f(D) + Lap(Δf/ε)</strong>, scale b = Δf/ε, variance = 2(Δf/ε)². Noise ∝ Δf and ∝ 1/ε.",
+                },
+                {
+                    n: 23,
+                    t: "Web Tracking",
+                    q: "Tracking methods using storage at the user?",
+                    a: "HTTP cookies (1st/3rd-party) · Flash LSOs · HTML5 localStorage/IndexedDB · ETag/cache & favicon cache · HSTS supercookies · <strong>evercookies / zombie cookies</strong> (respawn from many stores).",
+                },
+                {
+                    n: 24,
+                    t: "Web Tracking",
+                    q: "How does cookie-less tracking work?",
+                    a: "<strong>Fingerprinting</strong> · IP · cache/ETag · server-side + first-party data sharing · login / hashed-email IDs · probabilistic matching · Privacy Sandbox Topics (on-device interests).",
+                },
+                {
+                    n: 25,
+                    t: "Web Tracking",
+                    q: "Browser fingerprinting — use & how to avoid it?",
+                    a: 'Combine UA, fonts, screen, <strong>canvas/WebGL/audio</strong>, timezone → near-unique <em>stateless</em> ID (survives cookie deletion).<br>Avoid: <strong>Tor Browser</strong> (uniform), resistFingerprinting/Brave (randomise), reduce JS/surface, stay "normal".',
+                },
+                {
+                    n: 26,
+                    t: "Web Privacy",
+                    q: "How do search engines threaten privacy?",
+                    a: "Query logs reveal interests/health/intentions · profiling & ad targeting · cross-service linkage · <strong>log de-anonymisation</strong> (AOL 2006) · filter bubbles · government/legal access.",
+                },
+                {
+                    n: 27,
+                    t: "Profiling",
+                    q: "How does predictive analytics work? 3 scenarios?",
+                    a: "Train a model on historical data → predict probability of a future outcome (data → features → train → predict → act).<br><strong>Scenarios:</strong> credit/fraud · healthcare risk · churn / predictive maintenance.",
+                },
+                {
+                    n: 28,
+                    t: "Profiling",
+                    q: "Tracking data → health, fitness, car-insurance fees?",
+                    a: "Wearables (steps/HR/sleep) → health/fitness; search & purchases → conditions (<strong>Target pregnancy</strong>). <strong>Telematics</strong> (speed, braking, mileage, time-of-day) → usage-based insurance premium. Risk: discriminatory pricing.",
+                },
+                {
+                    n: 29,
+                    t: "Social Bots",
+                    q: "Social bots — how they work, impacts, targets?",
+                    a: "Automated accounts mimic humans in coordinated <strong>botnets</strong>; amplify content (astroturfing).<br><strong>Users:</strong> disinformation, manipulation.<br><strong>Companies:</strong> fake reviews, stock manipulation.<br><strong>Govt:</strong> election interference, polarisation.",
+                },
+                {
+                    n: 30,
+                    t: "Anonymity Nets",
+                    q: "Main differences between Tor and a Mix?",
+                    a: "<strong>Tor:</strong> low-latency onion routing, 3-relay circuit, real-time, no batching/cover → weak vs global timing correlation.<br><strong>Mix:</strong> high-latency, <strong>batch + reorder + delay + dummy traffic</strong> → strong vs traffic analysis, unfit for browsing.",
+                },
+                {
+                    n: 31,
+                    t: "Location",
+                    q: "Threats from collecting user location?",
+                    a: "Re-identification (<strong>4 points ID 95%</strong>, de Montjoye) · sensitive inferences (religion/health/politics) · stalking & burglary · profiling · surveillance · de-anon by linkage.",
+                },
+                {
+                    n: 32,
+                    t: "AI Act",
+                    q: "Forbidden AI applications (AI Act Art 5)?",
+                    a: "① manipulative/subliminal · ② exploiting vulnerabilities · ③ social scoring · ④ predictive policing by profiling alone · ⑤ untargeted facial scraping · ⑥ emotion recognition (work/edu) · ⑦ biometric categorisation of sensitive traits · ⑧ <strong>real-time RBI in public for law enforcement</strong> (narrow exceptions).",
+                },
+                {
+                    n: 33,
+                    t: "AI Act",
+                    q: "Main high-risk areas (AI Act Annex III)?",
+                    a: "① biometrics · ② critical infrastructure · ③ education/training · ④ employment / worker mgmt · ⑤ essential services (<strong>credit scoring</strong>, benefits, insurance) · ⑥ law enforcement · ⑦ migration/asylum/border · ⑧ justice & democratic processes.",
+                },
+                {
+                    n: 34,
+                    t: "ML Privacy",
+                    q: "Why is privacy important in machine learning?",
+                    a: "Models leak training data: <strong>membership inference</strong> · model inversion · memorisation/extraction (LLMs) · gradient leakage. + GDPR compliance, fairness.<br>Defences: DP-SGD, federated learning, secure aggregation.",
+                },
+                {
+                    n: 35,
+                    t: "ML Privacy",
+                    q: "Federated learning — architecture & privacy benefit?",
+                    a: "Server → global model → clients <strong>train locally</strong> → send <strong>only updates</strong> → server aggregates (<strong>FedAvg</strong>) → repeat.<br>Raw data never leaves the device (minimisation, no honeypot). Caveat: updates can leak → add secure aggregation + DP.",
+                },
+            ];
+
+            let order = CARDS.map((_, i) => i);
+            let starred = new Set();
+            let mode = "all"; // "all" | "star"
+            let idx = 0; // index into the active deck
+
+            const $ = (id) => document.getElementById(id);
+            const card = $("card"),
+                scene = $("scene");
+
+            function deck() {
+                return mode === "star"
+                    ? order.filter((i) => starred.has(CARDS[i].n))
+                    : order;
+            }
+
+            function render() {
+                const d = deck();
+                $("total").textContent = d.length;
+                if (d.length === 0) {
+                    scene.style.display = "none";
+                    $("empty").style.display = "block";
+                    $("pos").textContent = 0;
+                    $("barFill").style.width = "0%";
+                    return;
+                }
+                scene.style.display = "";
+                $("empty").style.display = "none";
+                if (idx >= d.length) idx = 0;
+                if (idx < 0) idx = d.length - 1;
+                const c = CARDS[d[idx]];
+                card.classList.remove("flipped");
+                // small delay so flip-back isn't animated weirdly when switching cards
+                $("tagF").textContent = c.t;
+                $("tagB").textContent = c.t;
+                const num = "#" + String(c.n).padStart(2, "0");
+                $("numF").textContent = num;
+                $("numB").textContent = num;
+                $("qtext").innerHTML = c.q;
+                $("atext").innerHTML = c.a;
+                $("star").classList.toggle("on", starred.has(c.n));
+                $("star").textContent = starred.has(c.n) ? "★" : "☆";
+                $("pos").textContent = idx + 1;
+                $("barFill").style.width = ((idx + 1) / d.length) * 100 + "%";
+            }
+
+            function flip() {
+                if (deck().length) card.classList.toggle("flipped");
+            }
+            function next() {
+                const d = deck();
+                if (!d.length) return;
+                idx = (idx + 1) % d.length;
+                render();
+            }
+            function prev() {
+                const d = deck();
+                if (!d.length) return;
+                idx = (idx - 1 + d.length) % d.length;
+                render();
+            }
+            function shuffle() {
+                for (let i = order.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [order[i], order[j]] = [order[j], order[i]];
+                }
+                idx = 0;
+                render();
+            }
+            function resetOrder() {
+                order = CARDS.map((_, i) => i);
+                idx = 0;
+                render();
+            }
+            function toggleStar(e) {
+                e.stopPropagation();
+                const c = CARDS[deck()[idx]];
+                if (starred.has(c.n)) starred.delete(c.n);
+                else starred.add(c.n);
+                render();
+            }
+            function setMode(m) {
+                mode = m;
+                idx = 0;
+                $("mAll").classList.toggle("on", m === "all");
+                $("mStar").classList.toggle("on", m === "star");
+                render();
+            }
+
+            scene.addEventListener("click", flip);
+            $("flip").addEventListener("click", (e) => {
+                e.stopPropagation();
+                flip();
+            });
+            $("next").addEventListener("click", next);
+            $("prev").addEventListener("click", prev);
+            $("shuffle").addEventListener("click", shuffle);
+            $("reset").addEventListener("click", resetOrder);
+            $("star").addEventListener("click", toggleStar);
+            $("mAll").addEventListener("click", () => setMode("all"));
+            $("mStar").addEventListener("click", () => setMode("star"));
+
+            document.addEventListener("keydown", (e) => {
+                if (e.code === "Space") {
+                    e.preventDefault();
+                    flip();
+                } else if (e.code === "ArrowRight") next();
+                else if (e.code === "ArrowLeft") prev();
+                else if (e.key === "s" || e.key === "S") shuffle();
+                else if (e.key === "f" || e.key === "F") {
+                    const c = CARDS[deck()[idx]];
+                    if (c) {
+                        if (starred.has(c.n)) starred.delete(c.n);
+                        else starred.add(c.n);
+                    }
+                    render();
+                }
+            });
+
+            render();
+        </script>
+    </body>
+</html>

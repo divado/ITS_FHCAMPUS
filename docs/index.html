@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>IT-Security · M.Sc. — Resources</title>
+        <meta
+            name="description"
+            content="Coursework, notes and study resources for an IT-Security master's degree."
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --ink: #0e1116;
+                --ink2: #161b22;
+                --paper: #f4ece0;
+                --accent: #d98c3f;
+                --accent2: #5fb6a8;
+                --muted: #8a93a0;
+                --line: #222b36;
+                --line2: #2c3644;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                font-family: "Newsreader", Georgia, serif;
+                color: var(--paper);
+                background:
+                    radial-gradient(
+                        1100px 560px at 82% -8%,
+                        #1c2632 0%,
+                        transparent 58%
+                    ),
+                    radial-gradient(
+                        820px 460px at -5% 108%,
+                        #1a2420 0%,
+                        transparent 55%
+                    ),
+                    var(--ink);
+                min-height: 100vh;
+                line-height: 1.55;
+                -webkit-font-smoothing: antialiased;
+                padding: 0 22px;
+            }
+            /* faint grid + grain for depth */
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0.5;
+                background-image:
+                    linear-gradient(
+                        transparent 0,
+                        transparent 39px,
+                        rgba(95, 182, 168, 0.035) 40px
+                    ),
+                    linear-gradient(
+                        90deg,
+                        transparent 0,
+                        transparent 39px,
+                        rgba(95, 182, 168, 0.035) 40px
+                    );
+                background-size: 40px 40px;
+                -webkit-mask-image: radial-gradient(
+                    1200px 800px at 50% 20%,
+                    #000 0%,
+                    transparent 80%
+                );
+                mask-image: radial-gradient(
+                    1200px 800px at 50% 20%,
+                    #000 0%,
+                    transparent 80%
+                );
+            }
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0.04;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            }
+            .wrap {
+                position: relative;
+                z-index: 1;
+                max-width: 920px;
+                margin: 0 auto;
+                padding: 72px 0 60px;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            /* ---------- HERO ---------- */
+            .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 9px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11.5px;
+                letter-spacing: 0.28em;
+                text-transform: uppercase;
+                color: var(--accent2);
+                opacity: 0;
+                animation: rise 0.7s ease forwards;
+            }
+            .eyebrow svg {
+                width: 14px;
+                height: 14px;
+                stroke: var(--accent2);
+                fill: none;
+                stroke-width: 1.6;
+            }
+            h1 {
+                font-family: "Fraunces", serif;
+                font-weight: 900;
+                letter-spacing: -0.015em;
+                font-size: clamp(40px, 8.5vw, 76px);
+                line-height: 0.98;
+                margin: 14px 0 0;
+                opacity: 0;
+                animation: rise 0.7s ease 0.08s forwards;
+            }
+            h1 em {
+                font-style: italic;
+                color: var(--accent);
+            }
+            .lede {
+                max-width: 560px;
+                color: #c4ccd6;
+                font-size: clamp(16px, 2.4vw, 19px);
+                margin: 18px 0 0;
+                opacity: 0;
+                animation: rise 0.7s ease 0.16s forwards;
+            }
+            .meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 18px;
+                align-items: center;
+                margin-top: 26px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                color: var(--muted);
+                letter-spacing: 0.04em;
+                opacity: 0;
+                animation: rise 0.7s ease 0.24s forwards;
+            }
+            .meta a {
+                color: var(--paper);
+                text-decoration: none;
+                border-bottom: 1px solid var(--line2);
+                padding-bottom: 2px;
+                transition: 0.18s;
+            }
+            .meta a:hover {
+                color: var(--accent2);
+                border-color: var(--accent2);
+            }
+            .rule {
+                height: 1px;
+                background: linear-gradient(
+                    90deg,
+                    var(--accent),
+                    transparent 70%
+                );
+                margin: 34px 0 38px;
+                opacity: 0;
+                animation: rise 0.7s ease 0.3s forwards;
+            }
+
+            /* ---------- SECTION LABEL ---------- */
+            .seclabel {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.26em;
+                text-transform: uppercase;
+                color: var(--muted);
+                margin-bottom: 18px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                opacity: 0;
+                animation: rise 0.7s ease 0.34s forwards;
+            }
+            .seclabel::after {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: var(--line);
+            }
+
+            /* ---------- FEATURED CARD ---------- */
+            a.card {
+                display: block;
+                text-decoration: none;
+                color: inherit;
+                border-radius: 16px;
+                transition:
+                    transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1),
+                    border-color 0.22s,
+                    box-shadow 0.22s;
+                opacity: 0;
+                animation: rise 0.7s ease forwards;
+            }
+            a.card:focus-visible {
+                outline: 2px solid var(--accent2);
+                outline-offset: 4px;
+            }
+
+            a.card.featured {
+                position: relative;
+                overflow: hidden;
+                background: linear-gradient(135deg, #19212b 0%, #141a22 60%);
+                border: 1px solid var(--line2);
+                border-left: 4px solid var(--accent);
+                padding: 34px 36px;
+                display: flex;
+                align-items: center;
+                gap: 30px;
+                animation-delay: 0.4s;
+            }
+            .featured:hover {
+                transform: translateY(-4px);
+                border-color: var(--accent);
+                box-shadow: 0 26px 60px -28px rgba(217, 140, 63, 0.55);
+            }
+            .featured .body {
+                flex: 1;
+                min-width: 0;
+            }
+            .tag {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10.5px;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent);
+            }
+            .featured h2 {
+                font-family: "Fraunces", serif;
+                font-weight: 600;
+                font-size: clamp(24px, 4vw, 33px);
+                line-height: 1.08;
+                margin: 9px 0 8px;
+                letter-spacing: -0.01em;
+            }
+            .featured p {
+                color: #aeb7c2;
+                font-size: 15.5px;
+                max-width: 460px;
+            }
+            .cta {
+                display: inline-flex;
+                align-items: center;
+                gap: 9px;
+                margin-top: 18px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 13px;
+                font-weight: 700;
+                color: var(--ink);
+                background: var(--accent);
+                padding: 11px 17px;
+                border-radius: 9px;
+                letter-spacing: 0.03em;
+                transition: 0.18s;
+            }
+            .cta .arr {
+                transition: transform 0.2s;
+            }
+            .featured:hover .cta {
+                filter: brightness(1.07);
+            }
+            .featured:hover .cta .arr {
+                transform: translateX(4px);
+            }
+
+            /* stacked-cards motif */
+            .motif {
+                position: relative;
+                width: 128px;
+                height: 150px;
+                flex: none;
+            }
+            @media (max-width: 640px) {
+                .motif {
+                    display: none;
+                }
+            }
+            .motif span {
+                position: absolute;
+                inset: 0;
+                border-radius: 12px;
+                border: 1.5px solid var(--line2);
+                background: linear-gradient(160deg, #1e2731, #171e27);
+            }
+            .motif span:nth-child(1) {
+                transform: rotate(-9deg) translate(-10px, 6px);
+                opacity: 0.45;
+            }
+            .motif span:nth-child(2) {
+                transform: rotate(5deg) translate(8px, -2px);
+                opacity: 0.7;
+                border-color: #33414f;
+            }
+            .motif span:nth-child(3) {
+                border-color: var(--accent2);
+                background: linear-gradient(160deg, #1c2630, #141b23);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .motif .qm {
+                font-family: "Fraunces", serif;
+                font-weight: 900;
+                font-size: 46px;
+                color: var(--accent2);
+            }
+
+            /* ---------- SECONDARY GRID ---------- */
+            .grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+                margin-top: 16px;
+            }
+            @media (max-width: 640px) {
+                .grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .mini {
+                background: var(--ink2);
+                border: 1px solid var(--line);
+                padding: 24px 24px 22px;
+            }
+            .mini:nth-child(1) {
+                animation-delay: 0.48s;
+            }
+            .mini:nth-child(2) {
+                animation-delay: 0.54s;
+            }
+            .mini:hover {
+                transform: translateY(-4px);
+                border-color: var(--accent2);
+                box-shadow: 0 22px 48px -30px rgba(0, 0, 0, 0.8);
+            }
+            .mini h3 {
+                font-family: "Fraunces", serif;
+                font-weight: 600;
+                font-size: 21px;
+                margin: 10px 0 7px;
+            }
+            .mini p {
+                color: #9aa3ad;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            .mini .open {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                margin-top: 14px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                color: var(--accent2);
+                letter-spacing: 0.04em;
+                transition: 0.18s;
+            }
+            .mini:hover .open {
+                gap: 11px;
+            }
+
+            /* ---------- FOOTER ---------- */
+            footer {
+                margin-top: auto;
+                padding-top: 46px;
+                color: #586374;
+                font-size: 12.5px;
+                font-family: "JetBrains Mono", monospace;
+                letter-spacing: 0.04em;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 10px;
+                border-top: 1px solid var(--line);
+                margin-top: 54px;
+            }
+            footer a {
+                color: #7b8694;
+                text-decoration: none;
+                transition: 0.18s;
+            }
+            footer a:hover {
+                color: var(--accent2);
+            }
+
+            @keyframes rise {
+                from {
+                    opacity: 0;
+                    transform: translateY(16px);
+                }
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                * {
+                    animation: none !important;
+                }
+                .eyebrow,
+                h1,
+                .lede,
+                .meta,
+                .rule,
+                .seclabel,
+                a.card {
+                    opacity: 1 !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <!-- ===== HERO ===== -->
+            <header>
+                <span class="eyebrow">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="5" y="11" width="14" height="9" rx="2" />
+                        <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+                    </svg>
+                    IT-Security · M.Sc.
+                </span>
+                <h1>
+                    IT-Security &amp;<br /><em
+                        >Masters Program &commat; Hochschule Campus Wien</em
+                    >
+                    Notes
+                </h1>
+                <p class="lede">
+                    Coursework, lecture notes and revision resources from my
+                    IT-Security master's degree — collected and made shareable.
+                </p>
+                <div class="meta">
+                    <!-- EDIT: your name -->
+                    <span
+                        >maintained by
+                        <strong style="color: var(--paper); font-weight: 500"
+                            >Your Name</strong
+                        ></span
+                    >
+                    <!-- EDIT: your repository URL -->
+                    <a href="https://github.com/your-username/your-repo"
+                        >github.com/your-username</a
+                    >
+                </div>
+                <div class="rule"></div>
+            </header>
+
+            <!-- ===== RESOURCES ===== -->
+            <main>
+                <div class="seclabel">Privacy in the Internet</div>
+
+                <!-- Featured, working link -->
+                <a class="card featured" href="Privacy_Flashcards.html">
+                    <div class="body">
+                        <span class="tag">Interactive · 35 cards</span>
+                        <h2>Privacy Flashcards</h2>
+                        <p>
+                            Self-test deck covering the full exam: GDPR, SSI
+                            &amp; DIDs, differential privacy, tracking, the EU
+                            AI Act and more. Flip, shuffle and build a review
+                            pile.
+                        </p>
+                        <span class="cta"
+                            >Open flashcards <span class="arr">→</span></span
+                        >
+                    </div>
+                    <div class="motif" aria-hidden="true">
+                        <span></span><span></span
+                        ><span><span class="qm">?</span></span>
+                    </div>
+                </a>
+
+                <!-- Secondary resources (PDFs — drop the files in the repo to activate) -->
+                <div class="grid">
+                    <a
+                        class="card mini"
+                        href="Privacy_in_Internet_Study_Guide.pdf"
+                    >
+                        <span class="tag" style="color: var(--accent2)"
+                            >PDF · 16 pp</span
+                        >
+                        <h3>Study Guide</h3>
+                        <p>
+                            Full written answers to all 35 exam questions, each
+                            with a “where to read more” pointer.
+                        </p>
+                        <span class="open">View PDF →</span>
+                    </a>
+                    <a class="card mini" href="Privacy_Cheat_Sheet.pdf">
+                        <span class="tag" style="color: var(--accent2)"
+                            >PDF · 2 pp</span
+                        >
+                        <h3>Cheat Sheet</h3>
+                        <p>
+                            Everything condensed to the key facts and formulas —
+                            printable, three-column quick reference.
+                        </p>
+                        <span class="open">View PDF →</span>
+                    </a>
+                </div>
+            </main>
+
+            <!-- ===== FOOTER ===== -->
+            <footer>
+                <span>// built for revision &amp; sharing</span>
+                <span>&copy; <span id="yr"></span></span>
+            </footer>
+        </div>
+        <script>
+            document.getElementById("yr").textContent =
+                new Date().getFullYear();
+        </script>
+    </body>
+</html>

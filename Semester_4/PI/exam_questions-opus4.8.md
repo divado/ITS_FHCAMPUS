@@ -67,23 +67,26 @@ From the **OECD Guidelines on the Protection of Privacy and Transborder Flows of
 
 ## 4. "Privacy by Design" strategies
 
-The standard reference is **Hoepman's 8 Privacy Design Strategies**, split into two groups:
+**Core idea (context):** privacy can be improved not only by **legal means** or by **data-protection technologies (PETs)** bolted on afterwards, but by **building the privacy goal into the system already at the design stage**. PbD is proactive and embedded, not retrofitted — and it is a legal obligation under GDPR **Art. 25 (data protection by design and by default)**.
 
-**Data-oriented strategies**
-- **MINIMISE** — limit the amount of personal data processed.
-- **HIDE** — protect data from view / make it unlinkable (encryption, pseudonyms, mixing).
-- **SEPARATE** — process and store in separate compartments (distributed processing).
-- **ABSTRACT** (originally *Aggregate*) — limit detail; process at the highest level of aggregation.
+The lecture presents **two concrete strategies** to achieve it:
 
-**Process-oriented strategies**
-- **INFORM** — transparency toward data subjects.
-- **CONTROL** — give subjects agency over their data (consent, access, deletion).
-- **ENFORCE** — commit to and enforce a privacy policy technically and organisationally.
-- **DEMONSTRATE** — be able to prove compliance (accountability).
+**Strategy 1 — Data minimization.** *"Personal data shall be adequate, relevant and limited to what is necessary in relation to the purposes for which it is processed"* (**GDPR Art. 5(1)(c)**). Memorable form: **"you cannot lose what you do not have"** — not holding data is the strongest protection. This reverses the older **data-maximization** mindset (collect everything), which was encouraged by (a) cheap storage and (b) the big-data-mining promise. Operationalise it with four design questions:
+- **What data do we need?** Collect only the answer required, not the raw datum — e.g. to check if someone is a child, ask that, don't collect a full birth date. *(OECD Collection Limitation.)*
+- **How long is it needed?** Erase data once it no longer serves the purpose. *(Art. 5(1)(e) storage limitation; Art. 17 erasure.)*
+- **How many copies?** Fewer copies = smaller breach surface = less risk.
+- **What purpose?** Use it solely for the purpose it was collected for. *(Art. 5(1)(b) purpose limitation.)*
 
-Background principle set: **Cavoukian's 7 Foundational Principles of Privacy by Design** (proactive not reactive; privacy as the default; embedded into design; full functionality / positive-sum; end-to-end security; visibility & transparency; respect for user privacy). PbD is also a legal requirement: GDPR **Art. 25 (Data protection by design and by default)**.
+**Strategy 2 — Pseudonymisation.** Processing personal data so it **can no longer be attributed to a specific data subject without additional information**, which is kept separately (**GDPR Art. 4(5)**). If pseudonymised data is breached, it does not (by itself) harm the individual, because the attacker gets tokens, not identities. **Key distinction:** pseudonymisation is *reversible* (the link still exists, stored separately) so the data **remains personal data under the GDPR**; **anonymisation** is *irreversible* and takes data out of GDPR scope. Techniques:
+- **Encryption** — unreadable without the key.
+- **Hashing** — one-way replacement of identifiers. *(Caveat: plain hashing of low-entropy values is brute-forceable / rainbow-table-attackable; use salted or keyed hashing.)*
+- **Masking** — replace part of the value (e.g. show only the last 4 digits).
+- **Aggregation** — combine records into group statistics so no individual is distinguishable. *(Strong aggregation shades into anonymisation; same idea behind k-anonymity / differential privacy.)*
+- **Indirect references / tokenisation** — store a pointer; keep the real data in a separate, better-protected store.
 
-*Where to read more:* J.-H. Hoepman, "Privacy Design Strategies" (IFIP SEC 2014); A. Cavoukian, "Privacy by Design: The 7 Foundational Principles"; GDPR Art. 25.
+These are measures the **controller** takes, and the GDPR rewards them: named in **Art. 25** (PbD) and **Art. 32** (security of processing), and under **Art. 34** breach notification to individuals may be waived if data was rendered unintelligible (e.g. encrypted) — so the harm *and* the fine are lower.
+
+*Where to read more:* R. Chow, "Privacy by Design" (2014, the lecture's optional reading); GDPR Arts. 4(5), 5(1)(b)(c)(e), 17, 25, 32, 34. (Broader academic taxonomy for reference: Hoepman's 8 strategies — Minimise/Hide/Separate/Aggregate/Inform/Control/Enforce/Demonstrate — where these two map onto Minimise, Hide and Aggregate.)
 
 ---
 

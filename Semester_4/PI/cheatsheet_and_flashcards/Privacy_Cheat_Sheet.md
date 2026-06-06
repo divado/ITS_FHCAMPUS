@@ -12,7 +12,7 @@
 
 **3 · GDPR roles** — Data Subject · Controller (4(7)) · Processor (4(8)) · Joint Controllers (26) · Recipient (4(9)) · Third Party (4(10)) · DPO (37–39) · Supervisory Authority (51) · Representative (27) · EDPB (68).
 
-**4 · Privacy by Design (Hoepman 8)** — *Data:* MINIMISE · HIDE · SEPARATE · ABSTRACT. *Process:* INFORM · CONTROL · ENFORCE · DEMONSTRATE. (+ Cavoukian 7; GDPR Art 25.)
+**4 · Privacy by Design (lecture/Chow)** — *Idea:* build privacy in at design stage, not only via law/PETs (GDPR Art 25). **Two strategies:** **(1) Data minimization** ("you cannot lose what you don't have", Art 5(1)(c)) — ask: *what data? how long? how many copies? what purpose?* · **(2) Pseudonymisation** (Art 4(5): no attribution without separate extra info; reversible ≠ anonymisation) via **encryption · hashing · masking · aggregation · indirect references/tokenisation**. Controller measure → lower breach harm & fine (Arts 25, 32, 34).
 
 **5 · DPIA — 4 parts (Art 35(7))** — (a) description of processing + purposes · (b) necessity & proportionality · (c) risks to rights & freedoms · (d) measures to address risks.
 

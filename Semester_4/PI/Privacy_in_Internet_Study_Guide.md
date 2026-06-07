@@ -2,16 +2,6 @@
 
 *Master in IT-Security. Each answer is written to be exam-usable, with a "Where to read more" pointer at the end of each item. Primary sources (regulations, RFCs, W3C specs, original papers) are preferred over secondary blogs.*
 
-**Things worth double-checking against your lecture slides**, since courses often use their own framing:
-
-- **Q4 (Privacy by Design):** I led with Hoepman's 8 strategies (MINIMISE, HIDE, SEPARATE, ABSTRACT / INFORM, CONTROL, ENFORCE, DEMONSTRATE) and mentioned Cavoukian's 7 principles. If your lecturer used a different taxonomy, map mine onto theirs.
-- **Q17 (SSI features in eIDAS 2.0):** The regulation *envisions* zero-knowledge proofs, but the current EUDI Architecture & Reference Framework leans on commitment-based selective disclosure (SD-JWT, ISO mdoc) rather than full ZKPs. I flagged this nuance because it's a common exam "gotcha."
-- **Q32/Q33 (AI Act):** I verified these against the current text of Regulation (EU) 2024/1689 — both the prohibited practices (Art. 5, 8 categories) and the high-risk areas (Annex III, 8 use-case areas). The prohibitions have been in force since Feb 2025; most high-risk obligations apply from Aug 2026.
-
-The closing tip in the document points out the four recurring themes (data minimisation, unlinkability, provable vs. ad-hoc guarantees, trust model) — if you get an unfamiliar phrasing on the exam, reasoning from those usually gets you to a solid answer.
-
-If it would help, I can also turn this into a condensed one-page cheat sheet, or generate flashcard-style Q&A pairs for active recall.
-
 ---
 
 ## 1. Areas where IT security and privacy have conflicting goals
@@ -189,6 +179,53 @@ A W3C VC has three logical parts:
 
 A **Verifiable Presentation (VP)** wraps one or more VCs and adds the **holder's** proof, so the verifier can check both issuer authenticity and holder binding.
 
+**Example — a `UniversityDegreeCredential`.** The three logical parts are visible: *metadata* (`@context`, `id`, `type`, `issuer`, the validity dates, and `credentialStatus` — the revocation pointer), the *claims* inside `credentialSubject` (the degree and alumni attributes, bound to the holder's DID via its `id`), and the *proof* (an Ed25519 signature the verifier checks against the issuer's key).
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://www.w3.org/2018/credentials/examples/v1"
+  ],
+  "id": "https://university.edu/credentials/1234",
+  "type": ["VerifiableCredential", "UniversityDegreeCredential"],
+
+  "issuer": {
+    "id": "did:web:university.edu",
+    "name": "State University"
+  },
+
+  "issuanceDate": "2024-06-01T00:00:00Z",
+  "expirationDate": "2034-06-01T00:00:00Z",
+
+  "credentialStatus": {
+    "id": "https://university.edu/credentials/status/3#94567",
+    "type": "BitstringStatusListEntry",
+    "statusPurpose": "revocation",
+    "statusListIndex": "94567",
+    "statusListCredential": "https://university.edu/credentials/status/3"
+  },
+
+  "credentialSubject": {
+    "id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "degree": {
+      "type": "BachelorOfScience",
+      "name": "Computer Science"
+    },
+    "alumniOf": "State University",
+    "graduationYear": "2024"
+  },
+
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2024-06-01T12:00:00Z",
+    "verificationMethod": "did:web:university.edu#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z3FXQjecT...base58encodedSignature...=="
+  }
+}
+```
+
 *Where to read more:* W3C "Verifiable Credentials Data Model v2.0."
 
 ---
@@ -308,15 +345,27 @@ This statement means the framework is built on **high-assurance, government-root
 
 ## 20. What Differential Privacy guarantees
 
-Informally: **the inclusion or exclusion of any single individual's record barely changes the output distribution of the analysis** — so an adversary learns essentially nothing specific about any individual, *regardless of their background knowledge*.
+The guarantee rests on the concept of **neighbouring datasets**: two databases D and D′ that differ by exactly one person's record (one person added or removed). DP says that running the same randomised query mechanism on both should produce *nearly identical* output distributions — so an observer who sees the result cannot reliably tell which version was used, and therefore cannot tell whether any specific individual was in the data.
 
-Formally, a randomised mechanism **M** is **ε-differentially private** if for every pair of **neighbouring datasets** D, D′ (differing in one record) and every set of outputs S:
+**Formal definition.** A randomised mechanism **M** is **ε-differentially private** if for every pair of neighbouring datasets D, D′ and every possible output set S:
 
 > Pr[M(D) ∈ S] ≤ e^ε · Pr[M(D′) ∈ S]
 
-For **(ε, δ)-DP** an additive slack δ is allowed: `Pr[M(D)∈S] ≤ e^ε·Pr[M(D′)∈S] + δ`.
+What each symbol means:
 
-It gives **plausible deniability** to each individual. It does **not** promise you learn nothing — *population-level* facts can still be learned; it only bounds what is learnable about *any one* person.
+- **Pr[M(D) ∈ S]** — probability of observing output S when the person *is* in the dataset.
+- **Pr[M(D′) ∈ S]** — probability of observing output S when the person *is not* in the dataset.
+- **e^ε** — the maximum allowed ratio between those two probabilities. The smaller it is, the more similar the distributions must be.
+
+| ε | e^ε | Privacy strength |
+|---|-----|-----------------|
+| 0.1 | ≈ 1.10 | Very strong — outputs nearly identical |
+| 1 | ≈ 2.72 | Moderate — common practical choice |
+| 10 | ≈ 22,026 | Very weak — outputs can differ enormously |
+
+For **(ε, δ)-DP** an additive slack δ is allowed: `Pr[M(D)∈S] ≤ e^ε·Pr[M(D′)∈S] + δ`, used in the Gaussian mechanism.
+
+**What DP does and does not promise.** It gives every individual **plausible deniability** regardless of any side knowledge an adversary has. It does *not* promise that nothing is learned — aggregate population facts can still be accurately estimated. It only bounds what can be inferred about *any single individual*.
 
 *Where to read more:* Dwork & Roth (2014), Definition 2.4.
 
@@ -324,18 +373,27 @@ It gives **plausible deniability** to each individual. It does **not** promise y
 
 ## 21. Calculating the sensitivity of a query
 
-The **(global) ℓ₁-sensitivity** of a function f is the maximum change its output can undergo when **one** record is added/removed:
+Before adding noise you must ask: **how much can one single person change the query answer?** That worst-case maximum change is the *sensitivity*, and it directly determines how much noise is needed to conceal any individual's contribution.
 
-> Δf = max over neighbouring D, D′ of ‖ f(D) − f(D′) ‖₁
+**Formal definition.** The **(global) ℓ₁-sensitivity** is:
 
-It captures the maximum influence a single individual can have on the result, and it determines how much noise is needed.
+> Δf = max over all neighbouring D, D′ of ‖ f(D) − f(D′) ‖₁
 
-Examples:
-- **Counting query** ("how many rows satisfy P?"): Δf = **1**.
-- **Sum** of an attribute bounded to [0, m]: Δf = **m**.
-- **Mean** over n records of values in [0, m]: Δf ≈ **m/n**.
+Try every possible pair of databases differing by one record, compute how much the query output changes, and take the largest value you find. That is Δf.
 
-(For the Gaussian mechanism one uses ℓ₂-sensitivity instead.)
+**Why it matters:** the noise added must be large enough to mask the worst-case change any individual could cause. High sensitivity → large noise → less useful results. Low sensitivity → small noise → results stay accurate.
+
+**Three worked examples:**
+
+- **Count query** — "How many people have condition X?" One person is either counted or not — the count shifts by at most 1. → **Δf = 1.** Cheap to protect.
+
+- **Sum query** — "What is the total salary?" where each salary is capped at maximum m (e.g. €100,000). Adding or removing one record changes the sum by up to m. → **Δf = m.** A high-value attribute needs proportionally larger noise.
+
+- **Mean/average** — "What is the average salary?" over a fixed group of n people. Removing one person changes the sum by up to m and changes n by 1; the resulting shift in the mean is approximately m/n. → **Δf ≈ m/n.** Larger groups are cheaper to protect because one person's influence is diluted across all members.
+
+**Key insight:** queries that let one person dominate the result (a very large salary, an extreme value) require far more noise than queries where every individual contribution is small and bounded (yes/no flags, plain counts).
+
+(For the Gaussian mechanism the ℓ₂-sensitivity ‖f(D)−f(D′)‖₂ is used instead of ℓ₁.)
 
 *Where to read more:* Dwork & Roth (2014), Definition 3.1.
 
@@ -343,13 +401,32 @@ Examples:
 
 ## 22. Epsilon and its relation to the amount of Laplacian noise
 
-**ε (epsilon)** is the **privacy-loss / privacy-budget** parameter. Smaller ε ⇒ **stronger privacy** (outputs on neighbouring datasets are nearly indistinguishable) but **more noise / less utility**; larger ε ⇒ weaker privacy, less noise.
+**ε (epsilon)** is the **privacy budget / privacy-loss parameter** — the single dial controlling the privacy–utility trade-off. Smaller ε → stronger privacy, more noise, less accurate results. Larger ε → weaker privacy, less noise, more accurate results.
 
-The **Laplace mechanism** answers a query f as:
+**The Laplace mechanism.** Once you know the sensitivity Δf and have chosen ε, noise is drawn from the Laplace distribution and added to the true answer:
 
 > M(D) = f(D) + Lap(b),  with scale **b = Δf / ε**
 
-So the noise scale is **proportional to sensitivity Δf** and **inversely proportional to ε**. The Laplace distribution has variance **2·b² = 2·(Δf/ε)²**. Halving ε doubles the noise scale; a query with larger sensitivity needs proportionally more noise.
+The **Laplace distribution** is a symmetric, peaked distribution centred on zero. Most sampled values land close to 0, but occasionally larger values appear. The scale parameter b controls the spread — larger b means bigger noise values on average. The formula **b = Δf / ε** connects all three concepts:
+
+- **High sensitivity or small ε** → large b → larger noise → less useful results.
+- **Low sensitivity and large ε** → small b → smaller noise → more useful results.
+
+**Three worked examples:**
+
+**(1) Count query, moderate privacy.** Δf = 1, ε = 1 → b = 1/1 = **1**. Noise typically ±1–2. A true count of 47 might be published as 45.8 or 49.3. Accurate enough to be useful.
+
+**(2) Same count query, strong privacy.** Δf = 1, ε = 0.1 → b = 1/0.1 = **10**. Noise typically ±10–20. The true count 47 might come out as 31 or 64. Much less useful — the price of stronger privacy.
+
+**(3) Sum of salaries, moderate privacy.** Δf = 100,000, ε = 1 → b = 100,000/1 = **100,000**. Noise of ±hundreds of thousands swamps the real total — the published figure is nearly meaningless without combining many queries or increasing ε significantly.
+
+**Noise variance.** The spread of the noise is:
+
+> Variance = 2b² = 2 · (Δf / ε)²
+
+Halving ε (doubling the privacy strength) quadruples the variance — results become four times less precise. This is the mathematical expression of the privacy–utility trade-off.
+
+**Mental model in one sentence.** ε is the dial: turn it down for more privacy but noisier answers; turn it up for cleaner answers but weaker privacy. The sensitivity Δf tells you how far down you have to turn it to actually hide what one person contributed.
 
 *Where to read more:* Dwork & Roth (2014), Theorem 3.6 (Laplace mechanism).
 

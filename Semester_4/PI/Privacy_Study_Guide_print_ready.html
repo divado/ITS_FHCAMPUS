@@ -1,0 +1,1987 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Privacy in Internet — Exam Study Guide</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+
+/* ===== INJECTED FOR PDF RENDERING (weasyprint) ===== */
+
+/* Local font files — place SourceSerif4-*.ttf and JetBrainsMono-*.ttf
+   in a fonts/ folder next to this HTML file. */
+@font-face { font-family:'Source Serif 4'; src:url('fonts/SourceSerif4-Regular.ttf'); font-weight:400; font-style:normal; }
+@font-face { font-family:'Source Serif 4'; src:url('fonts/SourceSerif4-It.ttf'); font-weight:400; font-style:italic; }
+@font-face { font-family:'Source Serif 4'; src:url('fonts/SourceSerif4-Semibold.ttf'); font-weight:600; font-style:normal; }
+@font-face { font-family:'Source Serif 4'; src:url('fonts/SourceSerif4-Bold.ttf'); font-weight:700; font-style:normal; }
+@font-face { font-family:'Source Serif 4'; src:url('fonts/SourceSerif4-BoldIt.ttf'); font-weight:700; font-style:italic; }
+@font-face { font-family:'Source Serif 4'; src:url('fonts/SourceSerif4-Black.ttf'); font-weight:900; font-style:normal; }
+@font-face { font-family:'JetBrains Mono'; src:url('fonts/JetBrainsMono-Regular.ttf'); font-weight:400; }
+@font-face { font-family:'JetBrains Mono'; src:url('fonts/JetBrainsMono-Medium.ttf'); font-weight:500; }
+@font-face { font-family:'JetBrains Mono'; src:url('fonts/JetBrainsMono-Bold.ttf'); font-weight:700; }
+
+/* A4 page layout with running headers and footers */
+@page {
+  size: A4;
+  margin: 21mm 18mm 18mm 18mm;
+  @top-right  { content:"PRIVACY IN THE INTERNET"; font-family:'JetBrains Mono';
+                font-size:7pt; letter-spacing:.22em; color:#b5641d; }
+  @bottom-left  { content:"Exam Study Guide"; font-family:'JetBrains Mono';
+                  font-size:7.5pt; color:#857c6f; }
+  @bottom-right { content:counter(page) " / " counter(pages); font-family:'JetBrains Mono';
+                  font-size:7.5pt; color:#857c6f; }
+}
+@page :first { @top-right { content:""; } }
+
+/* Override browser-only body styles for print */
+@media print {
+  body {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+  }
+}
+
+/* Prevent orphan headings at page bottom */
+h2 { break-after: avoid; }
+
+/* ===== END INJECTED ===== */
+
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                font-family:
+                    "Source Serif 4", "DejaVu Serif", "DejaVu Sans", serif;
+                font-size: 10.4pt;
+                line-height: 1.5;
+                color: #23262c;
+            }
+
+            h1 {
+                font-family: "Source Serif 4";
+                font-weight: 900;
+                font-size: 30pt;
+                line-height: 1.04;
+                color: #181a1f;
+                margin: 0 0 2pt;
+                letter-spacing: -0.01em;
+            }
+            /* kicker bar above the title */
+            h1::before {
+                content: "";
+                display: block;
+                width: 46pt;
+                height: 5pt;
+                background: #b5641d;
+                margin-bottom: 11pt;
+                border-radius: 1pt;
+            }
+            h1 + p {
+                color: #857c6f;
+                font-style: italic;
+                font-size: 10.5pt;
+                line-height: 1.45;
+                border-bottom: 1.4pt solid #ddd0ba;
+                padding-bottom: 13pt;
+                margin: 6pt 0 4pt;
+            }
+
+            h2 {
+                font-family: "Source Serif 4";
+                font-weight: 700;
+                font-size: 14.5pt;
+                color: #27776a;
+                line-height: 1.18;
+                margin: 21pt 0 7pt;
+                padding-left: 11pt;
+                border-left: 3.5pt solid #b5641d;
+                break-after: avoid;
+                letter-spacing: -0.005em;
+            }
+
+            p {
+                margin: 0 0 7pt;
+            }
+            strong {
+                font-weight: 700;
+                color: #181a1f;
+            }
+            em {
+                font-style: italic;
+            }
+
+            ul {
+                margin: 4pt 0 9pt;
+                padding-left: 0;
+                list-style: none;
+            }
+            ul > li {
+                position: relative;
+                padding-left: 15pt;
+                margin: 0 0 4pt;
+            }
+            ul > li::before {
+                content: "–";
+                position: absolute;
+                left: 2pt;
+                color: #b5641d;
+                font-weight: 700;
+            }
+            ul ul {
+                margin: 4pt 0 4pt;
+            }
+            ul ul > li::before {
+                content: "·";
+                color: #27776a;
+                font-weight: 700;
+                left: 4pt;
+            }
+            ol {
+                margin: 4pt 0 9pt;
+                padding-left: 21pt;
+            }
+            ol > li {
+                margin: 0 0 4pt;
+                padding-left: 4pt;
+            }
+            ol > li::marker {
+                color: #b5641d;
+                font-weight: 700;
+                font-family: "JetBrains Mono";
+                font-size: 9pt;
+            }
+
+            mark {
+                background: #f7f0e3;
+                padding: 0.5pt 3pt;
+                border-radius: 2pt;
+                color: #181a1f;
+            }
+
+            code {
+                font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+                font-size: 9pt;
+                background: #f7f0e3;
+                padding: 0.5pt 3pt;
+                border-radius: 2pt;
+                color: #181a1f;
+            }
+
+            pre {
+                background: #fbf7ef;
+                border: 1pt solid #ddd0ba;
+                border-left: 3pt solid #b5641d;
+                border-radius: 3pt;
+                padding: 9pt 12pt;
+                margin: 9pt 0;
+                white-space: pre-wrap;
+                word-break: break-word;
+                break-inside: auto;
+            }
+            pre code {
+                background: none;
+                padding: 0;
+                border: none;
+                border-radius: 0;
+                font-size: 7.9pt;
+                line-height: 1.5;
+                color: #181a1f;
+            }
+
+            hr {
+                border: none;
+                border-top: 1pt solid #e7ddcc;
+                margin: 15pt 0 0;
+            }
+
+            /* reference / further-reading callout */
+            p.ref {
+                background: #f7f0e3;
+                border-left: 2.5pt solid #27776a;
+                padding: 6pt 10pt;
+                font-size: 9pt;
+                line-height: 1.42;
+                color: #54504a;
+                margin: 8pt 0 2pt;
+            }
+            p.ref em {
+                color: #27776a;
+                font-style: italic;
+                font-weight: 600;
+            }
+
+            /* formulas rendered as blockquotes */
+            blockquote {
+                font-family: "JetBrains Mono";
+                font-size: 10pt;
+                background: #fbfaf6;
+                border: 1pt solid #ddd0ba;
+                border-left: 3pt solid #b5641d;
+                padding: 8pt 12pt;
+                margin: 8pt 0;
+                color: #181a1f;
+                text-align: center;
+            }
+            blockquote p {
+                margin: 0;
+            }
+
+            p.tip {
+                background: #eef5f2;
+                border: 1pt solid #cfe2db;
+                border-radius: 3pt;
+                padding: 9pt 12pt;
+                font-size: 9.6pt;
+                color: #33514a;
+                margin-top: 16pt;
+            }
+            p.tip em {
+                font-style: italic;
+            }
+
+            table {
+                border-collapse: collapse;
+                margin: 9pt 0 11pt;
+                font-size: 9.5pt;
+            }
+            th {
+                font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+                font-size: 9pt;
+                font-weight: 700;
+                color: #181a1f;
+                background: #f7f0e3;
+                border: 1pt solid #ddd0ba;
+                padding: 5pt 11pt;
+                text-align: left;
+                letter-spacing: 0.04em;
+            }
+            td {
+                border: 1pt solid #ddd0ba;
+                padding: 4pt 11pt;
+                vertical-align: top;
+            }
+            td:first-child {
+                font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+                font-weight: 700;
+                color: #b5641d;
+                font-size: 9.5pt;
+            }
+
+            body {
+                max-width: 820px;
+                margin: 0 auto;
+                padding: 48px 32px;
+                background: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Privacy in Internet — Exam Study Guide</h1>
+        <p>
+            <em
+                >Master in IT-Security. Each answer is written to be
+                exam-usable, with a &ldquo;Where to read more&rdquo; pointer at
+                the end of each item. Primary sources (regulations, RFCs, W3C
+                specs, original papers) are preferred over secondary blogs.</em
+            >
+        </p>
+        <hr />
+        <h2>1. Areas where IT security and privacy have conflicting goals</h2>
+        <p>
+            Security and privacy mostly reinforce each other (confidentiality
+            protects both), but they collide wherever
+            <strong>security wants more data / more identification</strong> and
+            <strong>privacy wants less of both</strong>:
+        </p>
+        <ul>
+            <li>
+                <strong
+                    >Logging &amp; accountability vs. data minimisation /
+                    unlinkability.</strong
+                >
+                Forensics, audit trails and intrusion detection want extensive,
+                long-retained logs; data-minimisation and storage-limitation
+                principles want the opposite.
+            </li>
+            <li>
+                <strong
+                    >Strong authentication / identification vs. anonymity &amp;
+                    pseudonymity.</strong
+                >
+                Knowing exactly who acts is a security goal; not being
+                identifiable is a privacy goal. Biometrics give strong
+                authentication but collect highly sensitive personal data.
+            </li>
+            <li>
+                <strong
+                    >Monitoring / Deep Packet Inspection / content scanning vs.
+                    confidentiality of communication.</strong
+                >
+                Malware scanning, spam filtering and DLP require reading
+                content; privacy wants end-to-end confidentiality.
+            </li>
+            <li>
+                <strong
+                    >Availability / backups vs. the right to erasure.</strong
+                >
+                Redundant backups and immutable ledgers fight against deletion
+                (GDPR Art. 17), especially on blockchains.
+            </li>
+            <li>
+                <strong
+                    >Centralised identity / single sign-on vs.
+                    unlinkability.</strong
+                >
+                Centralising identity simplifies security management but enables
+                cross-service correlation.
+            </li>
+            <li>
+                <strong
+                    >Attribution / non-repudiation vs. plausible
+                    deniability.</strong
+                >
+            </li>
+        </ul>
+        <p>
+            A useful framing: the classic security triad (Confidentiality,
+            Integrity, Availability) vs. the
+            <strong>protection goals of privacy</strong> (Unlinkability,
+            Transparency, Intervenability — the &ldquo;Standard Data Protection
+            Model&rdquo; / Rost &amp; Pfitzmann).
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> M. Hansen, M. Jensen, M. Rost,
+            &ldquo;Protection Goals for Privacy Engineering&rdquo; (IEEE S&amp;P
+            Workshops 2015); ENISA &ldquo;Privacy and Data Protection by
+            Design.&rdquo;
+        </p>
+        <hr />
+        <h2>2. The 8 OECD Privacy Principles</h2>
+        <p>
+            From the
+            <strong
+                >OECD Guidelines on the Protection of Privacy and Transborder
+                Flows of Personal Data</strong
+            >
+            (1980, revised 2013):
+        </p>
+        <ol>
+            <li>
+                <strong>Collection Limitation</strong> — limits to collection;
+                lawful, fair, with knowledge/consent.
+            </li>
+            <li>
+                <strong>Data Quality</strong> — data relevant, accurate,
+                complete, up to date.
+            </li>
+            <li>
+                <strong>Purpose Specification</strong> — purposes specified at
+                collection.
+            </li>
+            <li>
+                <strong>Use Limitation</strong> — no use/disclosure beyond
+                specified purposes except with consent or by law.
+            </li>
+            <li>
+                <strong>Security Safeguards</strong> — reasonable safeguards
+                against loss, unauthorised access, modification, disclosure.
+            </li>
+            <li>
+                <strong>Openness</strong> — transparency about practices and
+                policies.
+            </li>
+            <li>
+                <strong>Individual Participation</strong> — right to access,
+                confirm, challenge and erase one&rsquo;s data.
+            </li>
+            <li>
+                <strong>Accountability</strong> — the data controller is
+                accountable for complying with the principles.
+            </li>
+        </ol>
+        <p class="ref">
+            <em>Where to read more:</em> OECD Guidelines (2013), oecd.org. These
+            principles are the conceptual ancestor of the GDPR principles (Art.
+            5).
+        </p>
+        <hr />
+        <h2>3. Defined roles in the GDPR</h2>
+        <ul>
+            <li>
+                <mark>
+                    <strong>Data Subject</strong> — the identified/identifiable
+                    natural person (Art. 4(1)).
+                </mark>
+            </li>
+            <li>
+                <mark>
+                    <strong>Controller</strong> — determines the
+                    <em>purposes and means</em> of processing (Art. 4(7)); bears
+                    primary responsibility.
+                </mark>
+            </li>
+            <li>
+                <mark>
+                    <strong>Processor</strong> — processes personal data
+                    <em>on behalf of</em> the controller (Art. 4(8)); bound by
+                    Art. 28 contract.
+                </mark>
+            </li>
+            <li>
+                <strong>Joint Controllers</strong> — two+ controllers jointly
+                determining purposes/means (Art. 26).
+            </li>
+            <li>
+                <strong>Recipient</strong> — anyone to whom data is disclosed
+                (Art. 4(9)).
+            </li>
+            <li>
+                <strong>Third Party</strong> — anyone other than subject,
+                controller, processor and those authorised to process (Art.
+                4(10)).
+            </li>
+            <li>
+                <mark>
+                    <strong>Data Protection Officer (DPO)</strong> — appointed
+                    in defined cases; monitors compliance (Arts. 37–39).
+                </mark>
+            </li>
+            <li>
+                <mark>
+                    <strong>Supervisory Authority (SA)</strong> — national DPA
+                    enforcing the GDPR (Art. 51 ff.).
+                </mark>
+            </li>
+            <li>
+                <strong>Representative</strong> — EU-based representative for
+                non-EU controllers/processors (Art. 27).
+            </li>
+            <li>
+                <strong>European Data Protection Board (EDPB)</strong> — ensures
+                consistent application (Art. 68 ff.).
+            </li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> Regulation (EU) 2016/679, Arts. 4,
+            24–39, 51, 68.
+        </p>
+        <hr />
+        <h2>4. &ldquo;Privacy by Design&rdquo; strategies</h2>
+        <p>
+            <strong>Core idea (context):</strong> privacy can be improved not
+            only by <strong>legal means</strong> or by
+            <strong>data-protection technologies (PETs)</strong> bolted on
+            afterwards, but by
+            <strong
+                >building the privacy goal into the system already at the design
+                stage</strong
+            >. PbD is proactive and embedded, not retrofitted — and it is a
+            legal obligation under GDPR
+            <strong>Art. 25 (data protection by design and by default)</strong>.
+        </p>
+        <p>
+            The lecture presents <strong>two concrete strategies</strong> to
+            achieve it:
+        </p>
+        <p>
+            <strong>Strategy 1 — Data minimization.</strong>
+            <em
+                >&ldquo;Personal data shall be adequate, relevant and limited to
+                what is necessary in relation to the purposes for which it is
+                processed&rdquo;</em
+            >
+            (<strong>GDPR Art. 5(1)(c)</strong>). Memorable form:
+            <strong>&ldquo;you cannot lose what you do not have&rdquo;</strong>
+            — not holding data is the strongest protection. This reverses the
+            older <strong>data-maximization</strong> mindset (collect
+            everything), which was encouraged by (a) cheap storage and (b) the
+            big-data-mining promise. Operationalise it with four design
+            questions: - <strong>What data do we need?</strong> Collect only the
+            answer required, not the raw datum — e.g. to check if someone is a
+            child, ask that, don&rsquo;t collect a full birth date.
+            <em>(OECD Collection Limitation.)</em> -
+            <strong>How long is it needed?</strong> Erase data once it no longer
+            serves the purpose.
+            <em>(Art. 5(1)(e) storage limitation; Art. 17 erasure.)</em> -
+            <strong>How many copies?</strong> Fewer copies = smaller breach
+            surface = less risk. - <strong>What purpose?</strong> Use it solely
+            for the purpose it was collected for.
+            <em>(Art. 5(1)(b) purpose limitation.)</em>
+        </p>
+        <p>
+            <strong>Strategy 2 — Pseudonymisation.</strong> Processing personal
+            data so it
+            <strong
+                >can no longer be attributed to a specific data subject without
+                additional information</strong
+            >, which is kept separately (<strong>GDPR Art. 4(5)</strong>). If
+            pseudonymised data is breached, it does not (by itself) harm the
+            individual, because the attacker gets tokens, not identities.
+            <strong>Key distinction:</strong> pseudonymisation is
+            <em>reversible</em> (the link still exists, stored separately) so
+            the data <strong>remains personal data under the GDPR</strong>;
+            <strong>anonymisation</strong> is <em>irreversible</em> and takes
+            data out of GDPR scope. Techniques: - <strong>Encryption</strong> —
+            unreadable without the key. - <strong>Hashing</strong> — one-way
+            replacement of identifiers.
+            <em
+                >(Caveat: plain hashing of low-entropy values is brute-forceable
+                / rainbow-table-attackable; use salted or keyed hashing.)</em
+            >
+            - <strong>Masking</strong> — replace part of the value (e.g. show
+            only the last 4 digits). - <strong>Aggregation</strong> — combine
+            records into group statistics so no individual is distinguishable.
+            <em
+                >(Strong aggregation shades into anonymisation; same idea behind
+                k-anonymity / differential privacy.)</em
+            >
+            - <strong>Indirect references / tokenisation</strong> — store a
+            pointer; keep the real data in a separate, better-protected store.
+        </p>
+        <p>
+            These are measures the <strong>controller</strong> takes, and the
+            GDPR rewards them: named in <strong>Art. 25</strong> (PbD) and
+            <strong>Art. 32</strong> (security of processing), and under
+            <strong>Art. 34</strong> breach notification to individuals may be
+            waived if data was rendered unintelligible (e.g. encrypted) — so the
+            harm <em>and</em> the fine are lower.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> R. Chow, &ldquo;Privacy by
+            Design&rdquo; (2014, the lecture&rsquo;s optional reading); GDPR
+            Arts. 4(5), 5(1)(b)(c)(e), 17, 25, 32, 34. (Broader academic
+            taxonomy for reference: Hoepman&rsquo;s 8 strategies —
+            Minimise/Hide/Separate/Aggregate/Inform/Control/Enforce/Demonstrate
+            — where these two map onto Minimise, Hide and Aggregate.)
+        </p>
+        <hr />
+        <h2>5. The four sections a DPIA must contain (GDPR Art. 35(7))</h2>
+        <p>A Data Protection Impact Assessment must contain at least:</p>
+        <ul>
+            <li>
+                <strong>(a)</strong> a
+                <strong>systematic description</strong> of the envisaged
+                processing operations and the <strong>purposes</strong>,
+                including (where applicable) the controller&rsquo;s legitimate
+                interest.
+            </li>
+            <li>
+                <strong>(b)</strong> an assessment of the
+                <strong>necessity and proportionality</strong> of the processing
+                in relation to the purposes.
+            </li>
+            <li>
+                <strong>(c)</strong> an assessment of the
+                <strong>risks to the rights and freedoms</strong> of data
+                subjects.
+            </li>
+            <li>
+                <strong>(d)</strong> the
+                <strong>measures envisaged to address the risks</strong> —
+                safeguards, security measures and mechanisms to ensure
+                protection of personal data and to demonstrate compliance.
+            </li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> GDPR Art. 35; WP29 / EDPB
+            &ldquo;Guidelines on DPIA&rdquo; (WP248 rev.01).
+        </p>
+        <hr />
+        <h2>6. U-Prove: interactions between actors</h2>
+        <p>
+            U-Prove (Brands&rsquo; cryptography, developed by Microsoft) is a
+            privacy-preserving credential (&ldquo;token&rdquo;) system.
+            <strong>Three actors:</strong>
+        </p>
+        <ul>
+            <li>
+                <strong>Issuer</strong> — vouches for attributes and issues a
+                <strong>U-Prove token</strong>.
+            </li>
+            <li>
+                <strong>Prover (User/holder)</strong> — receives the token and
+                later proves attributes from it.
+            </li>
+            <li>
+                <strong>Verifier (Relying Party)</strong> — checks the token and
+                the disclosed attributes.
+            </li>
+        </ul>
+        <p><strong>Two protocols / interactions:</strong></p>
+        <ol>
+            <li>
+                <strong>Issuance (Issuer ↔ Prover).</strong> A blinded issuance
+                protocol produces a token carrying attributes signed by the
+                issuer. Because of the blinding, the
+                <strong>issuer cannot later recognise the token</strong> when it
+                is shown (issuer–verifier unlinkability).
+            </li>
+            <li>
+                <strong>Presentation (Prover ↔ Verifier).</strong> The prover
+                presents the token, proves it was issued by the trusted issuer,
+                and discloses a chosen subset of attributes. Different tokens
+                are <strong>mutually unlinkable</strong>.
+            </li>
+        </ol>
+        <p class="ref">
+            <em>Where to read more:</em> C. Paquin, &ldquo;U-Prove Cryptographic
+            Specification V1.1&rdquo; (Microsoft); S. Brands,
+            <em
+                >Rethinking Public Key Infrastructures and Digital
+                Certificates</em
+            >
+            (MIT Press, 2000).
+        </p>
+        <hr />
+        <h2>7. U-Prove selective disclosure mechanism</h2>
+        <p>
+            A U-Prove token binds a set of attributes (A₁,…,Aₙ) under the
+            issuer&rsquo;s signature. At presentation the prover decides,
+            <strong>per attribute</strong>, whether to
+            <strong>disclose</strong> it or keep it <strong>hidden</strong>:
+        </p>
+        <ul>
+            <li>Disclosed attributes are revealed in clear.</li>
+            <li>
+                Hidden attributes remain committed inside the token; the
+                cryptographic structure (the token&rsquo;s public key is a
+                commitment formed from all attributes and blinding values) lets
+                the verifier confirm the issuer&rsquo;s signature is
+                <strong>still valid over the full set</strong> without learning
+                the hidden values.
+            </li>
+            <li>
+                The prover can additionally produce proofs
+                <em>about</em> undisclosed attributes (e.g. proving an
+                inequality) without revealing them.
+            </li>
+        </ul>
+        <p>
+            The result: the verifier learns exactly the chosen attributes plus
+            the fact that all attributes were genuinely issued, and nothing more
+            (data minimisation).
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> U-Prove Cryptographic Specification
+            §&rdquo;Presentation Proof.&rdquo;
+        </p>
+        <hr />
+        <h2>8. SSI Architecture</h2>
+        <p>
+            Self-Sovereign Identity is built around the
+            <strong>&ldquo;trust triangle&rdquo;</strong> plus a registry:
+        </p>
+        <ul>
+            <li>
+                <strong>Issuer</strong> — issues
+                <strong>Verifiable Credentials (VCs)</strong> to a holder.
+            </li>
+            <li>
+                <strong>Holder</strong> — stores VCs in a
+                <strong>wallet</strong> and creates
+                <strong>Verifiable Presentations (VPs)</strong> for verifiers.
+            </li>
+            <li>
+                <strong>Verifier (Relying Party)</strong> — receives a VP and
+                checks it.
+            </li>
+            <li>
+                <strong>Verifiable Data Registry (VDR)</strong> — usually a
+                distributed ledger/blockchain; stores
+                <strong
+                    >DIDs, DID documents (public keys), schemas, and revocation
+                    registries</strong
+                >
+                — <em>not</em> the personal data itself.
+            </li>
+        </ul>
+        <p>
+            Flow: Issuer → (VC) → Holder → (VP) → Verifier; both issuer and
+            verifier resolve DIDs and public keys via the VDR to check
+            signatures and revocation. The holder is in the centre and controls
+            disclosure. Conceptually layered (the
+            <strong>Trust over IP</strong> stack): ledger/DID layer →
+            DIDComm/peer layer → credential exchange layer →
+            application/governance layer.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> W3C VC Data Model; Trust over IP
+            Foundation; A. Preukschat &amp; D. Reed,
+            <em>Self-Sovereign Identity</em> (Manning, 2021).
+        </p>
+        <hr />
+        <h2>9. What is the DID designed and used for?</h2>
+        <p>
+            A <strong>Decentralized Identifier (DID)</strong> is a globally
+            unique identifier that requires
+            <strong>no central registration authority</strong>. Format:
+            <code>did:method:method-specific-id</code> (e.g.
+            <code>did:web:example.com</code>).
+        </p>
+        <p>
+            <strong>Designed for / used for:</strong> -
+            <strong>Decentralisation</strong> — no central registry/CA needed. -
+            <strong>Self-control</strong> — the identifier is created and
+            controlled by its subject. - <strong>Persistence</strong> —
+            long-lived, independent of any organisation. -
+            <strong>Cryptographic verifiability</strong> — resolves to a
+            <strong>DID document</strong> containing public keys, enabling proof
+            of control (authentication) and signing. - Identifying any subject:
+            people, organisations, devices, data, abstract entities.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> W3C &ldquo;Decentralized Identifiers
+            (DIDs) v1.0&rdquo; Recommendation (2022).
+        </p>
+        <hr />
+        <h2>
+            10. Replacing the Certification Authority in a decentralized PKI
+        </h2>
+        <p>
+            In classic PKI a hierarchy of trusted <strong>CAs</strong> binds
+            keys to identities. In a
+            <strong>Decentralized PKI (DPKI)</strong> the CA&rsquo;s role of
+            &ldquo;authoritative key directory&rdquo; is replaced by:
+        </p>
+        <ul>
+            <li>
+                <strong>A distributed ledger / blockchain</strong> acting as a
+                tamper-evident, append-only
+                <strong>public key registry</strong> (each DID&rsquo;s keys are
+                recorded and updated by the key owner). Consensus replaces a
+                single trusted authority.
+            </li>
+            <li>
+                <strong>Web of Trust</strong> (PGP-style) — peers cross-sign
+                each other&rsquo;s keys; trust accrues from many attestations
+                instead of one CA.
+            </li>
+            <li>
+                <strong>Self-certifying identifiers</strong> — the identifier is
+                derived from (or bound to) the public key itself, so no external
+                authority is needed to bind name→key.
+            </li>
+            <li>
+                <strong>Key transparency / append-only logs</strong> (analogous
+                to Certificate Transparency) to make any key change publicly
+                auditable.
+            </li>
+        </ul>
+        <p>
+            These remove the single point of trust/failure and give key control
+            to the identity owner.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> C. Allen et al., &ldquo;Decentralized
+            Public Key Infrastructure&rdquo; (Rebooting the Web of Trust
+            whitepaper, 2015).
+        </p>
+        <hr />
+        <h2>11. Structure of a Verifiable Credential</h2>
+        <p>A W3C VC has three logical parts:</p>
+        <ol>
+            <li>
+                <strong>Credential metadata</strong> — <code>@context</code>,
+                <code>id</code>, <code>type</code>, <code>issuer</code>,
+                validity dates
+                (<code>validFrom</code>/<code>expirationDate</code>), optionally
+                <code>credentialStatus</code> (revocation pointer),
+                <code>credentialSchema</code>.
+            </li>
+            <li>
+                <strong>Claims</strong> — the <code>credentialSubject</code>:
+                the actual statements/attributes about the subject (e.g. name,
+                date of birth, degree).
+            </li>
+            <li>
+                <strong>Proof</strong> — the cryptographic
+                <code>proof</code> block (digital signature / proof type,
+                verification method, created date) that makes it tamper-evident
+                and verifiable.
+            </li>
+        </ol>
+        <p>
+            A <strong>Verifiable Presentation (VP)</strong> wraps one or more
+            VCs and adds the <strong>holder&rsquo;s</strong> proof, so the
+            verifier can check both issuer authenticity and holder binding.
+        </p>
+        <p>
+            <strong
+                >Example — a <code>UniversityDegreeCredential</code>.</strong
+            >
+            The three logical parts are visible:
+            <em>metadata</em> (<code>@context</code>, <code>id</code>,
+            <code>type</code>, <code>issuer</code>, the validity dates, and
+            <code>credentialStatus</code> — the revocation pointer), the
+            <em>claims</em> inside <code>credentialSubject</code> (the degree
+            and alumni attributes, bound to the holder&rsquo;s DID via its
+            <code>id</code>), and the <em>proof</em> (an Ed25519 signature the
+            verifier checks against the issuer&rsquo;s key).
+        </p>
+        <pre><code class="language-json">{
+  &quot;@context&quot;: [
+    &quot;https://www.w3.org/2018/credentials/v1&quot;,
+    &quot;https://www.w3.org/2018/credentials/examples/v1&quot;
+  ],
+  &quot;id&quot;: &quot;https://university.edu/credentials/1234&quot;,
+  &quot;type&quot;: [&quot;VerifiableCredential&quot;, &quot;UniversityDegreeCredential&quot;],
+
+  &quot;issuer&quot;: {
+    &quot;id&quot;: &quot;did:web:university.edu&quot;,
+    &quot;name&quot;: &quot;State University&quot;
+  },
+
+  &quot;issuanceDate&quot;: &quot;2024-06-01T00:00:00Z&quot;,
+  &quot;expirationDate&quot;: &quot;2034-06-01T00:00:00Z&quot;,
+
+  &quot;credentialStatus&quot;: {
+    &quot;id&quot;: &quot;https://university.edu/credentials/status/3#94567&quot;,
+    &quot;type&quot;: &quot;BitstringStatusListEntry&quot;,
+    &quot;statusPurpose&quot;: &quot;revocation&quot;,
+    &quot;statusListIndex&quot;: &quot;94567&quot;,
+    &quot;statusListCredential&quot;: &quot;https://university.edu/credentials/status/3&quot;
+  },
+
+  &quot;credentialSubject&quot;: {
+    &quot;id&quot;: &quot;did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK&quot;,
+    &quot;degree&quot;: {
+      &quot;type&quot;: &quot;BachelorOfScience&quot;,
+      &quot;name&quot;: &quot;Computer Science&quot;
+    },
+    &quot;alumniOf&quot;: &quot;State University&quot;,
+    &quot;graduationYear&quot;: &quot;2024&quot;
+  },
+
+  &quot;proof&quot;: {
+    &quot;type&quot;: &quot;Ed25519Signature2020&quot;,
+    &quot;created&quot;: &quot;2024-06-01T12:00:00Z&quot;,
+    &quot;verificationMethod&quot;: &quot;did:web:university.edu#key-1&quot;,
+    &quot;proofPurpose&quot;: &quot;assertionMethod&quot;,
+    &quot;proofValue&quot;: &quot;z3FXQjecT...base58encodedSignature...==&quot;
+  }
+}
+</code></pre>
+        <p class="ref">
+            <em>Where to read more:</em> W3C &ldquo;Verifiable Credentials Data
+            Model v2.0.&rdquo;
+        </p>
+        <hr />
+        <h2>
+            12. Privacy enhancements in SSI interactions (holder / issuer /
+            verifier)
+        </h2>
+        <ul>
+            <li>
+                <strong>Selective disclosure</strong> — holder reveals only the
+                attributes a verifier needs (e.g. just &ldquo;country =
+                AT&rdquo;).
+            </li>
+            <li>
+                <strong>Zero-knowledge / predicate proofs</strong> — prove a
+                predicate (e.g. <em>age ≥ 18</em>) without revealing the
+                underlying value (date of birth).
+            </li>
+            <li>
+                <strong>Pairwise / peer DIDs</strong> — a fresh DID per
+                relationship, so different verifiers cannot correlate the same
+                holder.
+            </li>
+            <li>
+                <strong>No &ldquo;phone home&rdquo;</strong> — the issuer is not
+                contacted at presentation time, so it never learns
+                <em>where/when</em> a credential is used.
+            </li>
+            <li>
+                <strong>Local storage</strong> — credentials live in the
+                holder&rsquo;s wallet, removing the central honeypot.
+            </li>
+            <li>
+                <strong>Unlinkable presentations</strong> — signature schemes
+                such as <strong>BBS+</strong> / CL signatures let the same
+                credential be shown many times without the presentations being
+                linkable.
+            </li>
+            <li>
+                <strong>Data minimisation by default</strong> — holder consents
+                to each disclosure.
+            </li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> Hyperledger Aries/Indy; BBS+ Signatures
+            (D. Boneh, J. Camenisch); W3C VC Data Model §privacy considerations.
+        </p>
+        <hr />
+        <h2>13. What a DID document contains</h2>
+        <p>
+            Resolving a DID yields a <strong>DID document</strong> (typically
+            JSON-LD). It contains:
+        </p>
+        <ul>
+            <li><code>id</code> — the DID itself.</li>
+            <li><code>@context</code>.</li>
+            <li>
+                <code>controller</code> — entity authorised to make changes.
+            </li>
+            <li>
+                <code>verificationMethod</code> — the set of
+                <strong>public keys</strong> (and key material/type).
+            </li>
+            <li>
+                <strong>Verification relationships</strong> that say
+                <em>how</em> each key may be used: <code>authentication</code>,
+                <code>assertionMethod</code>, <code>keyAgreement</code>,
+                <code>capabilityInvocation</code>,
+                <code>capabilityDelegation</code>.
+            </li>
+            <li>
+                <code>service</code> / <code>serviceEndpoint</code> — endpoints
+                for interacting with the subject (e.g. DIDComm messaging,
+                credential services).
+            </li>
+            <li>optionally <code>alsoKnownAs</code>.</li>
+        </ul>
+        <p>
+            Crucially it contains <strong>no personal data</strong> — only keys,
+            relationships and endpoints.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> W3C &ldquo;DIDs v1.0,&rdquo;
+            §&rdquo;Core Properties.&rdquo;
+        </p>
+        <hr />
+        <h2>14. Identified challenges for the spread of SSI</h2>
+        <ul>
+            <li>
+                <strong>Interoperability / standardisation</strong> — many DID
+                methods, wallet apps and credential formats that don&rsquo;t all
+                interwork.
+            </li>
+            <li>
+                <strong>Key management &amp; recovery</strong> — losing private
+                keys means losing identity; usable recovery is hard.
+            </li>
+            <li>
+                <strong>Usability</strong> — wallets and key concepts are too
+                technical for ordinary users.
+            </li>
+            <li>
+                <strong>Network effects (chicken-and-egg)</strong> — value
+                requires many issuers <em>and</em> many verifiers
+                simultaneously.
+            </li>
+            <li>
+                <strong>Governance / trust frameworks</strong> — who is an
+                authoritative issuer, and how is that trust established and
+                policed?
+            </li>
+            <li>
+                <strong>Legal recognition &amp; GDPR tension</strong> —
+                immutable ledgers vs. the right to erasure; legal status of
+                credentials.
+            </li>
+            <li>
+                <strong>Revocation</strong> that is timely yet
+                privacy-preserving.
+            </li>
+            <li>
+                <strong>Scalability &amp; cost</strong> of the underlying
+                ledger.
+            </li>
+            <li><strong>Business incentives</strong> — unclear who pays.</li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> Sovrin Foundation reports; SSI sections
+            of eIDAS 2.0 analyses (e.g. arXiv 2601.19837).
+        </p>
+        <hr />
+        <h2>15. Advantages of eIDAS compared to SSI</h2>
+        <ul>
+            <li>
+                <strong>Legal certainty &amp; legal effect</strong> — e.g.
+                qualified electronic signatures have legal equivalence to
+                handwritten signatures; cross-border legal validity is
+                guaranteed.
+            </li>
+            <li>
+                <strong>High level of assurance</strong> — identity is rooted in
+                <strong>state-issued</strong> identity proofing
+                (&ldquo;State-Supported Identity&rdquo;) rather than ad-hoc
+                issuer trust.
+            </li>
+            <li>
+                <strong>Mandatory mutual recognition</strong> across all Member
+                States.
+            </li>
+            <li>
+                <strong>Established, regulated trust framework</strong> —
+                Qualified Trust Service Providers, Trusted Lists, supervision
+                and <strong>defined liability</strong>, instead of SSI&rsquo;s
+                still-maturing governance.
+            </li>
+            <li>
+                <strong>Standardisation is mandated by regulation</strong>,
+                reducing fragmentation.
+            </li>
+            <li>
+                <strong>Clear accountability and supervision</strong> — a
+                regulator stands behind it.
+            </li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> Regulation (EU) 910/2014 and (EU)
+            2024/1183; &ldquo;The European Digital Identity Wallet as Defined in
+            the eIDAS 2 Regulation&rdquo; (Springer, 2024).
+        </p>
+        <hr />
+        <h2>
+            16. &ldquo;In eIDAS 2.0 a verified and secure identification is
+            essential&rdquo; — implications for people in the EU
+        </h2>
+        <p>
+            This statement means the framework is built on
+            <strong>high-assurance, government-rooted identity</strong> rather
+            than anonymity-by-default. For EU residents it implies:
+        </p>
+        <ul>
+            <li>
+                Each Member State must
+                <strong
+                    >offer every citizen/resident an EU Digital Identity (EUDI)
+                    Wallet</strong
+                >
+                by end of 2026 (provision is mandatory; <em>using</em> it is
+                voluntary).
+            </li>
+            <li>
+                When they identify themselves online or offline, the
+                identification can be
+                <strong>strongly and reliably verified</strong> and bound to
+                their real legal identity and secure device — reducing fraud and
+                enabling trusted cross-border services (banking, public
+                services, signatures).
+            </li>
+            <li>
+                Benefits: convenience, portability across the EU, fewer
+                fragmented logins, and (via selective disclosure)
+                <strong>disclosing only what is necessary</strong>.
+            </li>
+            <li>
+                Tensions/responsibilities: because identity is verified and
+                state-backed, there are
+                <strong>profiling/surveillance concerns</strong>; hence the
+                regulation mandates
+                <strong>unobservability</strong> (infrastructure providers must
+                not track usage), <strong>pseudonyms</strong>, and
+                <strong>privacy by design/default</strong>. Users also bear
+                responsibility for
+                <strong>secure device and key management</strong>.
+            </li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> Regulation (EU) 2024/1183, esp.
+            Recitals 15 and 59 and Art. 5a.
+        </p>
+        <hr />
+        <h2>
+            17. Advanced SSI features that will also be available in eIDAS 2.0
+        </h2>
+        <ul>
+            <li>
+                <strong>Holder-controlled wallet</strong> (EUDI Wallet) storing
+                <strong>Verifiable Credentials</strong> as Electronic
+                Attestations of Attributes (EAA/QEAA).
+            </li>
+            <li>
+                <strong>Selective disclosure</strong> of attributes — a
+                <em>basic design feature</em> of the wallet (e.g. prove
+                &ldquo;over 18&rdquo; without the exact birthdate).
+            </li>
+            <li>
+                <strong>Zero-knowledge proofs</strong> — the regulation foresees
+                ZK attestation where identification is not required (though the
+                current Architecture &amp; Reference Framework leans on
+                commitment-based SD-JWT / ISO mdoc rather than full ZKP).
+            </li>
+            <li>
+                <strong
+                    >Combining attributes from multiple distinct
+                    attestations</strong
+                >
+                in one presentation.
+            </li>
+            <li>
+                <strong>Pseudonyms</strong> and
+                <strong>unobservability</strong> (anti-profiling).
+            </li>
+            <li>
+                Standard exchange protocols (<strong
+                    >OpenID4VCI / OpenID4VP</strong
+                >) and formats (<strong>SD-JWT VC</strong>,
+                <strong>ISO/IEC 18013-5 mdoc</strong>).
+            </li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> EUDI Wallet Architecture and Reference
+            Framework (ARF); walt.id &ldquo;eIDAS 2 Explained&rdquo;; arXiv
+            2401.08196 (selective disclosure mechanisms).
+        </p>
+        <hr />
+        <h2>
+            18. The database privacy problem and what a good solution should
+            achieve
+        </h2>
+        <p>
+            <strong>The problem (statistical disclosure control):</strong> how
+            to release useful statistics or answer queries over a dataset of
+            individuals
+            <strong
+                >without revealing information about any single
+                individual</strong
+            >
+            — even though apparently harmless aggregate releases can leak
+            individuals via <strong>differencing attacks</strong>,
+            <strong>linkage</strong> with external data, or repeated querying.
+        </p>
+        <p>
+            <strong>A good solution should achieve:</strong> -
+            <strong>Utility</strong> — released answers/statistics remain
+            accurate and useful. - <strong>Privacy</strong> — an adversary
+            cannot infer the presence/absence or attributes of any individual. -
+            <strong>Robustness to auxiliary knowledge</strong> — the guarantee
+            must not depend on what side information the attacker has (this is
+            why ad-hoc anonymisation like <em>k</em>-anonymity fails against
+            linkage). - <strong>Composition</strong> — privacy degrades
+            gracefully and provably under many queries. -
+            <strong>A quantifiable, provable guarantee.</strong>
+        </p>
+        <p>
+            <strong>Differential privacy</strong> is the canonical solution
+            meeting these criteria.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> C. Dwork &amp; A. Roth, &ldquo;The
+            Algorithmic Foundations of Differential Privacy&rdquo; (2014), Ch.
+            1–2.
+        </p>
+        <hr />
+        <h2>19. Local vs. Global Differential Privacy</h2>
+        <ul>
+            <li>
+                <strong>Global (central) DP:</strong> a
+                <strong>trusted curator</strong> holds all raw data and adds
+                noise to the <em>outputs/answers</em>. Needs less total noise →
+                <strong>better utility</strong>, but you must trust the curator
+                with the raw data.
+            </li>
+            <li>
+                <strong>Local DP (LDP):</strong>
+                <strong
+                    >each user randomises/perturbs their own data on their
+                    device</strong
+                >
+                before sending it to an <strong>untrusted</strong> aggregator.
+                No trusted curator needed →
+                <strong>stronger trust model</strong>, but each record is noised
+                independently →
+                <strong>much more noise / worse utility</strong>. Used in
+                production by Apple and by Google&rsquo;s
+                <strong>RAPPOR</strong>.
+            </li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> Dwork &amp; Roth (2014); Ú. Erlingsson
+            et al., &ldquo;RAPPOR&rdquo; (CCS 2014).
+        </p>
+        <hr />
+        <h2>20. What Differential Privacy guarantees</h2>
+        <p>
+            The guarantee rests on the concept of
+            <strong>neighbouring datasets</strong>: two databases D and D′ that
+            differ by exactly one person&rsquo;s record (one person added or
+            removed). DP says that running the same randomised query mechanism
+            on both should produce <em>nearly identical</em> output
+            distributions — so an observer who sees the result cannot reliably
+            tell which version was used, and therefore cannot tell whether any
+            specific individual was in the data.
+        </p>
+        <p>
+            <strong>Formal definition.</strong> A randomised mechanism
+            <strong>M</strong> is <strong>ε-differentially private</strong> if
+            for every pair of neighbouring datasets D, D′ and every possible
+            output set S:
+        </p>
+        <blockquote>
+            <p>Pr[M(D) ∈ S] ≤ e^ε · Pr[M(D′) ∈ S]</p>
+        </blockquote>
+        <p>What each symbol means:</p>
+        <ul>
+            <li>
+                <strong>Pr[M(D) ∈ S]</strong> — probability of observing output
+                S when the person <em>is</em> in the dataset.
+            </li>
+            <li>
+                <strong>Pr[M(D′) ∈ S]</strong> — probability of observing output
+                S when the person <em>is not</em> in the dataset.
+            </li>
+            <li>
+                <strong>e^ε</strong> — the maximum allowed ratio between those
+                two probabilities. The smaller it is, the more similar the
+                distributions must be.
+            </li>
+        </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>ε</th>
+                    <th>e^ε</th>
+                    <th>Privacy strength</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>0.1</td>
+                    <td>≈ 1.10</td>
+                    <td>Very strong — outputs nearly identical</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>≈ 2.72</td>
+                    <td>Moderate — common practical choice</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>≈ 22,026</td>
+                    <td>Very weak — outputs can differ enormously</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            For <strong>(ε, δ)-DP</strong> an additive slack δ is allowed:
+            <code>Pr[M(D)∈S] ≤ e^ε·Pr[M(D′)∈S] + δ</code>, used in the Gaussian
+            mechanism.
+        </p>
+        <p>
+            <strong>What DP does and does not promise.</strong> It gives every
+            individual <strong>plausible deniability</strong> regardless of any
+            side knowledge an adversary has. It does <em>not</em> promise that
+            nothing is learned — aggregate population facts can still be
+            accurately estimated. It only bounds what can be inferred about
+            <em>any single individual</em>.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> Dwork &amp; Roth (2014), Definition
+            2.4.
+        </p>
+        <hr />
+        <h2>21. Calculating the sensitivity of a query</h2>
+        <p>
+            Before adding noise you must ask:
+            <strong
+                >how much can one single person change the query answer?</strong
+            >
+            That worst-case maximum change is the <em>sensitivity</em>, and it
+            directly determines how much noise is needed to conceal any
+            individual&rsquo;s contribution.
+        </p>
+        <p>
+            <strong>Formal definition.</strong> The
+            <strong>(global) ℓ₁-sensitivity</strong> is:
+        </p>
+        <blockquote>
+            <p>Δf = max over all neighbouring D, D′ of ‖ f(D) − f(D′) ‖₁</p>
+        </blockquote>
+        <p>
+            Try every possible pair of databases differing by one record,
+            compute how much the query output changes, and take the largest
+            value you find. That is Δf.
+        </p>
+        <p>
+            <strong>Why it matters:</strong> the noise added must be large
+            enough to mask the worst-case change any individual could cause.
+            High sensitivity → large noise → less useful results. Low
+            sensitivity → small noise → results stay accurate.
+        </p>
+        <p><strong>Three worked examples:</strong></p>
+        <ul>
+            <li>
+                <p>
+                    <strong>Count query</strong> — &ldquo;How many people have
+                    condition X?&rdquo; One person is either counted or not —
+                    the count shifts by at most 1. →
+                    <strong>Δf = 1.</strong> Cheap to protect.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <strong>Sum query</strong> — &ldquo;What is the total
+                    salary?&rdquo; where each salary is capped at maximum m
+                    (e.g. €100,000). Adding or removing one record changes the
+                    sum by up to m. → <strong>Δf = m.</strong> A high-value
+                    attribute needs proportionally larger noise.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <strong>Mean/average</strong> — &ldquo;What is the average
+                    salary?&rdquo; over a fixed group of n people. Removing one
+                    person changes the sum by up to m and changes n by 1; the
+                    resulting shift in the mean is approximately m/n. →
+                    <strong>Δf ≈ m/n.</strong> Larger groups are cheaper to
+                    protect because one person&rsquo;s influence is diluted
+                    across all members.
+                </p>
+            </li>
+        </ul>
+        <p>
+            <strong>Key insight:</strong> queries that let one person dominate
+            the result (a very large salary, an extreme value) require far more
+            noise than queries where every individual contribution is small and
+            bounded (yes/no flags, plain counts).
+        </p>
+        <p>
+            (For the Gaussian mechanism the ℓ₂-sensitivity ‖f(D)−f(D′)‖₂ is used
+            instead of ℓ₁.)
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> Dwork &amp; Roth (2014), Definition
+            3.1.
+        </p>
+        <hr />
+        <h2>22. Epsilon and its relation to the amount of Laplacian noise</h2>
+        <p>
+            <strong>ε (epsilon)</strong> is the
+            <strong>privacy budget / privacy-loss parameter</strong> — the
+            single dial controlling the privacy–utility trade-off. Smaller ε →
+            stronger privacy, more noise, less accurate results. Larger ε →
+            weaker privacy, less noise, more accurate results.
+        </p>
+        <p>
+            <strong>The Laplace mechanism.</strong> Once you know the
+            sensitivity Δf and have chosen ε, noise is drawn from the Laplace
+            distribution and added to the true answer:
+        </p>
+        <blockquote>
+            <p>M(D) = f(D) + Lap(b), with scale <strong>b = Δf / ε</strong></p>
+        </blockquote>
+        <p>
+            The <strong>Laplace distribution</strong> is a symmetric, peaked
+            distribution centred on zero. Most sampled values land close to 0,
+            but occasionally larger values appear. The scale parameter b
+            controls the spread — larger b means bigger noise values on average.
+            The formula <strong>b = Δf / ε</strong> connects all three concepts:
+        </p>
+        <ul>
+            <li>
+                <strong>High sensitivity or small ε</strong> → large b → larger
+                noise → less useful results.
+            </li>
+            <li>
+                <strong>Low sensitivity and large ε</strong> → small b → smaller
+                noise → more useful results.
+            </li>
+        </ul>
+        <p><strong>Three worked examples:</strong></p>
+        <p>
+            <strong>(1) Count query, moderate privacy.</strong> Δf = 1, ε = 1 →
+            b = 1/1 = <strong>1</strong>. Noise typically ±1–2. A true count of
+            47 might be published as 45.8 or 49.3. Accurate enough to be useful.
+        </p>
+        <p>
+            <strong>(2) Same count query, strong privacy.</strong> Δf = 1, ε =
+            0.1 → b = 1/0.1 = <strong>10</strong>. Noise typically ±10–20. The
+            true count 47 might come out as 31 or 64. Much less useful — the
+            price of stronger privacy.
+        </p>
+        <p>
+            <strong>(3) Sum of salaries, moderate privacy.</strong> Δf =
+            100,000, ε = 1 → b = 100,000/1 = <strong>100,000</strong>. Noise of
+            ±hundreds of thousands swamps the real total — the published figure
+            is nearly meaningless without combining many queries or increasing ε
+            significantly.
+        </p>
+        <p><strong>Noise variance.</strong> The spread of the noise is:</p>
+        <blockquote>
+            <p>Variance = 2b² = 2 · (Δf / ε)²</p>
+        </blockquote>
+        <p>
+            Halving ε (doubling the privacy strength) quadruples the variance —
+            results become four times less precise. This is the mathematical
+            expression of the privacy–utility trade-off.
+        </p>
+        <p>
+            <strong>Mental model in one sentence.</strong> ε is the dial: turn
+            it down for more privacy but noisier answers; turn it up for cleaner
+            answers but weaker privacy. The sensitivity Δf tells you how far
+            down you have to turn it to actually hide what one person
+            contributed.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> Dwork &amp; Roth (2014), Theorem 3.6
+            (Laplace mechanism).
+        </p>
+        <hr />
+        <h2>
+            23. Tracking methods that use storage at the user (browser, device)
+        </h2>
+        <p>
+            These persist an identifier on the client and read it back later
+            (&ldquo;stateful&rdquo; tracking):
+        </p>
+        <ul>
+            <li>
+                <strong>HTTP cookies</strong> — first-party and
+                <strong>third-party cookies</strong> (the classic cross-site
+                tracker).
+            </li>
+            <li>
+                <strong>Flash cookies / Local Shared Objects (LSOs)</strong> —
+                historically used to back up and respawn deleted cookies.
+            </li>
+            <li>
+                <strong>HTML5 storage</strong> — <code>localStorage</code>,
+                <code>sessionStorage</code>, <strong>IndexedDB</strong>, (old
+                Web SQL).
+            </li>
+            <li>
+                <strong>HTTP cache abuses</strong> —
+                <strong>ETag</strong>/Last-Modified tracking; cached resources
+                (incl. <strong>favicon cache</strong>) carrying IDs.
+            </li>
+            <li><strong>HSTS &ldquo;supercookies.&rdquo;</strong></li>
+            <li>
+                <strong>Evercookies / &ldquo;zombie cookies&rdquo;</strong> —
+                store the same ID in many of the above locations so that
+                deleting one causes it to <strong>respawn</strong> from the
+                others.
+            </li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> A. Soltani et al., &ldquo;Flash Cookies
+            and Privacy&rdquo; (2009); S. Kamkar, &ldquo;evercookie.&rdquo;
+        </p>
+        <hr />
+        <h2>24. How cookie-less tracking works</h2>
+        <p>
+            When cookies are blocked/cleared, trackers fall back on
+            <strong>stateless or alternative-state</strong> signals:
+        </p>
+        <ul>
+            <li>
+                <strong>Browser/device fingerprinting</strong> (see Q25) —
+                identify the device by its characteristics, storing nothing.
+            </li>
+            <li><strong>IP address</strong> and network-level signals.</li>
+            <li><strong>Cache/ETag-based</strong> persistence.</li>
+            <li>
+                <strong>First-party + server-side data sharing</strong> — the
+                site stores the ID server-side and shares it (e.g. via
+                server-to-server APIs), defeating browser cookie controls.
+            </li>
+            <li>
+                <strong>Login / authenticated identifiers</strong> and
+                <strong>hashed-email identifiers</strong> (e.g. industry
+                &ldquo;Unified ID&rdquo; schemes) that follow a logged-in user
+                across sites.
+            </li>
+            <li>
+                <strong>Probabilistic matching</strong> — combine signals (IP +
+                UA + behaviour + timing) to link sessions statistically.
+            </li>
+            <li>
+                <strong>Privacy-Sandbox-style</strong> interest signals (Google
+                <strong>Topics API</strong>) — on-device interest categories
+                instead of cross-site cookies.
+            </li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> Google Privacy Sandbox docs; literature
+            on stateless tracking (below).
+        </p>
+        <hr />
+        <h2>25. Browser fingerprinting and defences</h2>
+        <p>
+            <strong>How it works:</strong> JavaScript and HTTP headers expose
+            many device/browser attributes whose
+            <strong>combined entropy</strong> is often unique: user-agent, OS,
+            language/timezone, screen resolution, installed
+            <strong>fonts</strong> and plugins, hardware concurrency,
+            <strong>Canvas fingerprinting</strong> (rendering text/graphics that
+            vary by GPU/driver), <strong>WebGL</strong> and
+            <strong>AudioContext</strong> fingerprints, battery, sensors. No
+            identifier is stored on the client, so it is
+            <strong>stateless</strong> and survives cookie deletion and private
+            browsing.
+        </p>
+        <p>
+            <strong>Defences:</strong> - <strong>Tor Browser</strong> —
+            deliberately makes all users look identical (uniform fingerprint). -
+            <strong>Firefox <code>resistFingerprinting</code></strong> /
+            <strong>Brave</strong> — randomise or normalise canvas/WebGL/audio
+            readings. - <strong>Reduce attack surface</strong> — disable
+            JavaScript or specific APIs; standard, common configurations (being
+            &ldquo;normal&rdquo; lowers uniqueness). -
+            <strong>Anti-fingerprinting extensions</strong>; blocking known
+            fingerprinting scripts. - Note: blocking <em>some</em> signals can
+            paradoxically make you <em>more</em> unique, so uniformity (Tor
+            approach) is generally stronger than partial spoofing.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> P. Eckersley, &ldquo;How Unique Is Your
+            Web Browser?&rdquo; (PETS 2010, EFF Panopticlick); the
+            <strong>AmIUnique</strong> project.
+        </p>
+        <hr />
+        <h2>26. How search engines threaten privacy</h2>
+        <ul>
+            <li>
+                <strong>Query logs</strong> tied to an IP or account reveal
+                interests, health concerns, finances, location, and
+                <strong>intentions</strong> — a uniquely intimate record.
+            </li>
+            <li>
+                <strong>Profiling for ad targeting</strong>, cross-service
+                linkage when the search account is also used for mail, maps,
+                video, etc.
+            </li>
+            <li>
+                <strong>Personalisation / filter bubbles</strong> shape what
+                information you see.
+            </li>
+            <li>
+                <strong>De-anonymisation of logs</strong> — even
+                &ldquo;anonymised&rdquo; query logs can re-identify individuals
+                (the 2006 <strong>AOL search-log release</strong> identified
+                real users).
+            </li>
+            <li>
+                <strong>Location leakage</strong> through localised results and
+                autocomplete.
+            </li>
+            <li>
+                <strong>Government/legal access</strong> — logs are subject to
+                subpoenas and surveillance requests.
+            </li>
+        </ul>
+        <p>
+            Mitigations: privacy-focused engines (DuckDuckGo, Startpage),
+            querying via Tor, not staying logged in.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> The 2006 AOL search-data incident;
+            analyses of search-engine privacy policies.
+        </p>
+        <hr />
+        <h2>27. How predictive analytics works + 3 application scenarios</h2>
+        <p>
+            <strong>How it works:</strong> historical (labelled) data is used to
+            <strong>train a statistical/ML model</strong> that maps input
+            features to an outcome; the model then estimates the
+            <strong>probability of a future outcome</strong> for new inputs.
+            Pipeline: data collection → cleaning &amp;
+            <strong>feature engineering</strong> → model training (regression,
+            classification, tree ensembles, neural nets) → validation →
+            <strong>prediction</strong> → decision/action → monitoring &amp;
+            retraining.
+        </p>
+        <p>
+            <strong>Three application scenarios:</strong> 1.
+            <strong>Finance</strong> — credit scoring / loan default prediction;
+            fraud detection. 2. <strong>Healthcare</strong> — predicting disease
+            onset, hospital readmission, or patient deterioration. 3.
+            <strong>Marketing / operations</strong> — customer
+            <strong>churn</strong> prediction and recommendations; or
+            <strong>predictive maintenance</strong> in manufacturing
+            (forecasting equipment failure).
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> Any data-mining text (e.g. Hastie,
+            Tibshirani, Friedman, <em>Elements of Statistical Learning</em>).
+        </p>
+        <hr />
+        <h2>
+            28. Using tracking data to predict health, fitness, and
+            car-insurance fees
+        </h2>
+        <ul>
+            <li>
+                <strong>Health &amp; fitness:</strong> wearables and phones log
+                steps, heart rate, sleep, and movement; combined with search
+                history and purchases, models infer fitness level, conditions,
+                even pregnancy (the well-known <strong>Target</strong> case
+                predicted pregnancy from shopping patterns). Health insurers run
+                &ldquo;active rewards&rdquo; programmes that price using fitness
+                data.
+            </li>
+            <li>
+                <strong
+                    >Car insurance (Usage-Based Insurance / telematics):</strong
+                >
+                a dongle or app records
+                <strong
+                    >mileage, speed, harsh braking/acceleration, cornering,
+                    time-of-day, and location</strong
+                >; a risk model turns this driving behaviour into a
+                <strong>personalised premium</strong>
+                (&ldquo;pay-how-you-drive&rdquo;).
+            </li>
+            <li>
+                <strong>Risks:</strong> sensitive inferences from non-sensitive
+                raw data; <strong>dynamic/discriminatory pricing</strong>;
+                denial of coverage; chilling effects; secondary use beyond the
+                original purpose.
+            </li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> C. Duhigg, &ldquo;How Companies Learn
+            Your Secrets&rdquo; (NYT, 2012, Target case); literature on
+            telematics/UBI.
+        </p>
+        <hr />
+        <h2>29. Social bots: how they work, impacts, and targets</h2>
+        <p>
+            <strong>How they work:</strong> automated or semi-automated
+            social-media accounts that imitate humans — posting, liking,
+            sharing, following — often operated in
+            <strong>coordinated swarms (botnets)</strong>, sometimes with
+            AI-generated text and profile images to appear authentic. They
+            <strong>amplify</strong> chosen content, fabricate engagement, and
+            create the illusion of grassroots support
+            (<strong>astroturfing</strong>).
+        </p>
+        <p>
+            <strong>Impacts on users:</strong> spread of
+            <strong>mis/disinformation</strong>, manipulation of opinion and
+            emotion, manufactured &ldquo;consensus,&rdquo; spam and phishing,
+            harassment.
+        </p>
+        <p>
+            <strong>Other targets:</strong> - <strong>Companies:</strong> fake
+            reviews and reputation attacks, coordinated brand damage,
+            <strong>stock/market manipulation</strong> (pump-and-dump). -
+            <strong>Governments / democracy:</strong> election interference,
+            propaganda, amplifying polarisation, eroding trust in institutions
+            and in the information ecosystem itself.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> E. Ferrara et al., &ldquo;The Rise of
+            Social Bots&rdquo; (Comm. ACM, 2016); Bessi &amp; Ferrara on social
+            bots in the 2016 US election.
+        </p>
+        <hr />
+        <h2>30. Main differences between a Tor network and a Mix</h2>
+        <p>
+            Both anonymise by relaying through intermediaries, but they target
+            different traffic and threat models:
+        </p>
+        <p>
+            <strong>Tor (onion routing)</strong> - <strong>Low-latency</strong>,
+            built for interactive traffic (web browsing). - A
+            <strong>circuit of 3 relays</strong> (guard → middle → exit) with
+            <strong>layered (&ldquo;onion&rdquo;) encryption</strong>. -
+            Forwards packets <strong>in real time</strong>;
+            <strong>no batching, delaying, or cover traffic</strong>. -
+            Therefore
+            <strong
+                >weak against a global passive adversary / end-to-end
+                timing-correlation</strong
+            >
+            attacks.
+        </p>
+        <p>
+            <strong>Mix network (Chaumian mix)</strong> -
+            <strong>High-latency</strong>, built for messaging (email). - Each
+            mix
+            <strong
+                >collects a batch of messages, reorders them, delays them, and
+                adds dummy/cover traffic</strong
+            >, breaking the timing link between input and output; uses
+            re-encryption so messages look bitwise different in and out. -
+            <strong>Strong against traffic analysis</strong>, even a global
+            passive adversary — but the latency makes it unsuitable for
+            interactive browsing.
+        </p>
+        <p>
+            <strong>Key difference:</strong> mixes
+            <strong>deliberately delay and reorder (and pad)</strong> to defeat
+            traffic-correlation; Tor optimises for
+            <strong>low latency</strong> and accepts weaker protection against a
+            global adversary.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> D. Chaum, &ldquo;Untraceable Electronic
+            Mail…&rdquo; (CACM 1981); R. Dingledine et al., &ldquo;Tor: The
+            Second-Generation Onion Router&rdquo; (USENIX Security 2004).
+        </p>
+        <hr />
+        <h2>31. Threats from collecting user location</h2>
+        <ul>
+            <li>
+                <strong>Re-identification:</strong> location traces are highly
+                unique —
+                <strong
+                    >four spatio-temporal points uniquely identify ~95%</strong
+                >
+                of people (de Montjoye et al.). Home + work usually pin down an
+                identity.
+            </li>
+            <li>
+                <strong>Sensitive inferences:</strong> religion (place of
+                worship), health (clinics/hospitals), sexual orientation,
+                political activity (attending protests), relationships
+                (co-location).
+            </li>
+            <li>
+                <strong>Physical-safety harms:</strong>
+                <strong>stalking</strong>, burglary (knowing when you&rsquo;re
+                away).
+            </li>
+            <li>
+                <strong>Behavioural profiling</strong> for advertising and price
+                discrimination.
+            </li>
+            <li>
+                <strong>State surveillance</strong> and aggregation across data
+                brokers.
+            </li>
+            <li>
+                <strong>De-anonymisation</strong> by combining
+                &ldquo;anonymous&rdquo; location data with external datasets.
+            </li>
+        </ul>
+        <p class="ref">
+            <em>Where to read more:</em> Y.-A. de Montjoye et al., &ldquo;Unique
+            in the Crowd: The Privacy Bounds of Human Mobility&rdquo;
+            (Scientific Reports, 2013).
+        </p>
+        <hr />
+        <h2>32. Forbidden AI applications in the AI Act (Article 5)</h2>
+        <p>
+            Regulation (EU) 2024/1689, <strong>Art. 5</strong> bans eight
+            categories (in force since 2 Feb 2025):
+        </p>
+        <ol>
+            <li>
+                <strong>Subliminal/manipulative/deceptive techniques</strong>
+                that materially distort behaviour and cause (or are likely to
+                cause) significant harm.
+            </li>
+            <li>
+                <strong>Exploiting vulnerabilities</strong> due to age,
+                disability, or a specific social/economic situation to distort
+                behaviour and cause harm.
+            </li>
+            <li>
+                <strong>Social scoring</strong> by public or private actors
+                leading to unjustified or
+                <strong>disproportionate detrimental treatment</strong>.
+            </li>
+            <li>
+                <strong
+                    >Predicting criminal offending based <em>solely</em> on
+                    profiling</strong
+                >
+                or personality traits (predictive policing of individuals).
+            </li>
+            <li>
+                <strong>Untargeted scraping of facial images</strong> from the
+                internet or CCTV to build/expand
+                <strong>facial-recognition databases</strong>.
+            </li>
+            <li>
+                <strong
+                    >Emotion recognition in the workplace and in
+                    education</strong
+                >
+                (with narrow medical/safety exceptions).
+            </li>
+            <li>
+                <strong>Biometric categorisation</strong> inferring
+                <strong>sensitive attributes</strong> (race, political opinions,
+                religion, sexual orientation, etc.).
+            </li>
+            <li>
+                <strong
+                    >Real-time remote biometric identification in publicly
+                    accessible spaces for law enforcement</strong
+                >
+                — with narrow, authorised exceptions (e.g. searching for
+                specific victims/missing persons, preventing an imminent
+                terrorist threat, locating suspects of serious crimes).
+            </li>
+        </ol>
+        <p class="ref">
+            <em>Where to read more:</em> Regulation (EU) 2024/1689, Art. 5;
+            artificialintelligenceact.eu/article/5.
+        </p>
+        <hr />
+        <h2>33. Main high-risk areas in the AI Act (Annex III)</h2>
+        <p>
+            High-risk under <strong>Art. 6(2)</strong> = the eight use-case
+            areas of <strong>Annex III</strong> (plus Art. 6(1): AI that is a
+            safety component of products regulated under Annex I harmonisation
+            law, e.g. medical devices, machinery):
+        </p>
+        <ol>
+            <li>
+                <strong>Biometrics</strong> — remote biometric identification,
+                biometric categorisation, emotion recognition (where permitted).
+            </li>
+            <li>
+                <strong>Critical infrastructure</strong> — safety components in
+                road traffic and the supply of water, gas, heating, electricity,
+                and critical digital infrastructure.
+            </li>
+            <li>
+                <strong>Education and vocational training</strong> — admission,
+                evaluation of learning outcomes, exam proctoring.
+            </li>
+            <li>
+                <strong
+                    >Employment, workers management and access to
+                    self-employment</strong
+                >
+                — recruitment, selection, promotion/termination, task
+                allocation, performance monitoring.
+            </li>
+            <li>
+                <strong
+                    >Access to essential private and public services and
+                    benefits</strong
+                >
+                — e.g. <strong>credit scoring/creditworthiness</strong>,
+                eligibility for public benefits, emergency-service dispatch,
+                <strong>health/life-insurance risk</strong> assessment.
+            </li>
+            <li>
+                <strong>Law enforcement</strong> — individual risk assessment,
+                evidence reliability evaluation, profiling.
+            </li>
+            <li>
+                <strong>Migration, asylum and border-control management</strong>
+                — risk assessment, examination of visa/asylum applications.
+            </li>
+            <li>
+                <strong
+                    >Administration of justice and democratic processes</strong
+                >
+                — assisting judicial decision-making; AI used to influence
+                elections/referenda.
+            </li>
+        </ol>
+        <p>
+            (An Annex III system can be exempted under Art. 6(3) if it poses no
+            significant risk to health/safety/fundamental rights.)
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> Regulation (EU) 2024/1689, Art. 6 and
+            <strong>Annex III</strong>; artificialintelligenceact.eu/annex/3.
+        </p>
+        <hr />
+        <h2>34. Why privacy is important in machine learning</h2>
+        <ul>
+            <li>
+                <strong>Models are trained on personal data</strong>, and the
+                model itself can <strong>leak</strong> that data:
+            </li>
+            <li>
+                <strong>Membership inference</strong> — an attacker can tell
+                whether a specific person&rsquo;s record was in the training
+                set.
+            </li>
+            <li>
+                <strong>Model inversion / attribute inference</strong> —
+                reconstruct sensitive attributes or representative inputs.
+            </li>
+            <li>
+                <strong>Memorisation &amp; training-data extraction</strong> —
+                large models (especially LLMs) can regurgitate verbatim
+                PII/secrets from training data.
+            </li>
+            <li>
+                <strong>Gradient leakage</strong> — in distributed training,
+                shared gradients can reveal inputs.
+            </li>
+            <li>
+                <strong>Legal compliance</strong> — GDPR principles (purpose
+                limitation, minimisation, lawful basis, the right to erasure)
+                apply to training data and sometimes to models.
+            </li>
+            <li>
+                <strong>Trust, fairness and ethics</strong> — privacy harms
+                compound with bias/discrimination.
+            </li>
+        </ul>
+        <p>
+            <strong>Defences:</strong> differentially private training
+            (<strong>DP-SGD</strong>), <strong>federated learning</strong>,
+            secure aggregation, data minimisation/anonymisation, output
+            filtering.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> R. Shokri et al., &ldquo;Membership
+            Inference Attacks Against ML Models&rdquo; (IEEE S&amp;P 2017); N.
+            Carlini et al., &ldquo;Extracting Training Data from Large Language
+            Models&rdquo; (USENIX Security 2021).
+        </p>
+        <hr />
+        <h2>
+            35. Federated learning architecture and how it better protects
+            personal data
+        </h2>
+        <p>
+            <strong>Architecture:</strong> a
+            <strong>central server</strong> coordinates training across many
+            <strong>clients</strong> (phones, browsers, hospitals, banks): 1.
+            Server sends the current <strong>global model</strong> to a sample
+            of clients. 2. Each client
+            <strong>trains locally on its own data</strong> and computes a model
+            <strong>update</strong> (gradients/weights). 3. Clients send
+            <strong>only the updates</strong> — never the raw data — back to the
+            server. 4. The server <strong>aggregates</strong> updates (e.g.
+            <strong>Federated Averaging, FedAvg</strong>) into an improved
+            global model. 5. Repeat for many rounds.
+        </p>
+        <p>
+            <strong>Why it protects personal data better:</strong> -
+            <strong>Raw data never leaves the device</strong> → data
+            minimisation and no central data honeypot, reducing breach and
+            misuse risk. - Naturally fits
+            <strong>GDPR purpose-limitation/minimisation</strong> and
+            data-locality/sovereignty requirements.
+        </p>
+        <p>
+            <strong>Caveat:</strong> model updates can still leak information
+            (<strong>gradient-leakage / inference attacks</strong>), so
+            federated learning is usually combined with
+            <strong>secure aggregation</strong> and
+            <strong>differential privacy</strong> to harden the guarantee.
+        </p>
+        <p class="ref">
+            <em>Where to read more:</em> B. McMahan et al.,
+            &ldquo;Communication-Efficient Learning of Deep Networks from
+            Decentralized Data&rdquo; (AISTATS 2017) — the FedAvg paper.
+        </p>
+        <hr />
+        <p class="tip">
+            <em
+                >Tip for the exam: the recurring themes that tie these topics
+                together are </em
+            ><em>data minimisation</em><em>, </em><em>unlinkability</em
+            ><em>, </em><em>provable vs. ad-hoc privacy guarantees</em
+            ><em>, and the </em><em>trust model</em
+            ><em>
+                (whom you must trust, and what they could do with the data).
+                Many questions can be answered by reasoning from those four
+                ideas.</em
+            >
+        </p>
+    </body>
+</html>

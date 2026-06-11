@@ -30,10 +30,13 @@ Usage:
     python html_to_pdf.py
     python html_to_pdf.py my_custom_guide.html output.pdf
 """
+
 import sys
 from pathlib import Path
+
 from weasyprint import HTML
 from weasyprint.text.fonts import FontConfiguration
+
 
 def convert(html_path: str, pdf_path: str) -> None:
     """Read an HTML file and render it to a PDF via weasyprint."""
@@ -55,20 +58,17 @@ def convert(html_path: str, pdf_path: str) -> None:
     print(f"Base URL  {base_url}")
     print(f"Rendering PDF ...")
 
-    HTML(string=html_content, base_url=base_url).write_pdf(
-        pdf_path,
-        font_config=fc
-    )
+    HTML(string=html_content, base_url=base_url).write_pdf(pdf_path, font_config=fc)
 
     print(f"Done → {pdf_path}")
 
 
 if __name__ == "__main__":
     # Default file names
-    default_html = "Privacy_Study_Guide_print_ready.html"
-    default_pdf  = "Privacy_in_Internet_Study_Guide.pdf"
+    default_html = "datenschutz_folien_zusammenfassung.html"
+    default_pdf = "datenschutz_folien_zusammenfassung.pdf"
 
-    html_in  = sys.argv[1] if len(sys.argv) > 1 else default_html
-    pdf_out  = sys.argv[2] if len(sys.argv) > 2 else default_pdf
+    html_in = sys.argv[1] if len(sys.argv) > 1 else default_html
+    pdf_out = sys.argv[2] if len(sys.argv) > 2 else default_pdf
 
     convert(html_in, pdf_out)

@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Datenschutz — Übungsquiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                font-family:
+                    "Source Serif 4", "DejaVu Serif", "DejaVu Sans", serif;
+                font-size: 10.4pt;
+                line-height: 1.5;
+                color: #23262c;
+            }
+
+            h1 {
+                font-family: "Source Serif 4";
+                font-weight: 900;
+                font-size: 30pt;
+                line-height: 1.04;
+                color: #181a1f;
+                margin: 0 0 2pt;
+                letter-spacing: -0.01em;
+            }
+            /* kicker bar above the title */
+            h1::before {
+                content: "";
+                display: block;
+                width: 46pt;
+                height: 5pt;
+                background: #b5641d;
+                margin-bottom: 11pt;
+                border-radius: 1pt;
+            }
+            h1 + p {
+                color: #857c6f;
+                font-style: italic;
+                font-size: 10.5pt;
+                line-height: 1.45;
+                border-bottom: 1.4pt solid #ddd0ba;
+                padding-bottom: 13pt;
+                margin: 6pt 0 4pt;
+            }
+
+            h2 {
+                font-family: "Source Serif 4";
+                font-weight: 700;
+                font-size: 14.5pt;
+                color: #27776a;
+                line-height: 1.18;
+                margin: 21pt 0 7pt;
+                padding-left: 11pt;
+                border-left: 3.5pt solid #b5641d;
+                break-after: avoid;
+                letter-spacing: -0.005em;
+            }
+
+            p {
+                margin: 0 0 7pt;
+            }
+            strong {
+                font-weight: 700;
+                color: #181a1f;
+            }
+            em {
+                font-style: italic;
+            }
+
+            ul {
+                margin: 4pt 0 9pt;
+                padding-left: 0;
+                list-style: none;
+            }
+            ul > li {
+                position: relative;
+                padding-left: 15pt;
+                margin: 0 0 4pt;
+            }
+            ul > li::before {
+                content: "–";
+                position: absolute;
+                left: 2pt;
+                color: #b5641d;
+                font-weight: 700;
+            }
+            ul ul {
+                margin: 4pt 0 4pt;
+            }
+            ul ul > li::before {
+                content: "·";
+                color: #27776a;
+                font-weight: 700;
+                left: 4pt;
+            }
+            ol {
+                margin: 4pt 0 9pt;
+                padding-left: 21pt;
+            }
+            ol > li {
+                margin: 0 0 4pt;
+                padding-left: 4pt;
+            }
+            ol > li::marker {
+                color: #b5641d;
+                font-weight: 700;
+                font-family: "JetBrains Mono";
+                font-size: 9pt;
+            }
+
+            mark {
+                background: #f7f0e3;
+                padding: 0.5pt 3pt;
+                border-radius: 2pt;
+                color: #181a1f;
+            }
+
+            code {
+                font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+                font-size: 9pt;
+                background: #f7f0e3;
+                padding: 0.5pt 3pt;
+                border-radius: 2pt;
+                color: #181a1f;
+            }
+
+            pre {
+                background: #fbf7ef;
+                border: 1pt solid #ddd0ba;
+                border-left: 3pt solid #b5641d;
+                border-radius: 3pt;
+                padding: 9pt 12pt;
+                margin: 9pt 0;
+                white-space: pre-wrap;
+                word-break: break-word;
+                break-inside: auto;
+            }
+            pre code {
+                background: none;
+                padding: 0;
+                border: none;
+                border-radius: 0;
+                font-size: 7.9pt;
+                line-height: 1.5;
+                color: #181a1f;
+            }
+
+            hr {
+                border: none;
+                border-top: 1pt solid #e7ddcc;
+                margin: 15pt 0 0;
+            }
+
+            /* reference / further-reading callout */
+            p.ref {
+                background: #f7f0e3;
+                border-left: 2.5pt solid #27776a;
+                padding: 6pt 10pt;
+                font-size: 9pt;
+                line-height: 1.42;
+                color: #54504a;
+                margin: 8pt 0 2pt;
+            }
+            p.ref em {
+                color: #27776a;
+                font-style: italic;
+                font-weight: 600;
+            }
+
+            /* formulas rendered as blockquotes */
+            blockquote {
+                font-family: "JetBrains Mono";
+                font-size: 10pt;
+                background: #fbfaf6;
+                border: 1pt solid #ddd0ba;
+                border-left: 3pt solid #b5641d;
+                padding: 8pt 12pt;
+                margin: 8pt 0;
+                color: #181a1f;
+                text-align: center;
+            }
+            blockquote p {
+                margin: 0;
+            }
+
+            p.tip {
+                background: #eef5f2;
+                border: 1pt solid #cfe2db;
+                border-radius: 3pt;
+                padding: 9pt 12pt;
+                font-size: 9.6pt;
+                color: #33514a;
+                margin-top: 16pt;
+            }
+            p.tip em {
+                font-style: italic;
+            }
+
+            table {
+                border-collapse: collapse;
+                margin: 9pt 0 11pt;
+                font-size: 9.5pt;
+            }
+            th {
+                font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+                font-size: 9pt;
+                font-weight: 700;
+                color: #181a1f;
+                background: #f7f0e3;
+                border: 1pt solid #ddd0ba;
+                padding: 5pt 11pt;
+                text-align: left;
+                letter-spacing: 0.04em;
+            }
+            td {
+                border: 1pt solid #ddd0ba;
+                padding: 4pt 11pt;
+                vertical-align: top;
+            }
+            td:first-child {
+                font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+                font-weight: 700;
+                color: #b5641d;
+                font-size: 9.5pt;
+            }
+
+            body {
+                max-width: 820px;
+                margin: 0 auto;
+                padding: 48px 32px;
+                background: #fff;
+            }
+        
+    h3 { font-family: "Source Serif 4"; font-weight: 700; font-size: 11.5pt;
+         color: #181a1f; line-height: 1.25; margin: 14pt 0 5pt; break-after: avoid; }
+    .correct-mark { color: #27776a; font-weight: 700; }
+    .wrong-mark { color: #b5641d; font-weight: 700; }
+    .option { position: relative; padding-left: 15pt; margin: 0 0 4pt; }
+    .option .letter { font-family: "JetBrains Mono", monospace; font-weight: 700;
+                      color: #b5641d; font-size: 9.5pt; }
+    .solution { margin: 7pt 0 4pt; }
+
+    </style>
+</head>
+<body>
+<h1>Übungsquiz Datenschutz</h1>
+<p><em>12 Fragen — Multiple Choice und offene Fragen mit Lösungen und ausführlicher Begründung. Basierend auf dem Vorlesungsstoff Einheit 1–3.</em></p>
+<hr />
+<h2>Frage 1. Ziele der DSGVO</h2>
+<p><strong>Welche Ziele verfolgt die DSGVO?</strong></p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">A)</span> Schutz natürlicher Personen</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">B)</span> Förderung des freien Datenverkehrs in der EU</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">C)</span> Harmonisierung des Steuerrechts</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">D)</span> Einschränkung des Datenverkehrs</p>
+<p class="solution"><strong>Lösung:</strong> A, B</p>
+<p class="ref"><em>Begründung:</em> Die DSGVO verfolgt zwei Hauptziele: den Schutz natürlicher Personen bei der Verarbeitung personenbezogener Daten und die Sicherstellung des freien Verkehrs personenbezogener Daten in der Union. Steuerrecht ist nicht Gegenstand der DSGVO, und der Datenverkehr soll gerade nicht eingeschränkt, sondern ermöglicht werden.</p>
+<p class="ref"><em>Quellen:</em> Art 1 Abs 1 und Abs 2 DSGVO; [E1/F4]</p>
+<hr />
+<h2>Frage 2. Anwendbarkeit der DSGVO</h2>
+<p><strong>Wann ist die DSGVO anwendbar?</strong></p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">A)</span> Nur bei Verarbeitung in Österreich</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">B)</span> Bei Niederlassung in der EU</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">C)</span> Bei Angebot von Waren/Dienstleistungen an Personen in der EU</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">D)</span> Nur für öffentliche Stellen</p>
+<p class="solution"><strong>Lösung:</strong> B, C</p>
+<p class="ref"><em>Begründung:</em> Die DSGVO gilt überterritorial: bei Niederlassung in der EU (Art 3 Abs 1) und beim Angebot von Waren/Dienstleistungen an Personen in der EU, auch unentgeltlich (Art 3 Abs 2 lit a). Sie beschränkt sich weder auf Österreich noch auf öffentliche Stellen.</p>
+<p class="ref"><em>Quellen:</em> Art 3 Abs 1 und Abs 2 DSGVO; [E1/F10]</p>
+<hr />
+<h2>Frage 3. Personenbezogene Daten</h2>
+<p><strong>Wann sind Daten personenbezogen?</strong></p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">A)</span> Wenn sie in einer Datenbank gespeichert sind</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">B)</span> Wenn eine Person identifizierbar ist</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">C)</span> Wenn eine Einwilligung vorliegt</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">D)</span> Wenn es sich um juristische Personen handelt</p>
+<p class="solution"><strong>Lösung:</strong> B</p>
+<p class="ref"><em>Begründung:</em> Personenbezogene Daten sind alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person beziehen (Art 4 Nr 1 DSGVO). Entscheidend ist die Wiedererkennbarkeit, nicht der Speicherort, das Vorliegen einer Einwilligung oder der Bezug zu juristischen Personen. Daten juristischer Personen sind grundsätzlich nicht geschützt.</p>
+<p class="ref"><em>Quellen:</em> Art 4 Nr 1 DSGVO; ErwGr 30 DSGVO; [E1/F14]</p>
+<hr />
+<h2>Frage 4. Pseudonymisierte Daten</h2>
+<p><strong>Welche Aussagen zu pseudonymisierten Daten sind korrekt?</strong></p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">A)</span> Pseudonymisierte Daten sind anonym</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">B)</span> Pseudonymisierte Daten bleiben personenbezogen</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">C)</span> Es gibt Erleichterungen bei pseudonymisierten Daten</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">D)</span> DSGVO gilt weiterhin</p>
+<p class="solution"><strong>Lösung:</strong> B, D</p>
+<p class="ref"><em>Begründung:</em> Pseudonymisierte Daten bleiben personenbezogene Daten, weil eine Zuordnung mit Zusatzinformationen möglich bleibt (Art 4 Nr 5 DSGVO, ErwGr 26). Die DSGVO gilt daher weiterhin vollständig. Es gibt keine generelle Ausnahme und keine allgemeinen Erleichterungen für pseudonymisierte Daten. Pseudonymisierung ist nicht gleich Anonymisierung.</p>
+<p class="ref"><em>Quellen:</em> Art 4 Nr 5 DSGVO; ErwGr 26 DSGVO; [E1/F21]</p>
+<hr />
+<h2>Frage 5. Grundsätze nach Art 5 DSGVO</h2>
+<p><strong>Welche Prinzipien gelten nach Art 5 DSGVO?</strong></p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">A)</span> Zweckbindung</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">B)</span> Datenminimierung</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">C)</span> Profitmaximierung</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">D)</span> Integrität und Vertraulichkeit</p>
+<p class="solution"><strong>Lösung:</strong> A, B, D</p>
+<p class="ref"><em>Begründung:</em> Art 5 Abs 1 DSGVO nennt die Grundsätze: Rechtmäßigkeit, Treu und Glauben, Transparenz, Zweckbindung, Datenminimierung, Richtigkeit, Speicherbegrenzung sowie Integrität und Vertraulichkeit. Profitmaximierung ist kein Datenschutzgrundsatz.</p>
+<p class="ref"><em>Quellen:</em> Art 5 Abs 1 DSGVO; [E1/F23–F24]</p>
+<hr />
+<h2>Frage 6. Verantwortlicher</h2>
+<p><strong>Wer ist Verantwortlicher im Sinne der DSGVO?</strong></p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">A)</span> Jede Person, die Daten verarbeitet</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">B)</span> Wer über Zweck und Mittel entscheidet</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">C)</span> Nur IT-Dienstleister</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">D)</span> Empfänger von Daten</p>
+<p class="solution"><strong>Lösung:</strong> B</p>
+<p class="ref"><em>Begründung:</em> Verantwortlicher ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über Zwecke und Mittel der Verarbeitung entscheidet (Art 4 Nr 7 DSGVO). Maßgeblich ist die faktische Entscheidungskompetenz. IT-Dienstleister sind typischerweise Auftragsverarbeiter (Art 4 Nr 8), nicht Verantwortliche.</p>
+<p class="ref"><em>Quellen:</em> Art 4 Nr 7 DSGVO; [E1/F17]</p>
+<hr />
+<h2>Frage 7. Einwilligung</h2>
+<p><strong>Welche Aussagen zur Einwilligung sind korrekt?</strong></p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">A)</span> Muss nachweisbar sein</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">B)</span> Kann durch Schweigen erteilt werden</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">C)</span> Muss immer schriftlich erfolgen</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">D)</span> Kann jederzeit widerrufen werden</p>
+<p class="solution"><strong>Lösung:</strong> A, D</p>
+<p class="ref"><em>Begründung:</em> Einwilligung muss nachweisbar sein (Art 7 Abs 1) und ist jederzeit widerrufbar (Art 7 Abs 3). Schweigen, Untätigkeit und vorangekreuzte Checkboxen sind ausdrücklich keine gültige Einwilligung (ErwGr 32). Es gibt keine Schriftformvorschrift – die Einwilligung kann auch mündlich erteilt werden.</p>
+<p class="ref"><em>Quellen:</em> Art 7 Abs 1 und Abs 3 DSGVO; ErwGr 32; [E1/F30–F32]</p>
+<hr />
+<h2>Frage 8. Berechtigte Interessen</h2>
+<p><strong>Welche Aussagen zu berechtigten Interessen sind richtig?</strong></p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">A)</span> Immer anwendbar im Konzern</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">B)</span> Erfordern eine Interessenabwägung</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">C)</span> Sind klar definiert ohne Spielraum</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">D)</span> Können z. B. Direktmarketing umfassen</p>
+<p class="solution"><strong>Lösung:</strong> B, D</p>
+<p class="ref"><em>Begründung:</em> Berechtigte Interessen erfordern eine einzelfallbezogene Abwägung und sind gerade nicht klar definiert, sondern auslegungsbedürftig (Art 6 Abs 1 lit f DSGVO). Direktmarketing kann ein berechtigtes Interesse sein (ErwGr 47). Es gibt kein allgemeines Konzernprivileg; Konzernübermittlungen können nach ErwGr 48 im Einzelfall gerechtfertigt sein, aber nicht pauschal.</p>
+<p class="ref"><em>Quellen:</em> Art 6 Abs 1 lit f DSGVO; ErwGr 47 und 48; [E1/F28–F29]</p>
+<hr />
+<h2>Frage 9. Datenschutz-Folgenabschätzung</h2>
+<p><strong>Welche Aussagen zur Datenschutz-Folgenabschätzung (DSFA) sind korrekt?</strong></p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">A)</span> Immer durchzuführen</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">B)</span> Bei hohem Risiko erforderlich</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">C)</span> Nur für Papierakten</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">D)</span> Vorab durchzuführen</p>
+<p class="solution"><strong>Lösung:</strong> B, D</p>
+<p class="ref"><em>Begründung:</em> Eine DSFA ist erforderlich, wenn eine Verarbeitung voraussichtlich ein hohes Risiko für Rechte und Freiheiten natürlicher Personen mit sich bringt (Art 35 Abs 1 DSGVO) – nicht bei jeder Verarbeitung. Sie ist vorab, also vor Beginn der Verarbeitung, durchzuführen. Sie betrifft nicht nur Papierakten, sondern insbesondere automatisierte Verarbeitungen, Profiling und systematische Überwachung.</p>
+<p class="ref"><em>Quellen:</em> Art 35 Abs 1 und Abs 3 DSGVO; [E2/F9–F13]</p>
+<hr />
+<h2>Frage 10. Ziele von TOMs</h2>
+<p><strong>Welche Ziele verfolgen technische und organisatorische Maßnahmen (TOMs)?</strong></p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">A)</span> Vertraulichkeit</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">B)</span> Integrität</p>
+<p class="option"><span class="correct-mark">✓</span> <span class="letter">C)</span> Verfügbarkeit</p>
+<p class="option"><span class="wrong-mark">✗</span> <span class="letter">D)</span> Abschaffung sensibler Daten</p>
+<p class="solution"><strong>Lösung:</strong> A, B, C</p>
+<p class="ref"><em>Begründung:</em> Art 32 Abs 1 DSGVO nennt als Sicherheitsziele Vertraulichkeit, Integrität, Verfügbarkeit und Belastbarkeit der Systeme und Dienste sowie die rasche Wiederherstellung des Zugangs bei Zwischenfällen. Sensible Daten werden nicht abgeschafft, sondern besonders geschützt.</p>
+<p class="ref"><em>Quellen:</em> Art 32 Abs 1 lit a–d DSGVO; [E3/F7]</p>
+<hr />
+<h2>Frage 11. Privacy by Default</h2>
+<p><strong>Was bedeutet „Privacy by Default“ und welche Ziele verfolgt dieses Prinzip? (4 Punkte)</strong></p>
+<p><em>Offene Frage</em></p>
+<p class="ref"><em>Musterantwort:</em> Privacy by Default (Datenschutz durch datenschutzfreundliche Voreinstellungen) bedeutet nach Art 25 Abs 2 DSGVO, dass durch Voreinstellungen nur die für den jeweiligen Verarbeitungszweck erforderlichen personenbezogenen Daten verarbeitet werden. Das betrifft den Umfang der erhobenen Daten, den Umfang der Verarbeitung, die Speicherfrist und die Zugänglichkeit. Ziel ist, dass Datenschutz nicht erst nachträglich ergänzt wird, sondern bereits in den Grundeinstellungen eines Systems oder Produkts integriert ist. Nutzer müssen also aktiv mehr Datenfreigabe wählen, statt sich aktiv schützen zu müssen.</p>
+<p class="ref"><em>Quellen:</em> Art 25 Abs 2 DSGVO; [E3/F5–F6]</p>
+<hr />
+<h2>Frage 12. Fallbeispiel Data Breach</h2>
+<p><strong>Eine Mitarbeiterin versendet versehentlich eine Excel-Liste mit Bewerberdaten (inkl. teilweise sensibler Informationen) an einen falschen Empfänger. Der Fehler wird erst nach 24 Stunden entdeckt. Was ist in der Organisation zu tun? (8 Punkte)</strong></p>
+<p><em>Offene Frage</em></p>
+<p class="ref"><em>Musterantwort:</em> <strong>1.</strong> Vorfall sofort intern dokumentieren: Was ist passiert, welche Daten, wie viele Betroffene, wann entdeckt? <strong>2.</strong> Sofortmaßnahmen einleiten: Falschen Empfänger kontaktieren und um Löschung bitten, Bestätigung der Löschung anfordern. <strong>3.</strong> Risikobewertung durchführen: Da Bewerberdaten mit teilweise sensiblen Informationen betroffen sind (Art 9 DSGVO), liegt ein hohes Risiko nahe. <strong>4.</strong> Meldung an die Datenschutzbehörde (Art 33 DSGVO) unverzüglich und möglichst binnen 72 Stunden ab Kenntnis, mit Art der Verletzung, Kategorien/Zahl der Betroffenen, Kontaktdaten des DSB, wahrscheinlichen Folgen und ergriffenen Gegenmaßnahmen. <strong>5.</strong> Benachrichtigung der betroffenen Bewerber (Art 34 DSGVO), da bei sensiblen Daten ein hohes Risiko für deren Rechte und Freiheiten besteht. <strong>6.</strong> Lessons Learned: Awareness-Training, Überprüfung der Prozesse (z. B. Vier-Augen-Prinzip bei Massenversand), Dokumentation für künftige Nachweise.</p>
+<p class="ref"><em>Quellen:</em> Art 33 und Art 34 DSGVO; [E3/F17–F21]</p>
+</body>
+</html>

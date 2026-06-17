@@ -1,374 +1,1858 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Datenschutz Altprüfung — Interactive Flashcards</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --ink:#0e1116; --ink2:#161b22; --paper:#f4ece0;
-  --accent:#d98c3f; --accent2:#5fb6a8; --muted:#8a93a0;
-  --line:#222b36; --line2:#2c3644;
-  --correct:#4ead6b; --correct-dim:rgba(78,173,107,.12);
-  --wrong:#d45454; --wrong-dim:rgba(212,84,84,.12);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:"Newsreader",Georgia,serif;color:var(--paper);
-  background:radial-gradient(1100px 560px at 82% -8%,#1c2632 0%,transparent 58%),
-             radial-gradient(820px 460px at -5% 108%,#1a2420 0%,transparent 55%),var(--ink);
-  min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased;padding:0 22px;
-}
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
-  background-image:
-    linear-gradient(transparent 0,transparent 39px,rgba(95,182,168,.035) 40px),
-    linear-gradient(90deg,transparent 0,transparent 39px,rgba(95,182,168,.035) 40px);
-  background-size:40px 40px;
-  -webkit-mask-image:radial-gradient(1200px 800px at 50% 20%,#000 0%,transparent 80%);
-  mask-image:radial-gradient(1200px 800px at 50% 20%,#000 0%,transparent 80%);
-}
-body::after{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.04;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Datenschutz Altprüfung — Interactive Flashcards</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --ink: #0e1116;
+                --ink2: #161b22;
+                --paper: #f4ece0;
+                --accent: #d98c3f;
+                --accent2: #5fb6a8;
+                --muted: #8a93a0;
+                --line: #222b36;
+                --line2: #2c3644;
+                --correct: #4ead6b;
+                --correct-dim: rgba(78, 173, 107, 0.12);
+                --wrong: #d45454;
+                --wrong-dim: rgba(212, 84, 84, 0.12);
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                font-family: "Newsreader", Georgia, serif;
+                color: var(--paper);
+                background:
+                    radial-gradient(
+                        1100px 560px at 82% -8%,
+                        #1c2632 0%,
+                        transparent 58%
+                    ),
+                    radial-gradient(
+                        820px 460px at -5% 108%,
+                        #1a2420 0%,
+                        transparent 55%
+                    ),
+                    var(--ink);
+                min-height: 100vh;
+                line-height: 1.55;
+                -webkit-font-smoothing: antialiased;
+                padding: 0 22px;
+            }
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0.5;
+                background-image:
+                    linear-gradient(
+                        transparent 0,
+                        transparent 39px,
+                        rgba(95, 182, 168, 0.035) 40px
+                    ),
+                    linear-gradient(
+                        90deg,
+                        transparent 0,
+                        transparent 39px,
+                        rgba(95, 182, 168, 0.035) 40px
+                    );
+                background-size: 40px 40px;
+                -webkit-mask-image: radial-gradient(
+                    1200px 800px at 50% 20%,
+                    #000 0%,
+                    transparent 80%
+                );
+                mask-image: radial-gradient(
+                    1200px 800px at 50% 20%,
+                    #000 0%,
+                    transparent 80%
+                );
+            }
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0.04;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            }
 
-.wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:48px 0 60px;display:flex;flex-direction:column;min-height:100vh}
+            .wrap {
+                position: relative;
+                z-index: 1;
+                max-width: 920px;
+                margin: 0 auto;
+                padding: 48px 0 60px;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
 
-/* ── back link ── */
-a.back{
-  font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.04em;
-  color:var(--muted);text-decoration:none;margin-bottom:28px;display:inline-flex;
-  align-items:center;gap:7px;transition:.18s;width:fit-content;
-}
-a.back:hover{color:var(--accent2)}
+            /* ── back link ── */
+            a.back {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                letter-spacing: 0.04em;
+                color: var(--muted);
+                text-decoration: none;
+                margin-bottom: 28px;
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                transition: 0.18s;
+                width: fit-content;
+            }
+            a.back:hover {
+                color: var(--accent2);
+            }
 
-/* ── header ── */
-.eyebrow{
-  display:inline-flex;align-items:center;gap:9px;
-  font-family:"JetBrains Mono",monospace;font-size:11.5px;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--accent2);
-  opacity:0;animation:rise .7s ease forwards;
-}
-.eyebrow svg{width:14px;height:14px;stroke:var(--accent2);fill:none;stroke-width:1.6}
-h1{
-  font-family:"Fraunces",serif;font-weight:900;letter-spacing:-.015em;
-  font-size:clamp(32px,7vw,60px);line-height:.98;margin:14px 0 0;
-  opacity:0;animation:rise .7s ease .08s forwards;
-}
-h1 em{font-style:italic;color:var(--accent)}
-.sub{
-  max-width:560px;color:#c4ccd6;font-size:clamp(15px,2.2vw,18px);
-  margin:16px 0 0;opacity:0;animation:rise .7s ease .16s forwards;
-}
-.rule{
-  height:1px;background:linear-gradient(90deg,var(--accent),transparent 70%);
-  margin:30px 0 32px;opacity:0;animation:rise .7s ease .24s forwards;
-}
+            /* ── header ── */
+            .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 9px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11.5px;
+                letter-spacing: 0.28em;
+                text-transform: uppercase;
+                color: var(--accent2);
+                opacity: 0;
+                animation: rise 0.7s ease forwards;
+            }
+            .eyebrow svg {
+                width: 14px;
+                height: 14px;
+                stroke: var(--accent2);
+                fill: none;
+                stroke-width: 1.6;
+            }
+            h1 {
+                font-family: "Fraunces", serif;
+                font-weight: 900;
+                letter-spacing: -0.015em;
+                font-size: clamp(32px, 7vw, 60px);
+                line-height: 0.98;
+                margin: 14px 0 0;
+                opacity: 0;
+                animation: rise 0.7s ease 0.08s forwards;
+            }
+            h1 em {
+                font-style: italic;
+                color: var(--accent);
+            }
+            .sub {
+                max-width: 560px;
+                color: #c4ccd6;
+                font-size: clamp(15px, 2.2vw, 18px);
+                margin: 16px 0 0;
+                opacity: 0;
+                animation: rise 0.7s ease 0.16s forwards;
+            }
+            .rule {
+                height: 1px;
+                background: linear-gradient(
+                    90deg,
+                    var(--accent),
+                    transparent 70%
+                );
+                margin: 30px 0 32px;
+                opacity: 0;
+                animation: rise 0.7s ease 0.24s forwards;
+            }
 
-/* ── top bar: progress + modes ── */
-.topwrap{
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:12px;margin-bottom:14px;
-  opacity:0;animation:rise .7s ease .3s forwards;
-}
-.progress,.score-display{
-  font-family:"JetBrains Mono",monospace;font-size:12px;
-  color:var(--muted);letter-spacing:.08em;
-}
-.progress b{color:var(--paper)}
-.modes{display:flex;gap:6px;flex-wrap:wrap}
-.chip{
-  font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.06em;
-  color:var(--muted);background:transparent;border:1px solid var(--line);
-  padding:6px 11px;border-radius:999px;cursor:pointer;transition:.18s;
-}
-.chip:hover{color:var(--paper);border-color:var(--line2)}
-.chip.on{color:var(--ink);background:var(--accent2);border-color:var(--accent2);font-weight:700}
+            /* ── top bar: progress + modes ── */
+            .topwrap {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 12px;
+                margin-bottom: 14px;
+                opacity: 0;
+                animation: rise 0.7s ease 0.3s forwards;
+            }
+            .progress,
+            .score-display {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                color: var(--muted);
+                letter-spacing: 0.08em;
+            }
+            .progress b {
+                color: var(--paper);
+            }
+            .modes {
+                display: flex;
+                gap: 6px;
+                flex-wrap: wrap;
+            }
+            .chip {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.06em;
+                color: var(--muted);
+                background: transparent;
+                border: 1px solid var(--line);
+                padding: 6px 11px;
+                border-radius: 999px;
+                cursor: pointer;
+                transition: 0.18s;
+            }
+            .chip:hover {
+                color: var(--paper);
+                border-color: var(--line2);
+            }
+            .chip.on {
+                color: var(--ink);
+                background: var(--accent2);
+                border-color: var(--accent2);
+                font-weight: 700;
+            }
 
-/* ── progress bar ── */
-.bar{
-  width:100%;height:3px;background:var(--line);border-radius:3px;
-  overflow:hidden;margin-bottom:24px;
-  opacity:0;animation:rise .7s ease .34s forwards;
-}
-.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .35s ease}
+            /* ── progress bar ── */
+            .bar {
+                width: 100%;
+                height: 3px;
+                background: var(--line);
+                border-radius: 3px;
+                overflow: hidden;
+                margin-bottom: 24px;
+                opacity: 0;
+                animation: rise 0.7s ease 0.34s forwards;
+            }
+            .bar > i {
+                display: block;
+                height: 100%;
+                width: 0;
+                background: linear-gradient(
+                    90deg,
+                    var(--accent),
+                    var(--accent2)
+                );
+                transition: width 0.35s ease;
+            }
 
-/* ── score boxes ── */
-.scorebox{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px;
-  opacity:0;animation:rise .7s ease .36s forwards;
-}
-.scorebox div{
-  font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);
-  border:1px solid var(--line);border-radius:10px;padding:9px 10px;
-  background:var(--ink2);text-align:center;
-}
-.scorebox b{color:var(--paper)}
+            /* ── score boxes ── */
+            .scorebox {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                margin: 0 0 14px;
+                opacity: 0;
+                animation: rise 0.7s ease 0.36s forwards;
+            }
+            .scorebox div {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                color: var(--muted);
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                padding: 9px 10px;
+                background: var(--ink2);
+                text-align: center;
+            }
+            .scorebox b {
+                color: var(--paper);
+            }
 
-/* ── card (flip container) ── */
-.scene{perspective:2000px;opacity:0;animation:rise .7s ease .38s forwards}
-.card{display:grid;width:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.7,.2,1)}
-.card.flipped{transform:rotateY(180deg)}
+            /* ── card (flip container) ── */
+            .scene {
+                perspective: 2000px;
+                opacity: 0;
+                animation: rise 0.7s ease 0.38s forwards;
+            }
+            .card {
+                display: grid;
+                width: 100%;
+                transform-style: preserve-3d;
+                transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+            }
+            .card.flipped {
+                transform: rotateY(180deg);
+            }
 
-/* ── faces: dark card style like quiz ── */
-.face{
-  grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  background:linear-gradient(135deg,#19212b 0%,#141a22 60%);
-  border:1px solid var(--line2);border-left:4px solid var(--accent);
-  border-radius:16px;padding:32px 34px 34px;
-  display:flex;flex-direction:column;
-  color:var(--paper);
-}
-.face.back{transform:rotateY(180deg);border-left-color:var(--accent2);position:relative}
+            /* ── faces: dark card style like quiz ── */
+            .face {
+                grid-area: 1/1;
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                background: linear-gradient(135deg, #19212b 0%, #141a22 60%);
+                border: 1px solid var(--line2);
+                border-left: 4px solid var(--accent);
+                border-radius: 16px;
+                padding: 32px 34px 34px;
+                display: flex;
+                flex-direction: column;
+                color: var(--paper);
+            }
+            .face.back {
+                transform: rotateY(180deg);
+                border-left-color: var(--accent2);
+                position: relative;
+            }
 
-/* ── tag / label ── */
-.tag{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);display:flex;justify-content:space-between;align-items:center}
-.tag .num{color:var(--muted)}
-.qlabel,.alabel{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin:14px 0 8px}
-.qlabel{color:var(--muted)}
-.alabel{color:var(--accent2)}
-.qtext{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(19px,3vw,26px);line-height:1.26;letter-spacing:-.005em;margin-bottom:20px;color:var(--paper)}
-.atext{font-size:clamp(15px,2.3vw,17px);line-height:1.55;color:#c4ccd6}
-.atext strong{font-weight:600;color:var(--accent);background:rgba(217,140,63,.15);padding:1px 4px;border-radius:3px}
-.source{
-  margin-top:18px;font-family:"JetBrains Mono",monospace;font-size:11px;
-  letter-spacing:.04em;color:var(--muted);
-  background:rgba(255,255,255,.04);border-left:3px solid var(--accent);
-  padding:8px 12px;border-radius:6px;
-}
+            /* ── tag / label ── */
+            .tag {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10.5px;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .tag .num {
+                color: var(--muted);
+            }
+            .face.back .tag {
+                padding-right: 36px;
+            }
+            .qlabel,
+            .alabel {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                margin: 14px 0 8px;
+            }
+            .qlabel {
+                color: var(--muted);
+            }
+            .alabel {
+                color: var(--accent2);
+            }
+            .qtext {
+                font-family: "Fraunces", serif;
+                font-weight: 600;
+                font-size: clamp(19px, 3vw, 26px);
+                line-height: 1.26;
+                letter-spacing: -0.005em;
+                margin-bottom: 20px;
+                color: var(--paper);
+            }
+            .atext {
+                font-size: clamp(15px, 2.3vw, 17px);
+                line-height: 1.55;
+                color: #c4ccd6;
+            }
+            .atext strong {
+                font-weight: 600;
+                color: var(--accent);
+                background: rgba(217, 140, 63, 0.15);
+                padding: 1px 4px;
+                border-radius: 3px;
+            }
+            .source {
+                margin-top: 18px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.04em;
+                color: var(--muted);
+                background: rgba(255, 255, 255, 0.04);
+                border-left: 3px solid var(--accent);
+                padding: 8px 12px;
+                border-radius: 6px;
+            }
 
-/* ── hint & star ── */
-.hint{margin-top:auto;padding-top:18px;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
-.star{position:absolute;right:30px;top:32px;font-size:22px;line-height:1;cursor:pointer;color:var(--muted);transition:.15s;user-select:none}
-.star:hover{transform:scale(1.18)}.star.on{color:var(--accent)}
+            /* ── hint & star ── */
+            .hint {
+                margin-top: auto;
+                padding-top: 18px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10.5px;
+                letter-spacing: 0.14em;
+                color: var(--muted);
+                text-transform: uppercase;
+            }
+            .star {
+                position: absolute;
+                right: 30px;
+                top: 32px;
+                font-size: 22px;
+                line-height: 1;
+                cursor: pointer;
+                color: var(--muted);
+                transition: 0.15s;
+                user-select: none;
+            }
+            .star:hover {
+                transform: scale(1.18);
+            }
+            .star.on {
+                color: var(--accent);
+            }
 
-/* ── MC options (dark, quiz-style) ── */
-.options{display:grid;gap:10px;padding:0;list-style:none;margin-bottom:6px}
-.option{
-  background:var(--ink2);border:1px solid var(--line);border-radius:10px;
-  padding:14px 16px 14px 46px;position:relative;line-height:1.4;
-  font-size:15.5px;color:#c4ccd6;cursor:pointer;transition:all .18s;user-select:none;
-}
-.option:hover{border-color:var(--line2);background:#1a222d}
-.option input{position:absolute;left:16px;top:16px;width:16px;height:16px;accent-color:var(--accent2);cursor:pointer}
-.option .letter{font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700;color:var(--muted);margin-right:6px}
-.option.selected{border-color:var(--accent);background:rgba(217,140,63,.08)}
-.option.selected .letter{color:var(--accent)}
-.option.correct{border-color:var(--correct)!important;background:var(--correct-dim)!important}
-.option.correct .letter{color:var(--correct)}
-.option.incorrect{border-color:var(--wrong)!important;background:var(--wrong-dim)!important}
-.option.incorrect .letter{color:var(--wrong)}
-.option.missed{border-color:rgba(78,173,107,.35)!important;background:var(--correct-dim)!important;opacity:.65}
-.option.missed .letter{color:var(--correct)}
-.option.neutral{opacity:.6}
-.badge{float:right;font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;border-radius:999px;padding:3px 7px;margin-left:8px}
-.badge.ok{background:var(--correct-dim);color:var(--correct)}
-.badge.no{background:var(--wrong-dim);color:var(--wrong)}
-.badge.miss{background:var(--correct-dim);color:var(--correct)}
+            /* ── MC options (dark, quiz-style) ── */
+            .options {
+                display: grid;
+                gap: 10px;
+                padding: 0;
+                list-style: none;
+                margin-bottom: 6px;
+            }
+            .option {
+                background: var(--ink2);
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                padding: 14px 16px 14px 46px;
+                position: relative;
+                line-height: 1.4;
+                font-size: 15.5px;
+                color: #c4ccd6;
+                cursor: pointer;
+                transition: all 0.18s;
+                user-select: none;
+            }
+            .option:hover {
+                border-color: var(--line2);
+                background: #1a222d;
+            }
+            .option input {
+                position: absolute;
+                left: 16px;
+                top: 16px;
+                width: 16px;
+                height: 16px;
+                accent-color: var(--accent2);
+                cursor: pointer;
+            }
+            .option .letter {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 13px;
+                font-weight: 700;
+                color: var(--muted);
+                margin-right: 6px;
+            }
+            .option.selected {
+                border-color: var(--accent);
+                background: rgba(217, 140, 63, 0.08);
+            }
+            .option.selected .letter {
+                color: var(--accent);
+            }
+            .option.correct {
+                border-color: var(--correct) !important;
+                background: var(--correct-dim) !important;
+            }
+            .option.correct .letter {
+                color: var(--correct);
+            }
+            .option.incorrect {
+                border-color: var(--wrong) !important;
+                background: var(--wrong-dim) !important;
+            }
+            .option.incorrect .letter {
+                color: var(--wrong);
+            }
+            .option.missed {
+                border-color: rgba(78, 173, 107, 0.35) !important;
+                background: var(--correct-dim) !important;
+                opacity: 0.65;
+            }
+            .option.missed .letter {
+                color: var(--correct);
+            }
+            .option.neutral {
+                opacity: 0.6;
+            }
+            .badge {
+                float: right;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                border-radius: 999px;
+                padding: 3px 7px;
+                margin-left: 8px;
+            }
+            .badge.ok {
+                background: var(--correct-dim);
+                color: var(--correct);
+            }
+            .badge.no {
+                background: var(--wrong-dim);
+                color: var(--wrong);
+            }
+            .badge.miss {
+                background: var(--correct-dim);
+                color: var(--correct);
+            }
 
-/* ── check button & feedback ── */
-.checkrow{display:flex;gap:10px;align-items:center;margin:4px 0 8px}
-.checkbtn{
-  font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.08em;
-  text-transform:uppercase;border:1px solid var(--accent2);background:var(--accent2);
-  color:var(--ink);padding:10px 14px;border-radius:10px;cursor:pointer;
-  font-weight:700;transition:.16s;
-}
-.checkbtn:hover{filter:brightness(1.05);transform:translateY(-1px)}
-.checkbtn:disabled{opacity:.35;cursor:not-allowed;transform:none;filter:none}
-.feedback{
-  margin:8px 0 0;padding:16px 18px;border-radius:10px;
-  font-size:14px;line-height:1.5;color:var(--muted);
-  font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.02em;
-  background:rgba(255,255,255,.03);border:1px solid var(--line);
-}
-.feedback.good{border-color:rgba(78,173,107,.4);color:var(--correct);background:var(--correct-dim)}
-.feedback.bad{border-color:rgba(212,84,84,.4);color:var(--wrong);background:var(--wrong-dim)}
-.feedback.warn{border-color:rgba(217,140,63,.35);color:var(--accent);background:rgba(217,140,63,.08)}
+            /* ── check button & feedback ── */
+            .checkrow {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                margin: 4px 0 8px;
+            }
+            .checkbtn {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                border: 1px solid var(--accent2);
+                background: var(--accent2);
+                color: var(--ink);
+                padding: 10px 14px;
+                border-radius: 10px;
+                cursor: pointer;
+                font-weight: 700;
+                transition: 0.16s;
+            }
+            .checkbtn:hover {
+                filter: brightness(1.05);
+                transform: translateY(-1px);
+            }
+            .checkbtn:disabled {
+                opacity: 0.35;
+                cursor: not-allowed;
+                transform: none;
+                filter: none;
+            }
+            .feedback {
+                margin: 8px 0 0;
+                padding: 16px 18px;
+                border-radius: 10px;
+                font-size: 14px;
+                line-height: 1.5;
+                color: var(--muted);
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                letter-spacing: 0.02em;
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid var(--line);
+            }
+            .feedback.good {
+                border-color: rgba(78, 173, 107, 0.4);
+                color: var(--correct);
+                background: var(--correct-dim);
+            }
+            .feedback.bad {
+                border-color: rgba(212, 84, 84, 0.4);
+                color: var(--wrong);
+                background: var(--wrong-dim);
+            }
+            .feedback.warn {
+                border-color: rgba(217, 140, 63, 0.35);
+                color: var(--accent);
+                background: rgba(217, 140, 63, 0.08);
+            }
 
-/* ── open question box ── */
-.openbox{
-  background:var(--ink2);border:1px dashed var(--line2);border-radius:10px;
-  padding:18px 20px;font-size:14px;color:var(--muted);
-  font-family:"JetBrains Mono",monospace;letter-spacing:.02em;
-}
+            /* ── open question box ── */
+            .openbox {
+                background: var(--ink2);
+                border: 1px dashed var(--line2);
+                border-radius: 10px;
+                padding: 18px 20px;
+                font-size: 14px;
+                color: var(--muted);
+                font-family: "JetBrains Mono", monospace;
+                letter-spacing: 0.02em;
+            }
 
-/* ── controls ── */
-.controls{display:flex;gap:10px;margin-top:24px}
-button.nav{
-  flex:1;font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:.06em;
-  border:1px solid var(--line);background:var(--ink2);color:var(--paper);
-  padding:14px;border-radius:11px;cursor:pointer;transition:.18s;
-}
-button.nav:hover{border-color:var(--accent2);color:#fff;transform:translateY(-1px)}
-button.nav:active{transform:translateY(0)}
-button.flip{flex:1.6;background:var(--accent);color:var(--ink);border-color:var(--accent);font-weight:700}
-button.flip:hover{filter:brightness(1.06);border-color:var(--accent)}
+            /* ── controls ── */
+            .controls {
+                display: flex;
+                gap: 10px;
+                margin-top: 24px;
+            }
+            button.nav {
+                flex: 1;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 13px;
+                letter-spacing: 0.06em;
+                border: 1px solid var(--line);
+                background: var(--ink2);
+                color: var(--paper);
+                padding: 14px;
+                border-radius: 11px;
+                cursor: pointer;
+                transition: 0.18s;
+            }
+            button.nav:hover {
+                border-color: var(--accent2);
+                color: #fff;
+                transform: translateY(-1px);
+            }
+            button.nav:active {
+                transform: translateY(0);
+            }
+            button.flip {
+                flex: 1.6;
+                background: var(--accent);
+                color: var(--ink);
+                border-color: var(--accent);
+                font-weight: 700;
+            }
+            button.flip:hover {
+                filter: brightness(1.06);
+                border-color: var(--accent);
+            }
 
-.util{display:flex;gap:10px;margin-top:10px}
-button.small{
-  flex:1;font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.1em;
-  text-transform:uppercase;border:1px dashed var(--line);background:transparent;
-  color:var(--muted);padding:11px;border-radius:10px;cursor:pointer;transition:.16s;
-}
-button.small:hover{color:var(--paper);border-color:var(--accent2)}
+            .util {
+                display: flex;
+                gap: 10px;
+                margin-top: 10px;
+            }
+            button.small {
+                flex: 1;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11.5px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                border: 1px dashed var(--line);
+                background: transparent;
+                color: var(--muted);
+                padding: 11px;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: 0.16s;
+            }
+            button.small:hover {
+                color: var(--paper);
+                border-color: var(--accent2);
+            }
 
-/* ── empty state ── */
-.empty{display:none;text-align:center;color:var(--muted);font-style:italic;padding:40px}
+            /* ── empty state ── */
+            .empty {
+                display: none;
+                text-align: center;
+                color: var(--muted);
+                font-style: italic;
+                padding: 40px;
+            }
 
-/* ── footer ── */
-footer{
-  margin-top:auto;padding-top:40px;color:#586374;font-size:12.5px;
-  font-family:"JetBrains Mono",monospace;letter-spacing:.04em;
-  display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
-  border-top:1px solid var(--line);margin-top:48px;
-}
+            /* ── footer ── */
+            footer {
+                margin-top: auto;
+                padding-top: 40px;
+                color: #586374;
+                font-size: 12.5px;
+                font-family: "JetBrains Mono", monospace;
+                letter-spacing: 0.04em;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 10px;
+                border-top: 1px solid var(--line);
+                margin-top: 48px;
+            }
 
-/* ── keyboard hint ── */
-.foot{
-  margin-top:16px;color:#586374;font-size:12px;font-style:italic;text-align:center;
-  font-family:"JetBrains Mono",monospace;letter-spacing:.02em;
-}
+            /* ── keyboard hint ── */
+            .foot {
+                margin-top: 16px;
+                color: #586374;
+                font-size: 12px;
+                font-style: italic;
+                text-align: center;
+                font-family: "JetBrains Mono", monospace;
+                letter-spacing: 0.02em;
+            }
 
-@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important}.eyebrow,h1,.sub,.rule,.topwrap,.bar,.scorebox,.scene,a.back{opacity:1!important}}
-@media(max-width:640px){
-  .face{padding:24px 20px 26px}
-  .controls,.util{flex-direction:column}
-  .scorebox{grid-template-columns:1fr}
-  .star{right:20px;top:24px}
-}
-</style>
-</head>
-<body>
-<div class="wrap">
+            @keyframes rise {
+                from {
+                    opacity: 0;
+                    transform: translateY(16px);
+                }
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
+            }
+            @keyframes fadeSlide {
+                from {
+                    opacity: 0;
+                    transform: translateY(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                * {
+                    animation: none !important;
+                }
+                .eyebrow,
+                h1,
+                .sub,
+                .rule,
+                .topwrap,
+                .bar,
+                .scorebox,
+                .scene,
+                a.back {
+                    opacity: 1 !important;
+                }
+            }
+            @media (max-width: 640px) {
+                .face {
+                    padding: 24px 20px 26px;
+                }
+                .controls,
+                .util {
+                    flex-direction: column;
+                }
+                .scorebox {
+                    grid-template-columns: 1fr;
+                }
+                .star {
+                    right: 20px;
+                    top: 24px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <a class="back" href="https://divado.github.io/ITS_FHCAMPUS/"
+                >← Zurück zur Übersicht</a
+            >
 
-  <a class="back" href="https://divado.github.io/ITS_FHCAMPUS/">← Zurück zur Übersicht</a>
+            <header>
+                <span class="eyebrow">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="5" y="11" width="14" height="9" rx="2" />
+                        <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+                    </svg>
+                    IT-Security · Datenschutz
+                </span>
+                <h1>Interactive <em>Flashcards</em></h1>
+                <p class="sub">
+                    Multiple Choice ankreuzen · mit „Prüfen“ auswerten · danach
+                    Karte drehen für Artikel &amp; Begründung
+                </p>
+                <div class="rule"></div>
+            </header>
 
-  <header>
-    <span class="eyebrow">
-      <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
-      IT-Security · Datenschutz
-    </span>
-    <h1>Interactive <em>Flashcards</em></h1>
-    <p class="sub">Multiple Choice ankreuzen · mit „Prüfen" auswerten · danach Karte drehen für Artikel &amp; Begründung</p>
-    <div class="rule"></div>
-  </header>
+            <div class="topwrap">
+                <div class="progress">
+                    KARTE <b id="pos">1</b> / <b id="total">19</b>
+                </div>
+                <div class="modes">
+                    <button class="chip on" id="mAll">Alle</button>
+                    <button class="chip" id="mWrong">Fehler</button>
+                    <button class="chip" id="mStar">★ Review</button>
+                </div>
+            </div>
+            <div class="bar"><i id="barFill"></i></div>
+            <div class="scorebox">
+                <div>BEANTWORTET <b id="answeredCount">0</b></div>
+                <div>RICHTIG <b id="correctCount">0</b></div>
+                <div>FEHLER <b id="wrongCount">0</b></div>
+            </div>
 
-  <div class="topwrap">
-    <div class="progress">KARTE <b id="pos">1</b> / <b id="total">19</b></div>
-    <div class="modes">
-      <button class="chip on" id="mAll">Alle</button>
-      <button class="chip" id="mWrong">Fehler</button>
-      <button class="chip" id="mStar">★ Review</button>
-    </div>
-  </div>
-  <div class="bar"><i id="barFill"></i></div>
-  <div class="scorebox">
-    <div>BEANTWORTET <b id="answeredCount">0</b></div>
-    <div>RICHTIG <b id="correctCount">0</b></div>
-    <div>FEHLER <b id="wrongCount">0</b></div>
-  </div>
+            <div class="scene" id="scene">
+                <div class="card" id="card">
+                    <div class="face front">
+                        <div class="tag">
+                            <span id="tagF">TOPIC</span
+                            ><span class="num" id="numF">#01</span>
+                        </div>
+                        <div class="qlabel">Frage</div>
+                        <div class="qtext" id="qtext">…</div>
+                        <ul class="options" id="options"></ul>
+                        <div class="checkrow" id="checkrow">
+                            <button
+                                class="checkbtn"
+                                id="checkBtn"
+                                type="button"
+                            >
+                                Prüfen
+                            </button>
+                        </div>
+                        <div class="feedback" id="feedback">
+                            Kreuze eine oder mehrere Antworten an und klicke
+                            danach auf „Prüfen“.
+                        </div>
+                        <div class="hint">
+                            ankreuzen · prüfen · space/click flip
+                        </div>
+                    </div>
+                    <div class="face back">
+                        <div class="tag">
+                            <span id="tagB">TOPIC</span
+                            ><span class="num" id="numB">#01</span>
+                        </div>
+                        <div class="alabel">Lösung</div>
+                        <div class="atext" id="atext">…</div>
+                        <div class="source" id="source">…</div>
+                        <div class="hint">click / space zurück</div>
+                        <div
+                            class="star"
+                            id="star"
+                            title="Für Wiederholung markieren"
+                        >
+                            ☆
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  <div class="scene" id="scene">
-    <div class="card" id="card">
-      <div class="face front">
-        <div class="tag"><span id="tagF">TOPIC</span><span class="num" id="numF">#01</span></div>
-        <div class="qlabel">Frage</div>
-        <div class="qtext" id="qtext">…</div>
-        <ul class="options" id="options"></ul>
-        <div class="checkrow" id="checkrow"><button class="checkbtn" id="checkBtn" type="button">Prüfen</button></div>
-        <div class="feedback" id="feedback">Kreuze eine oder mehrere Antworten an und klicke danach auf „Prüfen".</div>
-        <div class="hint">ankreuzen · prüfen · space/click flip</div>
-      </div>
-      <div class="face back">
-        <div class="tag"><span id="tagB">TOPIC</span><span class="num" id="numB">#01</span></div>
-        <div class="alabel">Lösung</div>
-        <div class="atext" id="atext">…</div>
-        <div class="source" id="source">…</div>
-        <div class="hint">click / space zurück</div>
-        <div class="star" id="star" title="Für Wiederholung markieren">☆</div>
-      </div>
-    </div>
-  </div>
+            <div class="empty" id="empty">
+                Keine Karten in diesem Modus. Markiere Karten mit ★ oder
+                beantworte MC-Fragen falsch, damit sie hier erscheinen.
+            </div>
 
-  <div class="empty" id="empty">Keine Karten in diesem Modus. Markiere Karten mit ★ oder beantworte MC-Fragen falsch, damit sie hier erscheinen.</div>
+            <div class="controls">
+                <button class="nav" id="prev">← Zurück</button>
+                <button class="nav flip" id="flip">Flip ⟳</button>
+                <button class="nav" id="next">Weiter →</button>
+            </div>
+            <div class="util">
+                <button class="small" id="shuffle">⤮ Mischen</button>
+                <button class="small" id="reset">↺ Reihenfolge</button>
+                <button class="small" id="clear">Auswertung löschen</button>
+            </div>
+            <div class="foot">
+                Tasten: ← / → navigieren · Space flippen · S mischen · F Stern.
+                Offene Fragen werden nicht automatisch bewertet.
+            </div>
 
-  <div class="controls">
-    <button class="nav" id="prev">← Zurück</button>
-    <button class="nav flip" id="flip">Flip ⟳</button>
-    <button class="nav" id="next">Weiter →</button>
-  </div>
-  <div class="util">
-    <button class="small" id="shuffle">⤮ Mischen</button>
-    <button class="small" id="reset">↺ Reihenfolge</button>
-    <button class="small" id="clear">Auswertung löschen</button>
-  </div>
-  <div class="foot">Tasten: ← / → navigieren · Space flippen · S mischen · F Stern. Offene Fragen werden nicht automatisch bewertet.</div>
+            <footer>
+                <span>// built for revision &amp; sharing</span>
+                <span>&copy; <span id="yr"></span></span>
+            </footer>
+        </div>
 
-  <footer>
-    <span>// built for revision &amp; sharing</span>
-    <span>&copy; <span id="yr"></span></span>
-  </footer>
-</div>
-
-<script>
-document.getElementById("yr").textContent=new Date().getFullYear();
-const CARDS = [{"n": 1, "t": "Einheit 1 · Art 3", "q": "Welche Verarbeitungen sind vom räumlichen Anwendungsbereich der DSGVO gedeckt? (4 Punkte)", "options": ["Wenn eine Niederlassung innerhalb der EU besteht.", "Wenn die Verarbeitung in einer Niederlassung außerhalb der EU erfolgt und Waren/Dienstleistungen nicht in der EU angeboten werden.", "Wenn die Verarbeitung in einer Niederlassung außerhalb der EU erfolgt und Waren/Dienstleistungen in der EU entgeltlich oder unentgeltlich angeboten werden.", "Wenn die Verarbeitung durch eine Niederlassung außerhalb der EU erfolgt und das Verhalten von Betroffenen in der EU „beobachtet“ wird."], "a": "Richtig: <strong>1, 3 und 4</strong>.<br><strong>Artikel:</strong> Art 3 Abs 1 DSGVO; Art 3 Abs 2 lit a und lit b DSGVO.<br><strong>Begründung:</strong> EU-Niederlassung reicht aus. Ohne EU-Niederlassung gilt die DSGVO trotzdem, wenn Waren/Dienstleistungen in der EU angeboten werden oder Verhalten von Betroffenen in der EU beobachtet wird. Keine EU-Ausrichtung = nicht erfasst.", "src": "Folie: Einheit 1, Folie 10.", "correct": [0, 2, 3], "type": "mc"}, {"n": 2, "t": "Einheit 1 · Verantwortlichkeit", "q": "Welche Aussage(n) zur Relevanz der DSGVO ist bzw. sind richtig? (6 Punkte)", "options": ["Die Verantwortlichkeit für die Datenverarbeitung liegt bei der Betroffenen.", "Die Verantwortlichkeit liegt beim Datenverarbeiter.", "Verantwortlicher kann eine natürliche oder juristische Person sein.", "Die Strafkompetenz liegt ausschließlich bei Zivilgerichten.", "Die nationalen Datenschutzbehörden prüfen ex-post.", "Neben der DSGVO bestehen keine nationalen Datenschutzgesetze."], "a": "Richtig: <strong>2, 3 und 5</strong> – wobei 2 in den Folien ungenau formuliert ist; rechtlich gemeint ist der <strong>Verantwortliche</strong>.<br><strong>Artikel:</strong> Art 4 Z 7 DSGVO; Art 58 Abs 2 DSGVO; Art 83 DSGVO.<br><strong>Begründung:</strong> Verantwortlich ist die natürliche/juristische Person, die Zwecke und Mittel entscheidet. Behörden prüfen ex post und können Sanktionen verhängen. Nationale Datenschutzgesetze bestehen wegen Öffnungsklauseln weiterhin.", "src": "Folien: Einheit 1, Folie 6 und 7.", "correct": [1, 2, 4], "type": "mc"}, {"n": 3, "t": "Einheit 1 · Art 9/10", "q": "Welche Aussage(n) zu besonderen Kategorien von personenbezogenen Daten ist bzw. sind richtig? (4 Punkte)", "options": ["Bei Daten über strafrechtliche Verurteilungen und Straftaten sowie sensible Daten handelt es sich um besondere Kategorien von personenbezogenen Daten.", "Bei sensiblen Daten ist ein strengeres Schutzregime in der DSGVO verankert als bei „normalen“ personenbezogenen Daten.", "Unter Gesundheitsdaten sind neben körperlicher und geistiger Gesundheit auch die Daten aus Gesundheitsprognosen zu verstehen.", "Bei der Gewerkschaftszugehörigkeit handelt es sich nicht um sensible Daten."], "a": "Richtig: <strong>1, 2 und 3</strong>. Falsch: 4.<br><strong>Artikel:</strong> Art 9 Abs 1 DSGVO; Art 10 DSGVO; Art 4 Z 15 DSGVO; ErwGr 35 DSGVO.<br><strong>Begründung:</strong> Sensible Daten haben ein strengeres Schutzregime. Gesundheitsdaten umfassen auch vergangene, aktuelle und künftige/prognostische Gesundheitsinformationen. Gewerkschaftszugehörigkeit ist ausdrücklich sensibel.", "src": "Folie: Einheit 1, Folie 22.", "correct": [0, 1, 2], "type": "mc"}, {"n": 4, "t": "Einheit 1 · Einwilligung", "q": "Beschreiben Sie in zirka 4 bis 6 Sätzen die Grundregeln für eine gültige Einwilligung iSd DSGVO und nennen Sie zwei Beispiele, wo keine gültige Einwilligung vorliegen würde. (6 Punkte)", "options": [], "a": "<strong>Kurzantwort:</strong> Einwilligung muss freiwillig, bestimmt, informiert und unmissverständlich vor der Verarbeitung erfolgen und nachweisbar sein. Sie ist jederzeit widerrufbar; Widerruf muss so einfach sein wie Erteilung. Schweigen, Untätigkeit und vorangekreuzte Checkboxen reichen nicht.<br><strong>Artikel:</strong> Art 4 Z 11 DSGVO; Art 6 Abs 1 lit a DSGVO; Art 7 DSGVO; bei sensiblen Daten Art 9 Abs 2 lit a DSGVO.<br><strong>Beispiele keine Einwilligung:</strong> voraktivierte Checkbox; bloße Angabe einer Kontaktadresse beim Kauf.", "src": "Folien: Einheit 1, Folien 30–32.", "correct": null, "type": "open"}, {"n": 5, "t": "Einheit 1 · Art 6", "q": "Welche Rechtsgrundlagen für die Verarbeitung nicht-sensibler personenbezogener Daten nennt die DSGVO bzw. nennen die Folien? (sinngemäß)", "options": ["Vertragserfüllung.", "Berechtigte Interessen.", "Gesetzliche Verpflichtung.", "Einwilligung der betroffenen Person."], "a": "Richtig: <strong>alle genannten</strong>.<br><strong>Artikel:</strong> Art 6 Abs 1 lit a, lit b, lit c und lit f DSGVO.<br><strong>Begründung:</strong> Normale personenbezogene Daten dürfen nur verarbeitet werden, wenn eine Rechtsgrundlage besteht. In den Folien werden Vertragserfüllung, gesetzliche Pflicht, berechtigte Interessen und Einwilligung besonders hervorgehoben.", "src": "Folien: Einheit 1, Folien 25–30.", "correct": [0, 1, 2, 3], "type": "mc"}, {"n": 6, "t": "Einheit 2 · Forschung/Bildaufnahme", "q": "Welche Aussage(n) zur Datenverarbeitung der genannten spezifischen Zwecke ist bzw. sind richtig? (4 Punkte)", "options": ["Die Datenverarbeitung zu Forschungszwecken unterliegt geeigneten Garantien, insbesondere Pseudonymisierung.", "Betroffenenrechte dürfen für Forschungszwecke nicht eingeschränkt werden.", "Ergebnisse einer Forschung mit Personenbezug dürfen unter anderem dann verarbeitet werden, wenn eine Einwilligung des Betroffenen vorliegt.", "Die Videoüberwachung des höchstpersönlichen Lebensbereichs ist unzulässig."], "a": "Richtig: <strong>1, 3 und 4</strong>. Falsch: 2.<br><strong>Artikel:</strong> Art 89 Abs 1 und Abs 2 DSGVO; Art 6 Abs 1 lit a DSGVO; bei sensiblen Daten Art 9 Abs 2 lit a DSGVO.<br><strong>Begründung:</strong> Forschung braucht geeignete Garantien, besonders Pseudonymisierung. Betroffenenrechte können unter Bedingungen eingeschränkt werden. Forschung mit Personenbezug kann auf Einwilligung beruhen. Höchstpersönlicher Lebensbereich bleibt bei Bildaufnahme/Video tabu.", "src": "Folien: Einheit 2, Folien 32–34.", "correct": [0, 2, 3], "type": "mc"}, {"n": 7, "t": "Einheit 2 · DSFA", "q": "Welche Aussage(n) zur Datenschutz-Folgenabschätzung iSd DSGVO ist bzw. sind richtig? (4 Punkte)", "options": ["Eine Datenschutz-Folgenabschätzung ist für jede Datenanwendung separat durchzuführen.", "In einer Datenschutz-Folgenabschätzung sind die Risiken, Notwendigkeiten und die Verhältnismäßigkeit der Datenverarbeitung zu bewerten.", "Es gibt eine White-List und eine Black-List.", "Eine Datenschutz-Folgenabschätzung ist jedenfalls erforderlich, wenn sensible oder strafrechtliche Daten umfangreich verarbeitet werden."], "a": "Richtig: <strong>alle vier</strong>.<br><strong>Artikel:</strong> Art 35 Abs 1 DSGVO; Art 35 Abs 3 lit b DSGVO; Art 35 Abs 4 und 5 DSGVO; Art 35 Abs 7 DSGVO.<br><strong>Begründung:</strong> DSFA ist bei hohem Risiko nötig. Umfangreiche Verarbeitung von Art-9- oder Art-10-Daten löst sie aus. Mindestinhalt: Beschreibung, Notwendigkeit/Verhältnismäßigkeit, Risiken und Maßnahmen. Black-/White-Lists kommen von Aufsichtsbehörden.", "src": "Folien: Einheit 2, Folien 10, 12 und 13.", "correct": [0, 1, 2, 3], "type": "mc"}, {"n": 8, "t": "Einheit 3 · TOMs", "q": "Was sind Ziele, die durch technische und organisatorische Maßnahmen (TOMs) erreicht werden sollen? (3 Punkte)", "options": ["Sicherstellung und Nachweis der Compliance.", "Einhaltung der Datenschutzgrundsätze und Schutz der Betroffenenrechte.", "Angemessenes Schutzniveau für die Daten.", "Verhinderung von Strafen."], "a": "Richtig: <strong>1, 2 und 3</strong>.<br><strong>Artikel:</strong> Art 24 Abs 1 DSGVO; Art 25 DSGVO; Art 32 Abs 1 DSGVO.<br><strong>Begründung:</strong> TOMs dienen Compliance-Nachweis, Datenschutzgrundsätzen/Betroffenenrechten und angemessenem Schutzniveau. Strafvermeidung ist nur mittelbare Folge, nicht das eigentliche gesetzliche Ziel.", "src": "Folie: Einheit 3, Folie 3.", "correct": [0, 1, 2], "type": "mc"}, {"n": 9, "t": "Einheit 3 · Home Office", "q": "Was ist ein Beispiel bzw. was sind Beispiele für Datensicherheitsmaßnahmen im Zusammenhang mit Home Office? (3 Punkte)", "options": ["Regelung, welche Geräte verwendet werden dürfen.", "Verschlüsselte VPN-Verbindung.", "Nutzung von Firmengeräten (Laptops, Smartphones).", "Nutzung von Cloud-Diensten statt firmeneigener Server."], "a": "Richtig: <strong>1, 2 und 3</strong>.<br><strong>Artikel:</strong> Art 32 Abs 1 DSGVO.<br><strong>Begründung:</strong> Die Folien nennen Geräte-Regelungen, verschlüsselte VPN/VDI/2FA und Firmengeräte ausdrücklich. Cloud statt eigener Server ist nicht automatisch eine Sicherheitsmaßnahme und wurde so nicht genannt.", "src": "Folie: Einheit 3, Folie 10.", "correct": [0, 1, 2], "type": "mc"}, {"n": 10, "t": "Einheit 3 · Data Breach", "q": "Welche Aussage(n) zu Data Breaches ist bzw. sind richtig? (4 Punkte)", "options": ["Ein Data Breach muss an die Datenschutzbehörde gemeldet werden, wenn ein Risiko für Betroffene besteht.", "Die Betroffenen müssen niemals benachrichtigt werden.", "Ein Hackerangriff, bei dem personenbezogene Daten gestohlen werden, ist ein Data Breach.", "Data Breaches müssen nicht intern dokumentiert werden."], "a": "Richtig: <strong>1 und 3</strong>.<br><strong>Artikel:</strong> Art 4 Z 12 DSGVO; Art 33 Abs 1 und Abs 5 DSGVO; Art 34 Abs 1 DSGVO.<br><strong>Begründung:</strong> Hackerangriff mit Datenabfluss ist eine Verletzung des Schutzes personenbezogener Daten. Bei Risiko: Meldung an DSB/Aufsichtsbehörde. Bei hohem Risiko: auch Betroffene. Alle Vorfälle sind intern zu dokumentieren.", "src": "Folien: Einheit 3, Folien 16, 18 und 19.", "correct": [0, 2], "type": "mc"}, {"n": 11, "t": "Einheit 3 · DSB/DSBA", "q": "Welche Aussage(n) zu Datenschutzbeauftragten ist bzw. sind richtig? (4 Punkte)", "options": ["Datenschutzbeauftragte können jedem über die Inhalte ihrer Tätigkeit, zum Beispiel einen Data Breach, frei erzählen.", "In Österreich muss jedes Unternehmen einen Datenschutzbeauftragten bestellen.", "Datenschutzbeauftragte sind im Rahmen ihrer Tätigkeiten unabhängig und weisungsfrei.", "Datenschutzbeauftragte beraten den Verantwortlichen bzw. Auftragsverarbeiter in Datenschutzfragen."], "a": "Richtig: <strong>3 und 4</strong>.<br><strong>Artikel:</strong> Art 37 DSGVO; Art 38 Abs 3 und Abs 5 DSGVO; Art 39 Abs 1 lit a DSGVO.<br><strong>Begründung:</strong> Keine allgemeine Bestellungspflicht für jedes Unternehmen. DSB sind unabhängig/weisungsfrei und zur Vertraulichkeit verpflichtet. Eine Kernaufgabe ist Beratung/Unterrichtung in Datenschutzfragen.", "src": "Folien: Einheit 3, Folien 29, 31, 35–37.", "correct": [2, 3], "type": "mc"}, {"n": 12, "t": "Einheit 3 · Data Breach Ablauf", "q": "Beschreiben Sie in zirka 4 bis 6 Sätzen, wie Sie bei einem Data Breach vorgehen, um die Vorgaben der DSGVO einzuhalten. (6 Punkte)", "options": [], "a": "<strong>Kurzantwort:</strong> Vorfall sofort erfassen, Umfang klären und intern dokumentieren. Innerhalb von max. 72 Stunden Risiko bewerten. Bei Risiko: Meldung an Aufsichtsbehörde mit Art, Umfang, Folgen und Gegenmaßnahmen. Bei hohem Risiko: Betroffene unverzüglich informieren. Parallel Sofortmaßnahmen setzen und Lessons Learned dokumentieren.<br><strong>Artikel:</strong> Art 33 Abs 1, 3 und 5 DSGVO; Art 34 Abs 1 DSGVO.", "src": "Folien: Einheit 3, Folien 17–19 und 23–26.", "correct": null, "type": "open"}, {"n": 13, "t": "Weitere Themen · Betroffenenrechte", "q": "Bei welchen der folgenden Rechte handelt es sich um Betroffenenrechte nach der DSGVO? (4 Punkte)", "options": ["Recht auf Widerruf einer Datenlöschung.", "Recht auf Berichtigung.", "Recht auf Vergessenwerden.", "Recht auf Widerruf einer Einwilligung."], "a": "Richtig: <strong>2, 3 und 4</strong>.<br><strong>Artikel:</strong> Art 16 DSGVO; Art 17 DSGVO; Art 7 Abs 3 DSGVO.<br><strong>Begründung:</strong> Berichtigung, Löschung/„Vergessenwerden“ und Widerruf der Einwilligung sind DSGVO-Rechte. Ein Recht auf Widerruf einer Datenlöschung gibt es so nicht.", "src": "Allgemeiner Bezug: Einheit 2, Folie 29; Einheit 3, Folie 3.", "correct": [1, 2, 3], "type": "mc"}, {"n": 14, "t": "Weitere Themen · Drittlandtransfer", "q": "Welche Grundlagen bestehen für Datentransfer in Drittländer auf Basis der Ausnahmetatbestände nach Art 49 DSGVO? (6 Punkte)", "options": ["Es darf keine andere Grundlage für den internationalen Datentransfer bestehen.", "Die Tatbestände des Art 49 DSGVO sind dabei eng auszulegen.", "Die Tatbestände des Art 49 DSGVO sind dabei weit auszulegen.", "Die Übermittlung aufgrund eines Ausnahmetatbestandes darf wiederholt erfolgen.", "Die Übermittlung aufgrund eines Ausnahmetatbestandes darf nicht wiederholt erfolgen.", "Die Übermittlung aufgrund eines Ausnahmetatbestandes darf nur eine begrenzte Zahl von Personen betreffen."], "a": "Richtig: <strong>1, 2, 5 und 6</strong>.<br><strong>Artikel:</strong> Art 45 DSGVO; Art 46 DSGVO; Art 49 Abs 1 DSGVO; Art 49 Abs 1 Unterabs 2 DSGVO; ErwGr 111 DSGVO.<br><strong>Begründung:</strong> Art 49 ist Ausnahme/Auffanglösung, wenn kein Angemessenheitsbeschluss und keine geeigneten Garantien bestehen. Daher eng auszulegen. Besonders bei zwingenden berechtigten Interessen: nicht wiederholt und nur begrenzte Zahl Betroffener.", "src": "Allgemeiner Bezug: Einheit 2, Folie 4.", "correct": [0, 1, 4, 5], "type": "mc"}, {"n": 15, "t": "Weitere Themen · Auskunft", "q": "Was beinhaltet das Recht auf Auskunft? (4 Punkte)", "options": ["Die Kategorie der verarbeiteten Daten.", "Die Auskunft über aktuelle und in Vergangenheit verarbeitete Daten.", "Alle Informationen über mögliche Strafhöhen des Verantwortlichen.", "Auskunft über die Möglichkeit der Datenübertragbarkeit."], "a": "Richtig laut Altprüfung: <strong>1 und 2</strong>.<br><strong>Artikel:</strong> Art 15 Abs 1 lit b DSGVO; Art 15 Abs 3 DSGVO; Abgrenzung: Art 20 DSGVO.<br><strong>Begründung:</strong> Auskunft umfasst u.a. Kategorien der Daten und Zugang/Kopie der verarbeiteten personenbezogenen Daten. Strafhöhen sind kein Auskunftsinhalt. Datenübertragbarkeit ist ein eigenes Recht nach Art 20.", "src": "Hinweis: in den vorhandenen Folien kein eigener Einheit-4-Foliensatz.", "correct": [0, 1], "type": "mc"}, {"n": 16, "t": "Weitere Themen · USA-Transfer", "q": "Nennen Sie die beiden für ungültig erklärten Angemessenheitsbeschlüsse mit den USA und beschreiben Sie kurz, warum der EuGH diese aufgehoben hat. (6 Punkte)", "options": [], "a": "<strong>Kurzantwort:</strong> <strong>Safe Harbor</strong> und <strong>EU-US Privacy Shield</strong>. Aufhebung in Schrems I bzw. Schrems II, weil US-Recht keinen im Wesentlichen gleichwertigen Schutz bot: weitreichende Behörden-/Nachrichtendienstzugriffe und kein wirksamer, unabhängiger, durchsetzbarer Rechtsbehelf für EU-Betroffene.<br><strong>Artikel:</strong> Art 45 DSGVO; relevant auch Grundrechte/Art 7, 8, 47 GRC.", "src": "Allgemeiner Bezug: Einheit 2, Folie 4.", "correct": null, "type": "open"}, {"n": 17, "t": "Weitere Themen · Aufsicht", "q": "Welche Aussage(n) zu Aufsichtsbehörde(n) ist bzw. sind richtig? (4 Punkte)", "options": ["Eine Aufsichtsbehörde ist eine von einem Mitgliedstaat eingerichtete unabhängige staatliche Stelle.", "Eine Aufsichtsbehörde ist nicht weisungsfrei.", "Eine Aufsichtsbehörde muss grenzüberschreitend mit anderen Behörden zusammenarbeiten.", "In Österreich gibt es nur eine Aufsichtsbehörde, die Datenschutzbehörde."], "a": "Richtig: <strong>1, 3 und 4</strong>.<br><strong>Artikel:</strong> Art 51 Abs 1 und Abs 2 DSGVO; Art 52 DSGVO; Art 60 ff DSGVO.<br><strong>Begründung:</strong> Aufsichtsbehörden sind unabhängige staatliche Stellen und müssen zur einheitlichen Anwendung kooperieren. Weisungsfreiheit folgt aus völliger Unabhängigkeit. In Österreich ist die Datenschutzbehörde zuständig.", "src": "Allgemeiner Bezug: Einheit 2, Folie 17.", "correct": [0, 2, 3], "type": "mc"}, {"n": 18, "t": "Weitere Themen · Rechtsdurchsetzung", "q": "Welche Aussage(n) zur Rechtsdurchsetzung in Österreich ist bzw. sind richtig? (4 Punkte)", "options": ["Nur natürliche Personen haben ein Recht auf einen wirksamen Rechtsbehelf.", "Mögliche Rechtsbehelfe gegen einen Bescheid der DSB sind Bescheidbeschwerde und Säumnisbeschwerde.", "Gegen ein Erkenntnis des Bundesverwaltungsgerichts (BVwG) kann ich Revision beim Verwaltungsgerichtshof (VwGH) erheben.", "Im Verwaltungsrechtsweg kann ich Zivilklage bei einem ordentlichen Gericht erheben."], "a": "Richtig: <strong>2 und 3</strong>.<br><strong>Artikel:</strong> Art 77 DSGVO; Art 78 DSGVO; Art 82 DSGVO.<br><strong>Begründung:</strong> Rechtsbehelf gegen Entscheidungen der DSB läuft verwaltungsrechtlich; danach ist Revision an den VwGH möglich. Art 78 gilt auch für juristische Personen. Zivilklage gehört nicht in den Verwaltungsrechtsweg; Schadenersatz nach Art 82 läuft separat vor ordentlichen Gerichten.", "src": "Allgemeiner Bezug: Einheit 1, Folie 7.", "correct": [1, 2], "type": "mc"}, {"n": 19, "t": "Weitere Themen · Cookies/Marketing", "q": "Welche Aussage(n) zum Datenschutz in elektronischer Kommunikation ist bzw. sind richtig? (6 Punkte)", "options": ["Die Zustimmungspflicht im Cookie-Banner entfällt nur für unbedingt erforderliche Cookies.", "Ich muss die Buttons für „Ablehnen“ und „Akzeptieren“ im Cookie-Banner gleichwertig gestalten.", "Ich darf eine Cookie-Zustimmung mit einer Gewinnspielteilnahme verbinden.", "Ich darf potentiellen Kunden ohne vorherige Zustimmung einen Newsletter schicken.", "Bei elektronischer Kommunikation mit Kunden ist ein sehr eingeschränktes Soft-Opt-In möglich.", "Postwerbung erfordert keine Einwilligung."], "a": "Richtig: <strong>1, 2, 5 und 6</strong>.<br><strong>Artikel:</strong> Art 4 Z 11 DSGVO; Art 6 Abs 1 lit f DSGVO; Art 7 DSGVO; Art 7 Abs 4 DSGVO; Art 21 DSGVO. Zusätzlich: TKG/ePrivacy als lex specialis.<br><strong>Begründung:</strong> Nicht notwendige Cookies brauchen wirksame Einwilligung. Ablehnen/Akzeptieren muss gleichwertig sein. Gewinnspiel-Kopplung gefährdet Freiwilligkeit. Newsletter an potenzielle Kunden grundsätzlich nur mit Opt-in; bei bestehenden Kunden enges Soft-Opt-in. Postwerbung kann auf berechtigtes Interesse gestützt werden, aber Widerspruch beachten.", "src": "Folien: Einheit 1, Folien 6, 13 und 28.", "correct": [0, 1, 4, 5], "type": "mc"}, {"t": "Wiederholung · DSGVO Ziele", "q": "Welche Hauptziele verfolgt die DSGVO?", "options": ["Schutz natürlicher Personen & Förderung des freien Verkehrs personenbezogener Daten in der EU", "Schutz juristischer Personen & Harmonisierung des Steuerrechts", "Schutz nationaler Behörden & Einschränkung des Datenverkehrs", "Förderung von Werbung & Abschaffung nationaler Datenschutzgesetze"], "correct": [0], "type": "mc", "a": "Richtig: <strong>A</strong>.<br><strong>Artikel:</strong> Art 1 Abs 1 und Abs 3 DSGVO.<br><strong>Begründung:</strong> Die DSGVO schützt natürliche Personen bei der Verarbeitung personenbezogener Daten und schützt gleichzeitig den freien Verkehr personenbezogener Daten in der Union. Die Folien nennen genau diese beiden Ziele: Datenschutzgrundrecht und freier Datenverkehr.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 1; Folien: Einheit 1, Überblick/Gegenstand und Ziele.", "n": 20}, {"t": "Wiederholung · Anwendbarkeit", "q": "Was beschreibt der überterritoriale Ansatz?", "options": ["DSGVO gilt nur bei Verarbeitung in Österreich", "DSGVO gilt bei Niederlassung in der EU oder bei Angebot an/Beobachtung von Personen in der EU, auch wenn außerhalb der EU verarbeitet wird", "DSGVO gilt nur für öffentliche Stellen", "DSGVO gilt nur für Papierakten"], "correct": [1], "type": "mc", "a": "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 3 Abs 1 und Abs 2 DSGVO.<br><strong>Begründung:</strong> Die DSGVO gilt bei Verarbeitung im Rahmen einer EU-Niederlassung. Ohne EU-Niederlassung gilt sie trotzdem, wenn Personen in der EU Waren/Dienstleistungen angeboten werden oder ihr Verhalten in der EU beobachtet wird. Genau das nennen die Folien als überterritorialen Ansatz.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 2; Folien: Einheit 1, räumlicher Anwendungsbereich DSGVO.", "n": 21}, {"t": "Wiederholung · Personenbezug", "q": "Was ist entscheidend dafür, ob Daten „personenbezogen“ sind?", "options": ["Ob die Daten in einer Datenbank gespeichert sind", "Ob es sich um Informationen über juristische Personen handelt", "Ob eine Person direkt oder indirekt identifizierbar ist („Wiedererkennbarkeit“)", "Ob eine Einwilligung vorliegt"], "correct": [2], "type": "mc", "a": "Richtig: <strong>C</strong>.<br><strong>Artikel:</strong> Art 4 Z 1 DSGVO; ErwGr 26 DSGVO.<br><strong>Begründung:</strong> Personenbezogen sind alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person beziehen. Die Folien betonen als maßgebliches Kriterium die Wiedererkennbarkeit, also direkte oder indirekte Identifizierbarkeit.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 3; Folien: Einheit 1, sachlicher Anwendungsbereich.", "n": 22}, {"t": "Wiederholung · Pseudonymisierung", "q": "Welche Aussage zu pseudonymisierten Daten ist korrekt?", "options": ["Pseudonymisierte Daten sind anonym und fallen nicht unter die DSGVO", "Pseudonymisierte Daten bleiben personenbezogene Daten; es gibt keine generellen Ausnahmen/Erleichterungen", "Pseudonymisierte Daten dürfen immer ohne Rechtsgrundlage verarbeitet werden", "Pseudonymisierung ist nur bei sensiblen Daten zulässig"], "correct": [1], "type": "mc", "a": "Richtig: <strong>B</strong> – mit Prüfungs-Nuance.<br><strong>Artikel:</strong> Art 4 Z 5 DSGVO; ErwGr 26, 28 und 29 DSGVO; außerdem Art 25 und Art 32 DSGVO.<br><strong>Begründung:</strong> Pseudonymisierte Daten bleiben personenbezogen, wenn sie mit Zusatzinformationen wieder einer Person zugeordnet werden können. Die Folien sagen daher: DSGVO bleibt anwendbar. Wichtig als Zusatz: Die DSGVO kennt aber gewisse Privilegierungen/positive Berücksichtigung von Pseudonymisierung, etwa bei Datenschutz durch Technik und Sicherheit der Verarbeitung. Sie ist daher keine Anonymisierung.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 4; Folien: Einheit 1, personenbezogene/pseudonyme/anonyme Daten.", "n": 23}, {"t": "Wiederholung · Art 5", "q": "Welche Grundprinzipien sind unter anderem in Art 5 DSGVO genannt?", "options": ["Zweckbindung, Datenminimierung, Speicherbegrenzung, Integrität/Vertraulichkeit", "Gewinnmaximierung, Marketingfreiheit, Datenhandel, Exportfreiheit", "Geheimhaltungspflicht, Zertifizierungspflicht, Auditpflicht, Veröffentlichungspflicht", "Datenübertragungspflicht, Profiling-Pflicht, Löschungsverbot, Registrierpflicht"], "correct": [0], "type": "mc", "a": "Richtig: <strong>A</strong>.<br><strong>Artikel:</strong> Art 5 Abs 1 DSGVO.<br><strong>Begründung:</strong> Art 5 nennt u.a. Rechtmäßigkeit/Treu und Glauben/Transparenz, Zweckbindung, Datenminimierung, Richtigkeit, Speicherbegrenzung sowie Integrität und Vertraulichkeit. Genau diese Prinzipien sind in den Folien als Grundprinzipien dargestellt.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 5; Folien: Einheit 1, Grundprinzipien Art 5.", "n": 24}, {"t": "Wiederholung · Verantwortlicher", "q": "Wer ist „Verantwortlicher“?", "options": ["Jeder, der Daten im Auftrag und auf Weisung verarbeitet", "Jeder, der über Zwecke und Mittel der Verarbeitung entscheidet („Herr der Daten“)", "Jeder Empfänger personenbezogener Daten", "Nur IT-Dienstleister"], "correct": [1], "type": "mc", "a": "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 4 Z 7 DSGVO; Abgrenzung zur Haushaltsausnahme Art 2 Abs 2 lit c DSGVO.<br><strong>Begründung:</strong> Verantwortlicher ist, wer Zwecke und Mittel der Verarbeitung festlegt. Die Folien nennen ihn den „Herrn der Daten“. Wer nur auf Weisung verarbeitet, ist dagegen Auftragsverarbeiter nach Art 4 Z 8 DSGVO.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 6; Folien: Einheit 1, Rollen und Verantwortlichkeit.", "n": 25}, {"t": "Wiederholung · Einwilligung", "q": "Welche Aussage zur Einwilligung ist richtig?", "options": ["Voraktivierte Checkboxen sind zulässig, wenn der Hinweis klar ist", "Einwilligung muss nachweisbar sein; Schweigen und voraktivierte Checkboxen sind ungültig", "Einwilligung muss immer schriftlich erfolgen", "Einwilligung kann nicht widerrufen werden"], "correct": [1], "type": "mc", "a": "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 4 Z 11 DSGVO; Art 7 DSGVO; ErwGr 32 DSGVO.<br><strong>Begründung:</strong> Einwilligung muss freiwillig, informiert, für den bestimmten Fall und unmissverständlich erfolgen. Sie muss nachweisbar und widerrufbar sein. Schweigen, Untätigkeit und vorangekreuzte Kästchen sind keine wirksame Einwilligung.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 7; Folien: Einheit 1, Einwilligung.", "n": 26}, {"t": "Wiederholung · Art 6 lit f", "q": "Welche Aussage zu „berechtigten Interessen“ nach Art 6 trifft zu?", "options": ["Es gibt ein allgemeines Konzernprivileg", "Direktmarketing ist nie erfasst", "Es ist auslegungsbedürftig und erfordert eine Einzelfallabwägung", "Es gilt nur für öffentliche Stellen"], "correct": [2], "type": "mc", "a": "Richtig: <strong>C</strong>.<br><strong>Artikel:</strong> Art 6 Abs 1 lit f DSGVO; ErwGr 47 und 48 DSGVO.<br><strong>Begründung:</strong> Berechtigte Interessen verlangen eine Interessenabwägung zwischen Verantwortlichem/Drittem und den Interessen, Grundrechten und Grundfreiheiten der betroffenen Person. Direktmarketing kann laut ErwGr 47 ein berechtigtes Interesse sein, aber TKG/ePrivacy können strengere Vorgaben machen. Ein allgemeines Konzernprivileg gibt es nicht.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 8; Folien: Einheit 1, berechtigte Interessen.", "n": 27}, {"t": "Wiederholung · Verzeichnis", "q": "Wozu dient das Verzeichnis von Verarbeitungstätigkeiten?", "options": ["Als Werbeverzeichnis", "Zur Prüfung und zum Nachweis der DSGVO-Compliance; auf Anfrage der Aufsicht vorzulegen", "Nur zur internen IT-Dokumentation ohne Behördenbezug", "Ausschließlich für sensible Daten"], "correct": [1], "type": "mc", "a": "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 30 Abs 1 bis 4 DSGVO; Art 5 Abs 2 DSGVO.<br><strong>Begründung:</strong> Das Verzeichnis dokumentiert Verarbeitungstätigkeiten und dient als Nachweis der Compliance. Es ist schriftlich oder elektronisch zu führen und der Aufsichtsbehörde auf Anfrage vorzulegen.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 9; Folien: Einheit 2, Dokumentation der Verarbeitungstätigkeiten.", "n": 28}, {"t": "Wiederholung · DSFA", "q": "Welche Aussage zur Datenschutz-Folgenabschätzung (PIA/DSFA) stimmt?", "options": ["Sie ist immer nur einmal im Unternehmen erforderlich", "Sie ist vorab bei Verarbeitung mit voraussichtlich hohem Risiko zu erstellen", "Sie wird immer vom Datenschutzbeauftragten erstellt", "Sie ist nur bei Papierakten relevant"], "correct": [1], "type": "mc", "a": "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 35 Abs 1 DSGVO.<br><strong>Begründung:</strong> Eine DSFA ist vor Beginn einer Verarbeitung erforderlich, wenn diese voraussichtlich ein hohes Risiko für Rechte und Freiheiten natürlicher Personen verursacht. Die Folien betonen: vorab, risikobasiert und grundsätzlich je Datenanwendung/Verarbeitung zu prüfen.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 10; Folien: Einheit 2, Datenschutz-Folgenabschätzung.", "n": 29}, {"t": "Wiederholung · DSBA & DSFA", "q": "Welche Aussage zur Rolle des Datenschutzbeauftragten bei der PIA ist korrekt?", "options": ["DSBA erstellt die PIA verbindlich", "DSBA ist gar nicht einzubeziehen", "PIA ist nicht vom DSBA zu erstellen; lediglich Rat einholen/beraten", "DSBA genehmigt die PIA anstelle der Behörde"], "correct": [2], "type": "mc", "a": "Richtig: <strong>C</strong>.<br><strong>Artikel:</strong> Art 35 Abs 2 DSGVO; Art 39 Abs 1 lit c DSGVO.<br><strong>Begründung:</strong> Der Verantwortliche ist für die DSFA zuständig. Der Datenschutzbeauftragte wird um Rat gefragt und überwacht/berät die Durchführung, erstellt oder genehmigt sie aber nicht verbindlich anstelle des Verantwortlichen oder der Behörde.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 11; Folien: Einheit 2, PIA und Einheit 3, Rolle des DSBA bei PIA.", "n": 30}, {"t": "Wiederholung · Auftragsverarbeiter", "q": "Welche Kernanforderung stellt die DSGVO an Auftragsverarbeiter?", "options": ["Auftragsverarbeiter muss zwingend in Österreich sitzen", "Verantwortlicher muss „hinreichende Garantien“ für geeignete technische und organisatorische Maßnahmen prüfen", "Auftragsverarbeiter darf immer Subverarbeiter ohne Info einsetzen", "Auftragsverarbeiter darf Zweck und Mittel frei bestimmen"], "correct": [1], "type": "mc", "a": "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 28 Abs 1 DSGVO.<br><strong>Begründung:</strong> Der Verantwortliche darf nur Auftragsverarbeiter einsetzen, die hinreichende Garantien für geeignete technische und organisatorische Maßnahmen bieten, sodass DSGVO-Anforderungen und Betroffenenrechte geschützt werden.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 12; Folien: Einheit 2, Auswahl des Auftragsverarbeiters.", "n": 31}, {"t": "Wiederholung · Subverarbeiter", "q": "Subverarbeiter: Welche Aussage trifft zu?", "options": ["Subbeauftragung ist verboten", "Subbeauftragung ist nur mit Genehmigung des Verantwortlichen zulässig (konkret oder allgemein) + Vorab-Information/Widerspruchsmöglichkeit", "Subverarbeiter brauchen keinen Vertrag", "Der Auftragsverarbeiter haftet nie für Subverarbeiter"], "correct": [1], "type": "mc", "a": "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 28 Abs 2 und Abs 4 DSGVO.<br><strong>Begründung:</strong> Subverarbeiter dürfen nur mit vorheriger besonderer oder allgemeiner schriftlicher Genehmigung eingesetzt werden. Bei allgemeiner Genehmigung muss der Verantwortliche informiert werden und widersprechen können. Außerdem müssen die Pflichten an den Subverarbeiter vertraglich überbunden werden.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 13; Folien: Einheit 2, Hinzuziehung von Subverarbeitern.", "n": 32}, {"t": "Wiederholung · TOMs", "q": "Was ist das Ziel von Datensicherheitsmaßnahmen?", "options": ["Verbote sensibler Datenverarbeitungen", "Vertraulichkeit, Integrität, Verfügbarkeit und Belastbarkeit der Systeme/Dienste", "Backups", "Pflicht zur Veröffentlichung aller Datenpannen"], "correct": [1], "type": "mc", "a": "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 32 Abs 1 lit b DSGVO.<br><strong>Begründung:</strong> Datensicherheitsmaßnahmen sollen ein dem Risiko angemessenes Schutzniveau sicherstellen, insbesondere Vertraulichkeit, Integrität, Verfügbarkeit und Belastbarkeit der Systeme und Dienste. Backups können eine Maßnahme sein, sind aber nicht das gesamte Ziel.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 14; Folien: Einheit 3, Datensicherheitsmaßnahmen.", "n": 33}, {"t": "Wiederholung · Privacy by Default", "q": "Was bedeutet „Privacy by default“?", "options": [], "correct": null, "type": "open", "a": "<strong>Kurzantwort:</strong> Privacy by default bedeutet datenschutzfreundliche Voreinstellungen: Standardmäßig dürfen nur jene personenbezogenen Daten verarbeitet werden, die für den jeweiligen Zweck erforderlich sind.<br><strong>Artikel:</strong> Art 25 Abs 2 DSGVO; ErwGr 78 DSGVO.<br><strong>Begründung:</strong> Die Voreinstellungen müssen Datenmenge, Umfang der Verarbeitung, Speicherfrist und Zugänglichkeit begrenzen. Die betroffene Person soll nicht selbst erst aktiv Datenschutz herstellen müssen.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 15; Folien: Einheit 3, Datenschutz durch Technik.", "n": 34}, {"t": "Wiederholung · Angemessenheit TOMs", "q": "Welche Faktoren sind bei der Angemessenheit von TOMs zu berücksichtigen?", "options": [], "correct": null, "type": "open", "a": "<strong>Kurzantwort:</strong> Zu berücksichtigen sind Stand der Technik, Implementierungskosten, Art/Umfang/Umstände/Zwecke der Verarbeitung sowie Eintrittswahrscheinlichkeit und Schwere der Risiken für Rechte und Freiheiten natürlicher Personen.<br><strong>Artikel:</strong> Art 32 Abs 1 DSGVO; ebenso Art 24 Abs 1 und Art 25 Abs 1 DSGVO.<br><strong>Begründung:</strong> TOMs sind risikobasiert. Je sensibler, umfangreicher oder riskanter die Verarbeitung ist, desto stärker müssen die Sicherheitsmaßnahmen sein. Die Folien zeigen dazu auch den PDCA-Gedanken mit regelmäßiger Evaluierung.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 16; Folien: Einheit 3, TOMs und regelmäßige Evaluierung.", "n": 35}, {"t": "Wiederholung · Fall Data Breach", "q": "Falllösung: Eine HR-Mitarbeiterin sendet eine Excel-Liste mit 500 Bewerberdaten inklusive teilweise Sozialversicherungsnummern wegen Autovervollständigung an eine falsche externe E-Mail-Adresse. Der Fehler fällt 24 Stunden später auf. Wie ist der Fall zu beurteilen, was muss das Unternehmen tun und welche Stakeholder sind einzubinden?", "options": [], "correct": null, "type": "open", "a": "<strong>Kurzantwort:</strong> Das ist sehr wahrscheinlich ein Data Breach durch unbefugte Offenlegung/Zugang. Innerhalb von maximal 72 Stunden ab Kenntnis muss das Risiko beurteilt und der Vorfall dokumentiert werden. Wegen 500 Bewerberdaten und teils Sozialversicherungsnummern besteht mindestens ein Risiko; daher Meldung an die Datenschutzbehörde nach Art 33 DSGVO. Bei hohem Risiko für Betroffene zusätzlich Benachrichtigung nach Art 34 DSGVO.<br><strong>Artikel:</strong> Art 4 Z 12 DSGVO; Art 33 Abs 1, Abs 3 und Abs 5 DSGVO; Art 34 Abs 1 DSGVO; Art 32 DSGVO.<br><strong>Begründung:</strong> Bewerberdaten sind personenbezogene Daten; Sozialversicherungsnummern erhöhen Sensibilität und Missbrauchsrisiko. Maßnahmen: falschen Empfänger sofort kontaktieren und Löschung/Bestätigung verlangen, Versand stoppen, interne Dokumentation, Risikoanalyse, Meldung vorbereiten, Betroffeneninformation prüfen, TOMs verbessern (z.B. Mail-Warnungen, DLP, Vier-Augen-Prinzip, Schulung). Einzubinden: HR/Personalabteilung, Datenschutzbeauftragter/Datenschutzkoordination, Legal/Compliance, IT/IT-Security, Management/Krisenstab, ggf. Kommunikation und externer Recruiter/Auftragsverarbeiter bzw. Empfängerklärung.", "src": "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 17; Folien: Einheit 3, Data Breaches und Meldung/Benachrichtigung.", "n": 36}];
-let order = CARDS.map((_,i)=>i), starred = new Set(), mode = "all", idx = 0;
-let selections = {}; // card number -> array indices
-let results = {}; // card number -> true/false, only after clicking Prüfen
-const $ = id => document.getElementById(id); const card = $("card"), scene = $("scene");
-function sameSet(a,b){ if(a.length!==b.length) return false; const A=[...a].sort((x,y)=>x-y), B=[...b].sort((x,y)=>x-y); return A.every((v,i)=>v===B[i]); }
-function deck(){ if(mode==="star") return order.filter(i=>starred.has(CARDS[i].n)); if(mode==="wrong") return order.filter(i=>results[CARDS[i].n]===false); return order; }
-function letters(arr){ return arr.map(i=>String.fromCharCode(65+i)).join(", "); }
-function updateStats(){ const answered = Object.keys(results).length; const correct = Object.values(results).filter(Boolean).length; const wrong = Object.values(results).filter(v=>v===false).length; $("answeredCount").textContent=answered; $("correctCount").textContent=correct; $("wrongCount").textContent=wrong; }
-function evaluate(c){ if(c.type!=="mc") return null; const sel = selections[c.n] || []; if(sel.length===0) return null; const ok = sameSet(sel, c.correct || []); results[c.n] = ok; return ok; }
-function resetEvaluation(c){ if(c && c.type==="mc" && Object.prototype.hasOwnProperty.call(results,c.n)){ delete results[c.n]; } }
-function render(){
-  updateStats(); const d = deck(); $("total").textContent=d.length;
-  if(!d.length){ scene.style.display="none"; $("empty").style.display="block"; $("pos").textContent=0; $("barFill").style.width="0%"; return; }
-  scene.style.display=""; $("empty").style.display="none"; if(idx>=d.length)idx=0; if(idx<0)idx=d.length-1;
-  const c = CARDS[d[idx]]; card.classList.remove("flipped"); $("tagF").textContent=c.t; $("tagB").textContent=c.t; const num="#"+String(c.n).padStart(2,"0"); $("numF").textContent=num; $("numB").textContent=num; $("qtext").textContent=c.q; $("atext").innerHTML=c.a; $("source").textContent=c.src;
-  const opt = $("options"); opt.innerHTML=""; const sel = selections[c.n] || []; const hasSelection = sel.length>0;
-  if(c.type==="mc"){
-    c.options.forEach((o,i)=>{ const li=document.createElement("li"); li.className="option"; const input=document.createElement("input"); input.type="checkbox"; input.checked=sel.includes(i); input.addEventListener("click", e=>e.stopPropagation()); input.addEventListener("change", e=>{ const cur=new Set(selections[c.n]||[]); if(e.target.checked) cur.add(i); else cur.delete(i); selections[c.n]=[...cur].sort((a,b)=>a-b); resetEvaluation(c); renderCurrentOnly(); }); const span=document.createElement("span"); span.innerHTML='<span class="letter">'+String.fromCharCode(65+i)+')</span>'+escapeHtml(o); li.appendChild(input); li.appendChild(span); li.addEventListener("click", e=>{ if(e.target.tagName!=="INPUT"){ input.checked=!input.checked; input.dispatchEvent(new Event("change")); } }); opt.appendChild(li); });
-    renderEvaluation(c);
-  } else {
-    const li=document.createElement("li"); li.className="openbox"; li.textContent="Offene Frage: Überlege dir die Antwort selbst und drehe danach die Karte um, um mit der Musterlösung inklusive DSGVO-Artikeln zu vergleichen."; opt.appendChild(li); const fb=$("feedback"); fb.className="feedback warn"; fb.textContent="Offene Frage – keine automatische Auswertung."; const row=$("checkrow"); if(row) row.style.display="none";
-  }
-  $("star").classList.toggle("on",starred.has(c.n)); $("star").textContent=starred.has(c.n)?"★":"☆"; $("pos").textContent=idx+1; $("barFill").style.width=((idx+1)/d.length*100)+"%";
-}
-function renderCurrentOnly(){ const c = CARDS[deck()[idx]]; renderEvaluation(c); updateStats(); if(mode==="wrong" && results[c.n]!==false && Object.prototype.hasOwnProperty.call(results,c.n)){ render(); } }
-function renderEvaluation(c){
-  const sel = selections[c.n] || []; const correct = c.correct || []; const fb = $("feedback"); const optionEls = [...document.querySelectorAll(".option")]; const checked = Object.prototype.hasOwnProperty.call(results,c.n);
-  const btn = $("checkBtn"); const row = $("checkrow");
-  if(row) row.style.display = c.type==="mc" ? "flex" : "none";
-  if(btn){ btn.disabled = c.type!=="mc" || sel.length===0; btn.textContent = checked ? "Erneut prüfen" : "Prüfen"; }
-  optionEls.forEach((el,i)=>{ el.className="option"; const old=el.querySelector(".badge"); if(old) old.remove(); const picked=sel.includes(i), isCorrect=correct.includes(i); if(!checked){ if(picked) el.classList.add("selected"); return; } const badge=document.createElement("span"); badge.className="badge"; if(picked && isCorrect){ el.classList.add("correct"); badge.classList.add("ok"); badge.textContent="richtig"; el.appendChild(badge); } else if(picked && !isCorrect){ el.classList.add("incorrect"); badge.classList.add("no"); badge.textContent="falsch"; el.appendChild(badge); } else if(!picked && isCorrect){ el.classList.add("missed"); badge.classList.add("miss"); badge.textContent="auch richtig"; el.appendChild(badge); } else { el.classList.add("neutral"); } });
-  if(sel.length===0){ fb.className="feedback"; fb.textContent="Kreuze eine oder mehrere Antworten an und klicke danach auf „Prüfen“."; return; }
-  if(!checked){ fb.className="feedback"; fb.textContent="Ausgewählt: "+letters(sel)+". Klicke auf „Prüfen“, wenn du fertig angekreuzt hast."; return; }
-  const ok = results[c.n]; if(ok){ fb.className="feedback good"; fb.textContent="Richtig. Gewählt: "+letters(sel)+". Drehe die Karte für Artikel und Kurzbegründung."; } else { fb.className="feedback bad"; fb.textContent="Noch nicht ganz richtig. Gewählt: "+letters(sel)+" · richtige Antwort(en): "+letters(correct)+". Drehe die Karte für die genaue Begründung."; }
-}
-function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
-function flip(){ if(deck().length) card.classList.toggle("flipped"); }
-function next(){ const d=deck(); if(!d.length)return; idx=(idx+1)%d.length; render(); }
-function prev(){ const d=deck(); if(!d.length)return; idx=(idx-1+d.length)%d.length; render(); }
-function shuffle(){ for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; } idx=0; render(); }
-function resetOrder(){ order=CARDS.map((_,i)=>i); idx=0; render(); }
-function clearProgress(){ selections={}; results={}; idx=0; render(); }
-function toggleStar(e){ e.stopPropagation(); const c=CARDS[deck()[idx]]; if(starred.has(c.n))starred.delete(c.n); else starred.add(c.n); render(); }
-function setMode(m){ mode=m; idx=0; $("mAll").classList.toggle("on",m==="all"); $("mWrong").classList.toggle("on",m==="wrong"); $("mStar").classList.toggle("on",m==="star"); render(); }
-scene.addEventListener("click", e=>{ if(e.target.closest(".option") || e.target.tagName==="INPUT") return; flip(); });
-$("flip").addEventListener("click", e=>{e.stopPropagation();flip();}); $("checkBtn").addEventListener("click", e=>{ e.stopPropagation(); const c=CARDS[deck()[idx]]; if(c && c.type==="mc" && (selections[c.n]||[]).length){ evaluate(c); renderCurrentOnly(); } }); $("next").addEventListener("click",next); $("prev").addEventListener("click",prev); $("shuffle").addEventListener("click",shuffle); $("reset").addEventListener("click",resetOrder); $("clear").addEventListener("click",clearProgress); $("star").addEventListener("click",toggleStar); $("mAll").addEventListener("click",()=>setMode("all")); $("mWrong").addEventListener("click",()=>setMode("wrong")); $("mStar").addEventListener("click",()=>setMode("star"));
-document.addEventListener("keydown", e=>{ if(e.code==="Space"){e.preventDefault();flip();} else if(e.code==="ArrowRight")next(); else if(e.code==="ArrowLeft")prev(); else if(e.key==="s"||e.key==="S")shuffle(); else if(e.key==="f"||e.key==="F"){ const c=CARDS[deck()[idx]]; if(c){ if(starred.has(c.n))starred.delete(c.n); else starred.add(c.n); } render(); } });
-render();
-</script>
-</body>
+        <script>
+            document.getElementById("yr").textContent =
+                new Date().getFullYear();
+            const CARDS = [
+                {
+                    n: 1,
+                    t: "Einheit 1 · Art 3",
+                    q: "Welche Verarbeitungen sind vom räumlichen Anwendungsbereich der DSGVO gedeckt? (4 Punkte)",
+                    options: [
+                        "Wenn eine Niederlassung innerhalb der EU besteht.",
+                        "Wenn die Verarbeitung in einer Niederlassung außerhalb der EU erfolgt und Waren/Dienstleistungen nicht in der EU angeboten werden.",
+                        "Wenn die Verarbeitung in einer Niederlassung außerhalb der EU erfolgt und Waren/Dienstleistungen in der EU entgeltlich oder unentgeltlich angeboten werden.",
+                        "Wenn die Verarbeitung durch eine Niederlassung außerhalb der EU erfolgt und das Verhalten von Betroffenen in der EU „beobachtet“ wird.",
+                    ],
+                    a: "Richtig: <strong>1, 3 und 4</strong>.<br><strong>Artikel:</strong> Art 3 Abs 1 DSGVO; Art 3 Abs 2 lit a und lit b DSGVO.<br><strong>Begründung:</strong> EU-Niederlassung reicht aus. Ohne EU-Niederlassung gilt die DSGVO trotzdem, wenn Waren/Dienstleistungen in der EU angeboten werden oder Verhalten von Betroffenen in der EU beobachtet wird. Keine EU-Ausrichtung = nicht erfasst.",
+                    src: "Folie: Einheit 1, Folie 10.",
+                    correct: [0, 2, 3],
+                    type: "mc",
+                },
+                {
+                    n: 2,
+                    t: "Einheit 1 · Verantwortlichkeit",
+                    q: "Welche Aussage(n) zur Relevanz der DSGVO ist bzw. sind richtig? (6 Punkte)",
+                    options: [
+                        "Die Verantwortlichkeit für die Datenverarbeitung liegt bei der Betroffenen.",
+                        "Die Verantwortlichkeit liegt beim Datenverarbeiter.",
+                        "Verantwortlicher kann eine natürliche oder juristische Person sein.",
+                        "Die Strafkompetenz liegt ausschließlich bei Zivilgerichten.",
+                        "Die nationalen Datenschutzbehörden prüfen ex-post.",
+                        "Neben der DSGVO bestehen keine nationalen Datenschutzgesetze.",
+                    ],
+                    a: "Richtig: <strong>2, 3 und 5</strong> – wobei 2 in den Folien ungenau formuliert ist; rechtlich gemeint ist der <strong>Verantwortliche</strong>.<br><strong>Artikel:</strong> Art 4 Z 7 DSGVO; Art 58 Abs 2 DSGVO; Art 83 DSGVO.<br><strong>Begründung:</strong> Verantwortlich ist die natürliche/juristische Person, die Zwecke und Mittel entscheidet. Behörden prüfen ex post und können Sanktionen verhängen. Nationale Datenschutzgesetze bestehen wegen Öffnungsklauseln weiterhin.",
+                    src: "Folien: Einheit 1, Folie 6 und 7.",
+                    correct: [1, 2, 4],
+                    type: "mc",
+                },
+                {
+                    n: 3,
+                    t: "Einheit 1 · Art 9/10",
+                    q: "Welche Aussage(n) zu besonderen Kategorien von personenbezogenen Daten ist bzw. sind richtig? (4 Punkte)",
+                    options: [
+                        "Bei Daten über strafrechtliche Verurteilungen und Straftaten sowie sensible Daten handelt es sich um besondere Kategorien von personenbezogenen Daten.",
+                        "Bei sensiblen Daten ist ein strengeres Schutzregime in der DSGVO verankert als bei „normalen“ personenbezogenen Daten.",
+                        "Unter Gesundheitsdaten sind neben körperlicher und geistiger Gesundheit auch die Daten aus Gesundheitsprognosen zu verstehen.",
+                        "Bei der Gewerkschaftszugehörigkeit handelt es sich nicht um sensible Daten.",
+                    ],
+                    a: "Richtig: <strong>1, 2 und 3</strong>. Falsch: 4.<br><strong>Artikel:</strong> Art 9 Abs 1 DSGVO; Art 10 DSGVO; Art 4 Z 15 DSGVO; ErwGr 35 DSGVO.<br><strong>Begründung:</strong> Sensible Daten haben ein strengeres Schutzregime. Gesundheitsdaten umfassen auch vergangene, aktuelle und künftige/prognostische Gesundheitsinformationen. Gewerkschaftszugehörigkeit ist ausdrücklich sensibel.",
+                    src: "Folie: Einheit 1, Folie 22.",
+                    correct: [0, 1, 2],
+                    type: "mc",
+                },
+                {
+                    n: 4,
+                    t: "Einheit 1 · Einwilligung",
+                    q: "Beschreiben Sie in zirka 4 bis 6 Sätzen die Grundregeln für eine gültige Einwilligung iSd DSGVO und nennen Sie zwei Beispiele, wo keine gültige Einwilligung vorliegen würde. (6 Punkte)",
+                    options: [],
+                    a: "<strong>Kurzantwort:</strong> Einwilligung muss freiwillig, bestimmt, informiert und unmissverständlich vor der Verarbeitung erfolgen und nachweisbar sein. Sie ist jederzeit widerrufbar; Widerruf muss so einfach sein wie Erteilung. Schweigen, Untätigkeit und vorangekreuzte Checkboxen reichen nicht.<br><strong>Artikel:</strong> Art 4 Z 11 DSGVO; Art 6 Abs 1 lit a DSGVO; Art 7 DSGVO; bei sensiblen Daten Art 9 Abs 2 lit a DSGVO.<br><strong>Beispiele keine Einwilligung:</strong> voraktivierte Checkbox; bloße Angabe einer Kontaktadresse beim Kauf.",
+                    src: "Folien: Einheit 1, Folien 30–32.",
+                    correct: null,
+                    type: "open",
+                },
+                {
+                    n: 5,
+                    t: "Einheit 1 · Art 6",
+                    q: "Welche Rechtsgrundlagen für die Verarbeitung nicht-sensibler personenbezogener Daten nennt die DSGVO bzw. nennen die Folien? (sinngemäß)",
+                    options: [
+                        "Vertragserfüllung.",
+                        "Berechtigte Interessen.",
+                        "Gesetzliche Verpflichtung.",
+                        "Einwilligung der betroffenen Person.",
+                    ],
+                    a: "Richtig: <strong>alle genannten</strong>.<br><strong>Artikel:</strong> Art 6 Abs 1 lit a, lit b, lit c und lit f DSGVO.<br><strong>Begründung:</strong> Normale personenbezogene Daten dürfen nur verarbeitet werden, wenn eine Rechtsgrundlage besteht. In den Folien werden Vertragserfüllung, gesetzliche Pflicht, berechtigte Interessen und Einwilligung besonders hervorgehoben.",
+                    src: "Folien: Einheit 1, Folien 25–30.",
+                    correct: [0, 1, 2, 3],
+                    type: "mc",
+                },
+                {
+                    n: 6,
+                    t: "Einheit 2 · Forschung/Bildaufnahme",
+                    q: "Welche Aussage(n) zur Datenverarbeitung der genannten spezifischen Zwecke ist bzw. sind richtig? (4 Punkte)",
+                    options: [
+                        "Die Datenverarbeitung zu Forschungszwecken unterliegt geeigneten Garantien, insbesondere Pseudonymisierung.",
+                        "Betroffenenrechte dürfen für Forschungszwecke nicht eingeschränkt werden.",
+                        "Ergebnisse einer Forschung mit Personenbezug dürfen unter anderem dann verarbeitet werden, wenn eine Einwilligung des Betroffenen vorliegt.",
+                        "Die Videoüberwachung des höchstpersönlichen Lebensbereichs ist unzulässig.",
+                    ],
+                    a: "Richtig: <strong>1, 3 und 4</strong>. Falsch: 2.<br><strong>Artikel:</strong> Art 89 Abs 1 und Abs 2 DSGVO; Art 6 Abs 1 lit a DSGVO; bei sensiblen Daten Art 9 Abs 2 lit a DSGVO.<br><strong>Begründung:</strong> Forschung braucht geeignete Garantien, besonders Pseudonymisierung. Betroffenenrechte können unter Bedingungen eingeschränkt werden. Forschung mit Personenbezug kann auf Einwilligung beruhen. Höchstpersönlicher Lebensbereich bleibt bei Bildaufnahme/Video tabu.",
+                    src: "Folien: Einheit 2, Folien 32–34.",
+                    correct: [0, 2, 3],
+                    type: "mc",
+                },
+                {
+                    n: 7,
+                    t: "Einheit 2 · DSFA",
+                    q: "Welche Aussage(n) zur Datenschutz-Folgenabschätzung iSd DSGVO ist bzw. sind richtig? (4 Punkte)",
+                    options: [
+                        "Eine Datenschutz-Folgenabschätzung ist für jede Datenanwendung separat durchzuführen.",
+                        "In einer Datenschutz-Folgenabschätzung sind die Risiken, Notwendigkeiten und die Verhältnismäßigkeit der Datenverarbeitung zu bewerten.",
+                        "Es gibt eine White-List und eine Black-List.",
+                        "Eine Datenschutz-Folgenabschätzung ist jedenfalls erforderlich, wenn sensible oder strafrechtliche Daten umfangreich verarbeitet werden.",
+                    ],
+                    a: "Richtig: <strong>alle vier</strong>.<br><strong>Artikel:</strong> Art 35 Abs 1 DSGVO; Art 35 Abs 3 lit b DSGVO; Art 35 Abs 4 und 5 DSGVO; Art 35 Abs 7 DSGVO.<br><strong>Begründung:</strong> DSFA ist bei hohem Risiko nötig. Umfangreiche Verarbeitung von Art-9- oder Art-10-Daten löst sie aus. Mindestinhalt: Beschreibung, Notwendigkeit/Verhältnismäßigkeit, Risiken und Maßnahmen. Black-/White-Lists kommen von Aufsichtsbehörden.",
+                    src: "Folien: Einheit 2, Folien 10, 12 und 13.",
+                    correct: [0, 1, 2, 3],
+                    type: "mc",
+                },
+                {
+                    n: 8,
+                    t: "Einheit 3 · TOMs",
+                    q: "Was sind Ziele, die durch technische und organisatorische Maßnahmen (TOMs) erreicht werden sollen? (3 Punkte)",
+                    options: [
+                        "Sicherstellung und Nachweis der Compliance.",
+                        "Einhaltung der Datenschutzgrundsätze und Schutz der Betroffenenrechte.",
+                        "Angemessenes Schutzniveau für die Daten.",
+                        "Verhinderung von Strafen.",
+                    ],
+                    a: "Richtig: <strong>1, 2 und 3</strong>.<br><strong>Artikel:</strong> Art 24 Abs 1 DSGVO; Art 25 DSGVO; Art 32 Abs 1 DSGVO.<br><strong>Begründung:</strong> TOMs dienen Compliance-Nachweis, Datenschutzgrundsätzen/Betroffenenrechten und angemessenem Schutzniveau. Strafvermeidung ist nur mittelbare Folge, nicht das eigentliche gesetzliche Ziel.",
+                    src: "Folie: Einheit 3, Folie 3.",
+                    correct: [0, 1, 2],
+                    type: "mc",
+                },
+                {
+                    n: 9,
+                    t: "Einheit 3 · Home Office",
+                    q: "Was ist ein Beispiel bzw. was sind Beispiele für Datensicherheitsmaßnahmen im Zusammenhang mit Home Office? (3 Punkte)",
+                    options: [
+                        "Regelung, welche Geräte verwendet werden dürfen.",
+                        "Verschlüsselte VPN-Verbindung.",
+                        "Nutzung von Firmengeräten (Laptops, Smartphones).",
+                        "Nutzung von Cloud-Diensten statt firmeneigener Server.",
+                    ],
+                    a: "Richtig: <strong>1, 2 und 3</strong>.<br><strong>Artikel:</strong> Art 32 Abs 1 DSGVO.<br><strong>Begründung:</strong> Die Folien nennen Geräte-Regelungen, verschlüsselte VPN/VDI/2FA und Firmengeräte ausdrücklich. Cloud statt eigener Server ist nicht automatisch eine Sicherheitsmaßnahme und wurde so nicht genannt.",
+                    src: "Folie: Einheit 3, Folie 10.",
+                    correct: [0, 1, 2],
+                    type: "mc",
+                },
+                {
+                    n: 10,
+                    t: "Einheit 3 · Data Breach",
+                    q: "Welche Aussage(n) zu Data Breaches ist bzw. sind richtig? (4 Punkte)",
+                    options: [
+                        "Ein Data Breach muss an die Datenschutzbehörde gemeldet werden, wenn ein Risiko für Betroffene besteht.",
+                        "Die Betroffenen müssen niemals benachrichtigt werden.",
+                        "Ein Hackerangriff, bei dem personenbezogene Daten gestohlen werden, ist ein Data Breach.",
+                        "Data Breaches müssen nicht intern dokumentiert werden.",
+                    ],
+                    a: "Richtig: <strong>1 und 3</strong>.<br><strong>Artikel:</strong> Art 4 Z 12 DSGVO; Art 33 Abs 1 und Abs 5 DSGVO; Art 34 Abs 1 DSGVO.<br><strong>Begründung:</strong> Hackerangriff mit Datenabfluss ist eine Verletzung des Schutzes personenbezogener Daten. Bei Risiko: Meldung an DSB/Aufsichtsbehörde. Bei hohem Risiko: auch Betroffene. Alle Vorfälle sind intern zu dokumentieren.",
+                    src: "Folien: Einheit 3, Folien 16, 18 und 19.",
+                    correct: [0, 2],
+                    type: "mc",
+                },
+                {
+                    n: 11,
+                    t: "Einheit 3 · DSB/DSBA",
+                    q: "Welche Aussage(n) zu Datenschutzbeauftragten ist bzw. sind richtig? (4 Punkte)",
+                    options: [
+                        "Datenschutzbeauftragte können jedem über die Inhalte ihrer Tätigkeit, zum Beispiel einen Data Breach, frei erzählen.",
+                        "In Österreich muss jedes Unternehmen einen Datenschutzbeauftragten bestellen.",
+                        "Datenschutzbeauftragte sind im Rahmen ihrer Tätigkeiten unabhängig und weisungsfrei.",
+                        "Datenschutzbeauftragte beraten den Verantwortlichen bzw. Auftragsverarbeiter in Datenschutzfragen.",
+                    ],
+                    a: "Richtig: <strong>3 und 4</strong>.<br><strong>Artikel:</strong> Art 37 DSGVO; Art 38 Abs 3 und Abs 5 DSGVO; Art 39 Abs 1 lit a DSGVO.<br><strong>Begründung:</strong> Keine allgemeine Bestellungspflicht für jedes Unternehmen. DSB sind unabhängig/weisungsfrei und zur Vertraulichkeit verpflichtet. Eine Kernaufgabe ist Beratung/Unterrichtung in Datenschutzfragen.",
+                    src: "Folien: Einheit 3, Folien 29, 31, 35–37.",
+                    correct: [2, 3],
+                    type: "mc",
+                },
+                {
+                    n: 12,
+                    t: "Einheit 3 · Data Breach Ablauf",
+                    q: "Beschreiben Sie in zirka 4 bis 6 Sätzen, wie Sie bei einem Data Breach vorgehen, um die Vorgaben der DSGVO einzuhalten. (6 Punkte)",
+                    options: [],
+                    a: "<strong>Kurzantwort:</strong> Vorfall sofort erfassen, Umfang klären und intern dokumentieren. Innerhalb von max. 72 Stunden Risiko bewerten. Bei Risiko: Meldung an Aufsichtsbehörde mit Art, Umfang, Folgen und Gegenmaßnahmen. Bei hohem Risiko: Betroffene unverzüglich informieren. Parallel Sofortmaßnahmen setzen und Lessons Learned dokumentieren.<br><strong>Artikel:</strong> Art 33 Abs 1, 3 und 5 DSGVO; Art 34 Abs 1 DSGVO.",
+                    src: "Folien: Einheit 3, Folien 17–19 und 23–26.",
+                    correct: null,
+                    type: "open",
+                },
+                {
+                    n: 13,
+                    t: "Weitere Themen · Betroffenenrechte",
+                    q: "Bei welchen der folgenden Rechte handelt es sich um Betroffenenrechte nach der DSGVO? (4 Punkte)",
+                    options: [
+                        "Recht auf Widerruf einer Datenlöschung.",
+                        "Recht auf Berichtigung.",
+                        "Recht auf Vergessenwerden.",
+                        "Recht auf Widerruf einer Einwilligung.",
+                    ],
+                    a: "Richtig: <strong>2, 3 und 4</strong>.<br><strong>Artikel:</strong> Art 16 DSGVO; Art 17 DSGVO; Art 7 Abs 3 DSGVO.<br><strong>Begründung:</strong> Berichtigung, Löschung/„Vergessenwerden“ und Widerruf der Einwilligung sind DSGVO-Rechte. Ein Recht auf Widerruf einer Datenlöschung gibt es so nicht.",
+                    src: "Allgemeiner Bezug: Einheit 2, Folie 29; Einheit 3, Folie 3.",
+                    correct: [1, 2, 3],
+                    type: "mc",
+                },
+                {
+                    n: 14,
+                    t: "Weitere Themen · Drittlandtransfer",
+                    q: "Welche Grundlagen bestehen für Datentransfer in Drittländer auf Basis der Ausnahmetatbestände nach Art 49 DSGVO? (6 Punkte)",
+                    options: [
+                        "Es darf keine andere Grundlage für den internationalen Datentransfer bestehen.",
+                        "Die Tatbestände des Art 49 DSGVO sind dabei eng auszulegen.",
+                        "Die Tatbestände des Art 49 DSGVO sind dabei weit auszulegen.",
+                        "Die Übermittlung aufgrund eines Ausnahmetatbestandes darf wiederholt erfolgen.",
+                        "Die Übermittlung aufgrund eines Ausnahmetatbestandes darf nicht wiederholt erfolgen.",
+                        "Die Übermittlung aufgrund eines Ausnahmetatbestandes darf nur eine begrenzte Zahl von Personen betreffen.",
+                    ],
+                    a: "Richtig: <strong>1, 2, 5 und 6</strong>.<br><strong>Artikel:</strong> Art 45 DSGVO; Art 46 DSGVO; Art 49 Abs 1 DSGVO; Art 49 Abs 1 Unterabs 2 DSGVO; ErwGr 111 DSGVO.<br><strong>Begründung:</strong> Art 49 ist Ausnahme/Auffanglösung, wenn kein Angemessenheitsbeschluss und keine geeigneten Garantien bestehen. Daher eng auszulegen. Besonders bei zwingenden berechtigten Interessen: nicht wiederholt und nur begrenzte Zahl Betroffener.",
+                    src: "Allgemeiner Bezug: Einheit 2, Folie 4.",
+                    correct: [0, 1, 4, 5],
+                    type: "mc",
+                },
+                {
+                    n: 15,
+                    t: "Weitere Themen · Auskunft",
+                    q: "Was beinhaltet das Recht auf Auskunft? (4 Punkte)",
+                    options: [
+                        "Die Kategorie der verarbeiteten Daten.",
+                        "Die Auskunft über aktuelle und in Vergangenheit verarbeitete Daten.",
+                        "Alle Informationen über mögliche Strafhöhen des Verantwortlichen.",
+                        "Auskunft über die Möglichkeit der Datenübertragbarkeit.",
+                    ],
+                    a: "Richtig laut Altprüfung: <strong>1 und 2</strong>.<br><strong>Artikel:</strong> Art 15 Abs 1 lit b DSGVO; Art 15 Abs 3 DSGVO; Abgrenzung: Art 20 DSGVO.<br><strong>Begründung:</strong> Auskunft umfasst u.a. Kategorien der Daten und Zugang/Kopie der verarbeiteten personenbezogenen Daten. Strafhöhen sind kein Auskunftsinhalt. Datenübertragbarkeit ist ein eigenes Recht nach Art 20.",
+                    src: "Hinweis: in den vorhandenen Folien kein eigener Einheit-4-Foliensatz.",
+                    correct: [0, 1],
+                    type: "mc",
+                },
+                {
+                    n: 16,
+                    t: "Weitere Themen · USA-Transfer",
+                    q: "Nennen Sie die beiden für ungültig erklärten Angemessenheitsbeschlüsse mit den USA und beschreiben Sie kurz, warum der EuGH diese aufgehoben hat. (6 Punkte)",
+                    options: [],
+                    a: "<strong>Kurzantwort:</strong> <strong>Safe Harbor</strong> und <strong>EU-US Privacy Shield</strong>. Aufhebung in Schrems I bzw. Schrems II, weil US-Recht keinen im Wesentlichen gleichwertigen Schutz bot: weitreichende Behörden-/Nachrichtendienstzugriffe und kein wirksamer, unabhängiger, durchsetzbarer Rechtsbehelf für EU-Betroffene.<br><strong>Artikel:</strong> Art 45 DSGVO; relevant auch Grundrechte/Art 7, 8, 47 GRC.",
+                    src: "Allgemeiner Bezug: Einheit 2, Folie 4.",
+                    correct: null,
+                    type: "open",
+                },
+                {
+                    n: 17,
+                    t: "Weitere Themen · Aufsicht",
+                    q: "Welche Aussage(n) zu Aufsichtsbehörde(n) ist bzw. sind richtig? (4 Punkte)",
+                    options: [
+                        "Eine Aufsichtsbehörde ist eine von einem Mitgliedstaat eingerichtete unabhängige staatliche Stelle.",
+                        "Eine Aufsichtsbehörde ist nicht weisungsfrei.",
+                        "Eine Aufsichtsbehörde muss grenzüberschreitend mit anderen Behörden zusammenarbeiten.",
+                        "In Österreich gibt es nur eine Aufsichtsbehörde, die Datenschutzbehörde.",
+                    ],
+                    a: "Richtig: <strong>1, 3 und 4</strong>.<br><strong>Artikel:</strong> Art 51 Abs 1 und Abs 2 DSGVO; Art 52 DSGVO; Art 60 ff DSGVO.<br><strong>Begründung:</strong> Aufsichtsbehörden sind unabhängige staatliche Stellen und müssen zur einheitlichen Anwendung kooperieren. Weisungsfreiheit folgt aus völliger Unabhängigkeit. In Österreich ist die Datenschutzbehörde zuständig.",
+                    src: "Allgemeiner Bezug: Einheit 2, Folie 17.",
+                    correct: [0, 2, 3],
+                    type: "mc",
+                },
+                {
+                    n: 18,
+                    t: "Weitere Themen · Rechtsdurchsetzung",
+                    q: "Welche Aussage(n) zur Rechtsdurchsetzung in Österreich ist bzw. sind richtig? (4 Punkte)",
+                    options: [
+                        "Nur natürliche Personen haben ein Recht auf einen wirksamen Rechtsbehelf.",
+                        "Mögliche Rechtsbehelfe gegen einen Bescheid der DSB sind Bescheidbeschwerde und Säumnisbeschwerde.",
+                        "Gegen ein Erkenntnis des Bundesverwaltungsgerichts (BVwG) kann ich Revision beim Verwaltungsgerichtshof (VwGH) erheben.",
+                        "Im Verwaltungsrechtsweg kann ich Zivilklage bei einem ordentlichen Gericht erheben.",
+                    ],
+                    a: "Richtig: <strong>2 und 3</strong>.<br><strong>Artikel:</strong> Art 77 DSGVO; Art 78 DSGVO; Art 82 DSGVO.<br><strong>Begründung:</strong> Rechtsbehelf gegen Entscheidungen der DSB läuft verwaltungsrechtlich; danach ist Revision an den VwGH möglich. Art 78 gilt auch für juristische Personen. Zivilklage gehört nicht in den Verwaltungsrechtsweg; Schadenersatz nach Art 82 läuft separat vor ordentlichen Gerichten.",
+                    src: "Allgemeiner Bezug: Einheit 1, Folie 7.",
+                    correct: [1, 2],
+                    type: "mc",
+                },
+                {
+                    n: 19,
+                    t: "Weitere Themen · Cookies/Marketing",
+                    q: "Welche Aussage(n) zum Datenschutz in elektronischer Kommunikation ist bzw. sind richtig? (6 Punkte)",
+                    options: [
+                        "Die Zustimmungspflicht im Cookie-Banner entfällt nur für unbedingt erforderliche Cookies.",
+                        "Ich muss die Buttons für „Ablehnen“ und „Akzeptieren“ im Cookie-Banner gleichwertig gestalten.",
+                        "Ich darf eine Cookie-Zustimmung mit einer Gewinnspielteilnahme verbinden.",
+                        "Ich darf potentiellen Kunden ohne vorherige Zustimmung einen Newsletter schicken.",
+                        "Bei elektronischer Kommunikation mit Kunden ist ein sehr eingeschränktes Soft-Opt-In möglich.",
+                        "Postwerbung erfordert keine Einwilligung.",
+                    ],
+                    a: "Richtig: <strong>1, 2, 5 und 6</strong>.<br><strong>Artikel:</strong> Art 4 Z 11 DSGVO; Art 6 Abs 1 lit f DSGVO; Art 7 DSGVO; Art 7 Abs 4 DSGVO; Art 21 DSGVO. Zusätzlich: TKG/ePrivacy als lex specialis.<br><strong>Begründung:</strong> Nicht notwendige Cookies brauchen wirksame Einwilligung. Ablehnen/Akzeptieren muss gleichwertig sein. Gewinnspiel-Kopplung gefährdet Freiwilligkeit. Newsletter an potenzielle Kunden grundsätzlich nur mit Opt-in; bei bestehenden Kunden enges Soft-Opt-in. Postwerbung kann auf berechtigtes Interesse gestützt werden, aber Widerspruch beachten.",
+                    src: "Folien: Einheit 1, Folien 6, 13 und 28.",
+                    correct: [0, 1, 4, 5],
+                    type: "mc",
+                },
+                {
+                    t: "Wiederholung · DSGVO Ziele",
+                    q: "Welche Hauptziele verfolgt die DSGVO?",
+                    options: [
+                        "Schutz natürlicher Personen & Förderung des freien Verkehrs personenbezogener Daten in der EU",
+                        "Schutz juristischer Personen & Harmonisierung des Steuerrechts",
+                        "Schutz nationaler Behörden & Einschränkung des Datenverkehrs",
+                        "Förderung von Werbung & Abschaffung nationaler Datenschutzgesetze",
+                    ],
+                    correct: [0],
+                    type: "mc",
+                    a: "Richtig: <strong>A</strong>.<br><strong>Artikel:</strong> Art 1 Abs 1 und Abs 3 DSGVO.<br><strong>Begründung:</strong> Die DSGVO schützt natürliche Personen bei der Verarbeitung personenbezogener Daten und schützt gleichzeitig den freien Verkehr personenbezogener Daten in der Union. Die Folien nennen genau diese beiden Ziele: Datenschutzgrundrecht und freier Datenverkehr.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 1; Folien: Einheit 1, Überblick/Gegenstand und Ziele.",
+                    n: 20,
+                },
+                {
+                    t: "Wiederholung · Anwendbarkeit",
+                    q: "Was beschreibt der überterritoriale Ansatz?",
+                    options: [
+                        "DSGVO gilt nur bei Verarbeitung in Österreich",
+                        "DSGVO gilt bei Niederlassung in der EU oder bei Angebot an/Beobachtung von Personen in der EU, auch wenn außerhalb der EU verarbeitet wird",
+                        "DSGVO gilt nur für öffentliche Stellen",
+                        "DSGVO gilt nur für Papierakten",
+                    ],
+                    correct: [1],
+                    type: "mc",
+                    a: "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 3 Abs 1 und Abs 2 DSGVO.<br><strong>Begründung:</strong> Die DSGVO gilt bei Verarbeitung im Rahmen einer EU-Niederlassung. Ohne EU-Niederlassung gilt sie trotzdem, wenn Personen in der EU Waren/Dienstleistungen angeboten werden oder ihr Verhalten in der EU beobachtet wird. Genau das nennen die Folien als überterritorialen Ansatz.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 2; Folien: Einheit 1, räumlicher Anwendungsbereich DSGVO.",
+                    n: 21,
+                },
+                {
+                    t: "Wiederholung · Personenbezug",
+                    q: "Was ist entscheidend dafür, ob Daten „personenbezogen“ sind?",
+                    options: [
+                        "Ob die Daten in einer Datenbank gespeichert sind",
+                        "Ob es sich um Informationen über juristische Personen handelt",
+                        "Ob eine Person direkt oder indirekt identifizierbar ist („Wiedererkennbarkeit“)",
+                        "Ob eine Einwilligung vorliegt",
+                    ],
+                    correct: [2],
+                    type: "mc",
+                    a: "Richtig: <strong>C</strong>.<br><strong>Artikel:</strong> Art 4 Z 1 DSGVO; ErwGr 26 DSGVO.<br><strong>Begründung:</strong> Personenbezogen sind alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person beziehen. Die Folien betonen als maßgebliches Kriterium die Wiedererkennbarkeit, also direkte oder indirekte Identifizierbarkeit.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 3; Folien: Einheit 1, sachlicher Anwendungsbereich.",
+                    n: 22,
+                },
+                {
+                    t: "Wiederholung · Pseudonymisierung",
+                    q: "Welche Aussage zu pseudonymisierten Daten ist korrekt?",
+                    options: [
+                        "Pseudonymisierte Daten sind anonym und fallen nicht unter die DSGVO",
+                        "Pseudonymisierte Daten bleiben personenbezogene Daten; es gibt keine generellen Ausnahmen/Erleichterungen",
+                        "Pseudonymisierte Daten dürfen immer ohne Rechtsgrundlage verarbeitet werden",
+                        "Pseudonymisierung ist nur bei sensiblen Daten zulässig",
+                    ],
+                    correct: [1],
+                    type: "mc",
+                    a: "Richtig: <strong>B</strong> – mit Prüfungs-Nuance.<br><strong>Artikel:</strong> Art 4 Z 5 DSGVO; ErwGr 26, 28 und 29 DSGVO; außerdem Art 25 und Art 32 DSGVO.<br><strong>Begründung:</strong> Pseudonymisierte Daten bleiben personenbezogen, wenn sie mit Zusatzinformationen wieder einer Person zugeordnet werden können. Die Folien sagen daher: DSGVO bleibt anwendbar. Wichtig als Zusatz: Die DSGVO kennt aber gewisse Privilegierungen/positive Berücksichtigung von Pseudonymisierung, etwa bei Datenschutz durch Technik und Sicherheit der Verarbeitung. Sie ist daher keine Anonymisierung.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 4; Folien: Einheit 1, personenbezogene/pseudonyme/anonyme Daten.",
+                    n: 23,
+                },
+                {
+                    t: "Wiederholung · Art 5",
+                    q: "Welche Grundprinzipien sind unter anderem in Art 5 DSGVO genannt?",
+                    options: [
+                        "Zweckbindung, Datenminimierung, Speicherbegrenzung, Integrität/Vertraulichkeit",
+                        "Gewinnmaximierung, Marketingfreiheit, Datenhandel, Exportfreiheit",
+                        "Geheimhaltungspflicht, Zertifizierungspflicht, Auditpflicht, Veröffentlichungspflicht",
+                        "Datenübertragungspflicht, Profiling-Pflicht, Löschungsverbot, Registrierpflicht",
+                    ],
+                    correct: [0],
+                    type: "mc",
+                    a: "Richtig: <strong>A</strong>.<br><strong>Artikel:</strong> Art 5 Abs 1 DSGVO.<br><strong>Begründung:</strong> Art 5 nennt u.a. Rechtmäßigkeit/Treu und Glauben/Transparenz, Zweckbindung, Datenminimierung, Richtigkeit, Speicherbegrenzung sowie Integrität und Vertraulichkeit. Genau diese Prinzipien sind in den Folien als Grundprinzipien dargestellt.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 5; Folien: Einheit 1, Grundprinzipien Art 5.",
+                    n: 24,
+                },
+                {
+                    t: "Wiederholung · Verantwortlicher",
+                    q: "Wer ist „Verantwortlicher“?",
+                    options: [
+                        "Jeder, der Daten im Auftrag und auf Weisung verarbeitet",
+                        "Jeder, der über Zwecke und Mittel der Verarbeitung entscheidet („Herr der Daten“)",
+                        "Jeder Empfänger personenbezogener Daten",
+                        "Nur IT-Dienstleister",
+                    ],
+                    correct: [1],
+                    type: "mc",
+                    a: "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 4 Z 7 DSGVO; Abgrenzung zur Haushaltsausnahme Art 2 Abs 2 lit c DSGVO.<br><strong>Begründung:</strong> Verantwortlicher ist, wer Zwecke und Mittel der Verarbeitung festlegt. Die Folien nennen ihn den „Herrn der Daten“. Wer nur auf Weisung verarbeitet, ist dagegen Auftragsverarbeiter nach Art 4 Z 8 DSGVO.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 6; Folien: Einheit 1, Rollen und Verantwortlichkeit.",
+                    n: 25,
+                },
+                {
+                    t: "Wiederholung · Einwilligung",
+                    q: "Welche Aussage zur Einwilligung ist richtig?",
+                    options: [
+                        "Voraktivierte Checkboxen sind zulässig, wenn der Hinweis klar ist",
+                        "Einwilligung muss nachweisbar sein; Schweigen und voraktivierte Checkboxen sind ungültig",
+                        "Einwilligung muss immer schriftlich erfolgen",
+                        "Einwilligung kann nicht widerrufen werden",
+                    ],
+                    correct: [1],
+                    type: "mc",
+                    a: "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 4 Z 11 DSGVO; Art 7 DSGVO; ErwGr 32 DSGVO.<br><strong>Begründung:</strong> Einwilligung muss freiwillig, informiert, für den bestimmten Fall und unmissverständlich erfolgen. Sie muss nachweisbar und widerrufbar sein. Schweigen, Untätigkeit und vorangekreuzte Kästchen sind keine wirksame Einwilligung.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 7; Folien: Einheit 1, Einwilligung.",
+                    n: 26,
+                },
+                {
+                    t: "Wiederholung · Art 6 lit f",
+                    q: "Welche Aussage zu „berechtigten Interessen“ nach Art 6 trifft zu?",
+                    options: [
+                        "Es gibt ein allgemeines Konzernprivileg",
+                        "Direktmarketing ist nie erfasst",
+                        "Es ist auslegungsbedürftig und erfordert eine Einzelfallabwägung",
+                        "Es gilt nur für öffentliche Stellen",
+                    ],
+                    correct: [2],
+                    type: "mc",
+                    a: "Richtig: <strong>C</strong>.<br><strong>Artikel:</strong> Art 6 Abs 1 lit f DSGVO; ErwGr 47 und 48 DSGVO.<br><strong>Begründung:</strong> Berechtigte Interessen verlangen eine Interessenabwägung zwischen Verantwortlichem/Drittem und den Interessen, Grundrechten und Grundfreiheiten der betroffenen Person. Direktmarketing kann laut ErwGr 47 ein berechtigtes Interesse sein, aber TKG/ePrivacy können strengere Vorgaben machen. Ein allgemeines Konzernprivileg gibt es nicht.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 8; Folien: Einheit 1, berechtigte Interessen.",
+                    n: 27,
+                },
+                {
+                    t: "Wiederholung · Verzeichnis",
+                    q: "Wozu dient das Verzeichnis von Verarbeitungstätigkeiten?",
+                    options: [
+                        "Als Werbeverzeichnis",
+                        "Zur Prüfung und zum Nachweis der DSGVO-Compliance; auf Anfrage der Aufsicht vorzulegen",
+                        "Nur zur internen IT-Dokumentation ohne Behördenbezug",
+                        "Ausschließlich für sensible Daten",
+                    ],
+                    correct: [1],
+                    type: "mc",
+                    a: "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 30 Abs 1 bis 4 DSGVO; Art 5 Abs 2 DSGVO.<br><strong>Begründung:</strong> Das Verzeichnis dokumentiert Verarbeitungstätigkeiten und dient als Nachweis der Compliance. Es ist schriftlich oder elektronisch zu führen und der Aufsichtsbehörde auf Anfrage vorzulegen.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 9; Folien: Einheit 2, Dokumentation der Verarbeitungstätigkeiten.",
+                    n: 28,
+                },
+                {
+                    t: "Wiederholung · DSFA",
+                    q: "Welche Aussage zur Datenschutz-Folgenabschätzung (PIA/DSFA) stimmt?",
+                    options: [
+                        "Sie ist immer nur einmal im Unternehmen erforderlich",
+                        "Sie ist vorab bei Verarbeitung mit voraussichtlich hohem Risiko zu erstellen",
+                        "Sie wird immer vom Datenschutzbeauftragten erstellt",
+                        "Sie ist nur bei Papierakten relevant",
+                    ],
+                    correct: [1],
+                    type: "mc",
+                    a: "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 35 Abs 1 DSGVO.<br><strong>Begründung:</strong> Eine DSFA ist vor Beginn einer Verarbeitung erforderlich, wenn diese voraussichtlich ein hohes Risiko für Rechte und Freiheiten natürlicher Personen verursacht. Die Folien betonen: vorab, risikobasiert und grundsätzlich je Datenanwendung/Verarbeitung zu prüfen.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 10; Folien: Einheit 2, Datenschutz-Folgenabschätzung.",
+                    n: 29,
+                },
+                {
+                    t: "Wiederholung · DSBA & DSFA",
+                    q: "Welche Aussage zur Rolle des Datenschutzbeauftragten bei der PIA ist korrekt?",
+                    options: [
+                        "DSBA erstellt die PIA verbindlich",
+                        "DSBA ist gar nicht einzubeziehen",
+                        "PIA ist nicht vom DSBA zu erstellen; lediglich Rat einholen/beraten",
+                        "DSBA genehmigt die PIA anstelle der Behörde",
+                    ],
+                    correct: [2],
+                    type: "mc",
+                    a: "Richtig: <strong>C</strong>.<br><strong>Artikel:</strong> Art 35 Abs 2 DSGVO; Art 39 Abs 1 lit c DSGVO.<br><strong>Begründung:</strong> Der Verantwortliche ist für die DSFA zuständig. Der Datenschutzbeauftragte wird um Rat gefragt und überwacht/berät die Durchführung, erstellt oder genehmigt sie aber nicht verbindlich anstelle des Verantwortlichen oder der Behörde.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 11; Folien: Einheit 2, PIA und Einheit 3, Rolle des DSBA bei PIA.",
+                    n: 30,
+                },
+                {
+                    t: "Wiederholung · Auftragsverarbeiter",
+                    q: "Welche Kernanforderung stellt die DSGVO an Auftragsverarbeiter?",
+                    options: [
+                        "Auftragsverarbeiter muss zwingend in Österreich sitzen",
+                        "Verantwortlicher muss „hinreichende Garantien“ für geeignete technische und organisatorische Maßnahmen prüfen",
+                        "Auftragsverarbeiter darf immer Subverarbeiter ohne Info einsetzen",
+                        "Auftragsverarbeiter darf Zweck und Mittel frei bestimmen",
+                    ],
+                    correct: [1],
+                    type: "mc",
+                    a: "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 28 Abs 1 DSGVO.<br><strong>Begründung:</strong> Der Verantwortliche darf nur Auftragsverarbeiter einsetzen, die hinreichende Garantien für geeignete technische und organisatorische Maßnahmen bieten, sodass DSGVO-Anforderungen und Betroffenenrechte geschützt werden.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 12; Folien: Einheit 2, Auswahl des Auftragsverarbeiters.",
+                    n: 31,
+                },
+                {
+                    t: "Wiederholung · Subverarbeiter",
+                    q: "Subverarbeiter: Welche Aussage trifft zu?",
+                    options: [
+                        "Subbeauftragung ist verboten",
+                        "Subbeauftragung ist nur mit Genehmigung des Verantwortlichen zulässig (konkret oder allgemein) + Vorab-Information/Widerspruchsmöglichkeit",
+                        "Subverarbeiter brauchen keinen Vertrag",
+                        "Der Auftragsverarbeiter haftet nie für Subverarbeiter",
+                    ],
+                    correct: [1],
+                    type: "mc",
+                    a: "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 28 Abs 2 und Abs 4 DSGVO.<br><strong>Begründung:</strong> Subverarbeiter dürfen nur mit vorheriger besonderer oder allgemeiner schriftlicher Genehmigung eingesetzt werden. Bei allgemeiner Genehmigung muss der Verantwortliche informiert werden und widersprechen können. Außerdem müssen die Pflichten an den Subverarbeiter vertraglich überbunden werden.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 13; Folien: Einheit 2, Hinzuziehung von Subverarbeitern.",
+                    n: 32,
+                },
+                {
+                    t: "Wiederholung · TOMs",
+                    q: "Was ist das Ziel von Datensicherheitsmaßnahmen?",
+                    options: [
+                        "Verbote sensibler Datenverarbeitungen",
+                        "Vertraulichkeit, Integrität, Verfügbarkeit und Belastbarkeit der Systeme/Dienste",
+                        "Backups",
+                        "Pflicht zur Veröffentlichung aller Datenpannen",
+                    ],
+                    correct: [1],
+                    type: "mc",
+                    a: "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 32 Abs 1 lit b DSGVO.<br><strong>Begründung:</strong> Datensicherheitsmaßnahmen sollen ein dem Risiko angemessenes Schutzniveau sicherstellen, insbesondere Vertraulichkeit, Integrität, Verfügbarkeit und Belastbarkeit der Systeme und Dienste. Backups können eine Maßnahme sein, sind aber nicht das gesamte Ziel.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 14; Folien: Einheit 3, Datensicherheitsmaßnahmen.",
+                    n: 33,
+                },
+                {
+                    t: "Wiederholung · Privacy by Default",
+                    q: "Was bedeutet „Privacy by default“?",
+                    options: [],
+                    correct: null,
+                    type: "open",
+                    a: "<strong>Kurzantwort:</strong> Privacy by default bedeutet datenschutzfreundliche Voreinstellungen: Standardmäßig dürfen nur jene personenbezogenen Daten verarbeitet werden, die für den jeweiligen Zweck erforderlich sind.<br><strong>Artikel:</strong> Art 25 Abs 2 DSGVO; ErwGr 78 DSGVO.<br><strong>Begründung:</strong> Die Voreinstellungen müssen Datenmenge, Umfang der Verarbeitung, Speicherfrist und Zugänglichkeit begrenzen. Die betroffene Person soll nicht selbst erst aktiv Datenschutz herstellen müssen.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 15; Folien: Einheit 3, Datenschutz durch Technik.",
+                    n: 34,
+                },
+                {
+                    t: "Wiederholung · Angemessenheit TOMs",
+                    q: "Welche Faktoren sind bei der Angemessenheit von TOMs zu berücksichtigen?",
+                    options: [],
+                    correct: null,
+                    type: "open",
+                    a: "<strong>Kurzantwort:</strong> Zu berücksichtigen sind Stand der Technik, Implementierungskosten, Art/Umfang/Umstände/Zwecke der Verarbeitung sowie Eintrittswahrscheinlichkeit und Schwere der Risiken für Rechte und Freiheiten natürlicher Personen.<br><strong>Artikel:</strong> Art 32 Abs 1 DSGVO; ebenso Art 24 Abs 1 und Art 25 Abs 1 DSGVO.<br><strong>Begründung:</strong> TOMs sind risikobasiert. Je sensibler, umfangreicher oder riskanter die Verarbeitung ist, desto stärker müssen die Sicherheitsmaßnahmen sein. Die Folien zeigen dazu auch den PDCA-Gedanken mit regelmäßiger Evaluierung.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 16; Folien: Einheit 3, TOMs und regelmäßige Evaluierung.",
+                    n: 35,
+                },
+                {
+                    t: "Wiederholung · Fall Data Breach",
+                    q: "Falllösung: Eine HR-Mitarbeiterin sendet eine Excel-Liste mit 500 Bewerberdaten inklusive teilweise Sozialversicherungsnummern wegen Autovervollständigung an eine falsche externe E-Mail-Adresse. Der Fehler fällt 24 Stunden später auf. Wie ist der Fall zu beurteilen, was muss das Unternehmen tun und welche Stakeholder sind einzubinden?",
+                    options: [],
+                    correct: null,
+                    type: "open",
+                    a: "<strong>Kurzantwort:</strong> Das ist sehr wahrscheinlich ein Data Breach durch unbefugte Offenlegung/Zugang. Innerhalb von maximal 72 Stunden ab Kenntnis muss das Risiko beurteilt und der Vorfall dokumentiert werden. Wegen 500 Bewerberdaten und teils Sozialversicherungsnummern besteht mindestens ein Risiko; daher Meldung an die Datenschutzbehörde nach Art 33 DSGVO. Bei hohem Risiko für Betroffene zusätzlich Benachrichtigung nach Art 34 DSGVO.<br><strong>Artikel:</strong> Art 4 Z 12 DSGVO; Art 33 Abs 1, Abs 3 und Abs 5 DSGVO; Art 34 Abs 1 DSGVO; Art 32 DSGVO.<br><strong>Begründung:</strong> Bewerberdaten sind personenbezogene Daten; Sozialversicherungsnummern erhöhen Sensibilität und Missbrauchsrisiko. Maßnahmen: falschen Empfänger sofort kontaktieren und Löschung/Bestätigung verlangen, Versand stoppen, interne Dokumentation, Risikoanalyse, Meldung vorbereiten, Betroffeneninformation prüfen, TOMs verbessern (z.B. Mail-Warnungen, DLP, Vier-Augen-Prinzip, Schulung). Einzubinden: HR/Personalabteilung, Datenschutzbeauftragter/Datenschutzkoordination, Legal/Compliance, IT/IT-Security, Management/Krisenstab, ggf. Kommunikation und externer Recruiter/Auftragsverarbeiter bzw. Empfängerklärung.",
+                    src: "Zusatzfragen: rechtsrahmen-wh-fragen.md, Frage 17; Folien: Einheit 3, Data Breaches und Meldung/Benachrichtigung.",
+                    n: 36,
+                },
+                {
+                    n: 37,
+                    t: "Altprüfung · DSGVO Ziele",
+                    q: "Welche Ziele verfolgt die DSGVO?",
+                    options: [
+                        "Schutz natürlicher Personen",
+                        "Förderung des freien Datenverkehrs in der EU",
+                        "Harmonisierung des Steuerrechts",
+                        "Einschränkung des Datenverkehrs",
+                    ],
+                    correct: [0, 1],
+                    type: "mc",
+                    a: "Richtig: <strong>A und B</strong>.<br><strong>Artikel:</strong> Art 1 Abs 1 und Abs 3 DSGVO.<br><strong>Begründung:</strong> Die beiden Hauptziele der DSGVO sind der Schutz natürlicher Personen bei der Verarbeitung personenbezogener Daten und die Gewährleistung des freien Verkehrs personenbezogener Daten innerhalb der Union. Steuerrecht und Einschränkung des Datenverkehrs gehören nicht dazu.",
+                    src: "Vgl. Einheit 1, Überblick/Gegenstand und Ziele der DSGVO.",
+                },
+                {
+                    n: 38,
+                    t: "Altprüfung · Anwendbarkeit",
+                    q: "Wann ist die DSGVO anwendbar?",
+                    options: [
+                        "Nur bei Verarbeitung in Österreich",
+                        "Bei Niederlassung in der EU",
+                        "Bei Angebot von Waren/Dienstleistungen an Personen in der EU",
+                        "Nur für öffentliche Stellen",
+                    ],
+                    correct: [1, 2],
+                    type: "mc",
+                    a: "Richtig: <strong>B und C</strong>.<br><strong>Artikel:</strong> Art 3 Abs 1 und Abs 2 lit a DSGVO.<br><strong>Begründung:</strong> Die DSGVO gilt bei Verarbeitung im Rahmen einer EU-Niederlassung sowie bei Angebot von Waren/Dienstleistungen an Personen in der EU – auch ohne EU-Niederlassung (überterritorialer Ansatz). Sie ist nicht auf Österreich oder öffentliche Stellen beschränkt.",
+                    src: "Vgl. Einheit 1, räumlicher Anwendungsbereich DSGVO.",
+                },
+                {
+                    n: 39,
+                    t: "Altprüfung · Personenbezug",
+                    q: "Wann sind Daten personenbezogen?",
+                    options: [
+                        "Wenn sie in einer Datenbank gespeichert sind",
+                        "Wenn eine Person identifizierbar ist",
+                        "Wenn eine Einwilligung vorliegt",
+                        "Wenn es sich um juristische Personen handelt",
+                    ],
+                    correct: [1],
+                    type: "mc",
+                    a: "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 4 Z 1 DSGVO; ErwGr 26 DSGVO.<br><strong>Begründung:</strong> Personenbezogen sind Daten, wenn sich die Information auf eine identifizierte oder identifizierbare natürliche Person bezieht. Speicherung in einer Datenbank, Einwilligung oder Bezug zu juristischen Personen sind nicht entscheidend.",
+                    src: "Vgl. Einheit 1, sachlicher Anwendungsbereich.",
+                },
+                {
+                    n: 40,
+                    t: "Altprüfung · Pseudonymisierung",
+                    q: "Welche Aussagen sind korrekt?",
+                    options: [
+                        "Pseudonymisierte Daten sind anonym",
+                        "Pseudonymisierte Daten bleiben personenbezogen",
+                        "Es gibt Erleichterungen bei pseudonymisierten Daten",
+                        "DSGVO gilt weiterhin",
+                    ],
+                    correct: [1, 3],
+                    type: "mc",
+                    a: "Richtig: <strong>B, C und D</strong>.<br><strong>Artikel:</strong> Art 4 Z 5 DSGVO; ErwGr 26, 28, 29 DSGVO; Art 25, Art 32 DSGVO.<br><strong>Begründung:</strong> Pseudonymisierte Daten bleiben personenbezogen, da sie mit Zusatzinformationen wieder zugeordnet werden können – sie sind nicht anonym. Die DSGVO bleibt anwendbar und kennt keine Privilegierungen/Erleichterungen bei Pseudonymisierung.",
+                    src: "Vgl. Einheit 1, personenbezogene/pseudonyme/anonyme Daten.",
+                },
+                {
+                    n: 41,
+                    t: "Altprüfung · Grundprinzipien",
+                    q: "Welche Prinzipien gelten?",
+                    options: [
+                        "Zweckbindung",
+                        "Datenminimierung",
+                        "Profitmaximierung",
+                        "Integrität und Vertraulichkeit",
+                    ],
+                    correct: [0, 1, 3],
+                    type: "mc",
+                    a: "Richtig: <strong>A, B und D</strong>.<br><strong>Artikel:</strong> Art 5 Abs 1 DSGVO.<br><strong>Begründung:</strong> Zweckbindung, Datenminimierung sowie Integrität und Vertraulichkeit sind Grundprinzipien nach Art 5 DSGVO. Profitmaximierung ist kein Datenschutzprinzip.",
+                    src: "Vgl. Einheit 1, Grundprinzipien Art 5.",
+                },
+                {
+                    n: 42,
+                    t: "Altprüfung · Verantwortlicher",
+                    q: "Wer ist Verantwortlicher?",
+                    options: [
+                        "Jede Person, die Daten verarbeitet",
+                        "Wer über Zweck und Mittel entscheidet",
+                        "Nur IT-Dienstleister",
+                        "Empfänger von Daten",
+                    ],
+                    correct: [1],
+                    type: "mc",
+                    a: "Richtig: <strong>B</strong>.<br><strong>Artikel:</strong> Art 4 Z 7 DSGVO.<br><strong>Begründung:</strong> Verantwortlicher ist, wer über Zwecke und Mittel der Verarbeitung entscheidet – der „Herr der Daten\u201c. IT-Dienstleister sind typischerweise Auftragsverarbeiter. Nicht jeder, der Daten verarbeitet oder empfängt, ist automatisch Verantwortlicher.",
+                    src: "Vgl. Einheit 1, Rollen und Verantwortlichkeit.",
+                },
+                {
+                    n: 43,
+                    t: "Altprüfung · Einwilligung",
+                    q: "Welche Aussagen zu den Einwilligungen sind korrekt?",
+                    options: [
+                        "Muss nachweisbar sein",
+                        "Kann durch Schweigen erteilt werden",
+                        "Muss immer schriftlich erfolgen",
+                        "Kann jederzeit widerrufen werden",
+                    ],
+                    correct: [0, 3],
+                    type: "mc",
+                    a: "Richtig: <strong>A und D</strong>.<br><strong>Artikel:</strong> Art 4 Z 11 DSGVO; Art 7 DSGVO; ErwGr 32 DSGVO.<br><strong>Begründung:</strong> Die Einwilligung muss nachweisbar sein und kann jederzeit widerrufen werden. Schweigen und Untätigkeit gelten nicht als Einwilligung. Eine schriftliche Form ist nicht zwingend – die Einwilligung kann auch mündlich oder elektronisch erfolgen.",
+                    src: "Vgl. Einheit 1, Einwilligung (Folien 30–32).",
+                },
+                {
+                    n: 44,
+                    t: "Altprüfung · Berechtigte Interessen",
+                    q: "Welche Aussagen zu den berechtigten Interessen sind richtig?",
+                    options: [
+                        "Immer anwendbar im Konzern",
+                        "Erfordern eine Interessenabwägung",
+                        "Sind klar definiert ohne Spielraum",
+                        "Können zB Direktmarketing umfassen",
+                    ],
+                    correct: [1, 3],
+                    type: "mc",
+                    a: "Richtig: <strong>B und D</strong>.<br><strong>Artikel:</strong> Art 6 Abs 1 lit f DSGVO; ErwGr 47 und 48 DSGVO.<br><strong>Begründung:</strong> Berechtigte Interessen verlangen stets eine Einzelfall-Interessenabwägung – sie sind auslegungsbedürftig und nicht starr definiert. Direktmarketing kann laut ErwGr 47 ein berechtigtes Interesse darstellen. Ein allgemeines Konzernprivileg gibt es nicht.",
+                    src: "Vgl. Einheit 1, berechtigte Interessen.",
+                },
+                {
+                    n: 45,
+                    t: "Altprüfung · DSFA",
+                    q: "Welche Aussagen zur Datenschutzfolgenabschätzung sind korrekt?",
+                    options: [
+                        "Immer",
+                        "Bei hohem Risiko",
+                        "Nur für Papierakten",
+                        "Vorab durchzuführen",
+                    ],
+                    correct: [1, 3],
+                    type: "mc",
+                    a: "Richtig: <strong>B und D</strong>.<br><strong>Artikel:</strong> Art 35 Abs 1 DSGVO.<br><strong>Begründung:</strong> Eine DSFA ist vorab durchzuführen, wenn eine Verarbeitung voraussichtlich ein hohes Risiko für Rechte und Freiheiten natürlicher Personen verursacht – nicht immer und nicht nur für Papierakten.",
+                    src: "Vgl. Einheit 2, Datenschutz-Folgenabschätzung.",
+                },
+                {
+                    n: 46,
+                    t: "Altprüfung · TOMs Ziele",
+                    q: "Welche Ziele verfolgen TOMs?",
+                    options: [
+                        "Vertraulichkeit",
+                        "Integrität",
+                        "Verfügbarkeit",
+                        "Abschaffung sensibler Daten",
+                    ],
+                    correct: [0, 1, 2],
+                    type: "mc",
+                    a: "Richtig: <strong>A, B und C</strong>.<br><strong>Artikel:</strong> Art 32 Abs 1 lit b DSGVO.<br><strong>Begründung:</strong> Technische und organisatorische Maßnahmen sollen Vertraulichkeit, Integrität, Verfügbarkeit und Belastbarkeit der Systeme sicherstellen. Die „Abschaffung sensibler Daten“ ist kein Ziel von TOMs.",
+                    src: "Vgl. Einheit 3, Datensicherheitsmaßnahmen.",
+                },
+                {
+                    n: 47,
+                    t: "Altprüfung · Privacy by Default",
+                    q: "Was bedeutet „Privacy by default“ und welche Ziele verfolgt dieses Prinzip? (4 Punkte)",
+                    options: [],
+                    correct: null,
+                    type: "open",
+                    a: "<strong>Kurzantwort:</strong> Privacy by default bedeutet datenschutzfreundliche Voreinstellungen: Standardmäßig dürfen nur jene personenbezogenen Daten verarbeitet werden, die für den jeweiligen Zweck erforderlich sind. Die Voreinstellungen müssen Datenmenge, Umfang der Verarbeitung, Speicherfrist und Zugänglichkeit begrenzen. Betroffene sollen nicht erst selbst aktiv Datenschutz herstellen müssen.<br><strong>Artikel:</strong> Art 25 Abs 2 DSGVO; ErwGr 78 DSGVO.<br><strong>Ziele:</strong> Datenminimierung durch Technik, Schutz der Betroffenen ab der ersten Nutzung, Begrenzung des Zugangs auf das Notwendige, Vermeidung überschießender Datenerhebung.",
+                    src: "Vgl. Einheit 3, Datenschutz durch Technik (Art 25 DSGVO).",
+                },
+                {
+                    n: 48,
+                    t: "Altprüfung · Fall: Bewerberdaten-Versand",
+                    q: "Fallbeispiel: Eine Mitarbeiterin versendet versehentlich eine Excel-Liste mit Bewerberdaten (inkl. teilweise sensibler Informationen) an einen falschen Empfänger. Der Fehler wird erst nach 24 Stunden entdeckt. Was ist in der Organisation zu tun?",
+                    options: [],
+                    correct: null,
+                    type: "open",
+                    a: "<strong>Kurzantwort:</strong> Es liegt ein Data Breach (Verletzung des Schutzes personenbezogener Daten) vor, da sensible Bewerberdaten unbefugt offengelegt wurden.<br><strong>Sofortmaßnahmen:</strong> Falschen Empfänger kontaktieren und Löschung/Bestätigung verlangen; Vorfall intern dokumentieren (Art 33 Abs 5 DSGVO).<br><strong>Meldung an Datenschutzbehörde:</strong> Innerhalb von 72 Stunden ab Kenntnis, da ein Risiko für Betroffene besteht (Art 33 Abs 1 DSGVO). Inhalt: Art des Vorfalls, betroffene Personen/Daten, Folgen, ergriffene Maßnahmen.<br><strong>Betroffene benachrichtigen:</strong> Bei hohem Risiko – hier wegen sensibler Daten wahrscheinlich – unverzügliche Benachrichtigung der Betroffenen (Art 34 Abs 1 DSGVO).<br><strong>Einzubinden:</strong> Datenschutzbeauftragter, HR, IT/IT-Security, Legal/Compliance, Management.<br><strong>Langfristig:</strong> TOMs verbessern (z.B. DLP, Vier-Augen-Prinzip bei Massenversand, Schulungen, Autovervollständigung deaktivieren).",
+                    src: "Vgl. Einheit 3, Data Breaches (Folien 16–19, 23–26); Art 33, 34 DSGVO.",
+                },
+            ];
+            let order = CARDS.map((_, i) => i),
+                starred = new Set(),
+                mode = "all",
+                idx = 0;
+            let selections = {}; // card number -> array indices
+            let results = {}; // card number -> true/false, only after clicking Prüfen
+            const $ = (id) => document.getElementById(id);
+            const card = $("card"),
+                scene = $("scene");
+            function sameSet(a, b) {
+                if (a.length !== b.length) return false;
+                const A = [...a].sort((x, y) => x - y),
+                    B = [...b].sort((x, y) => x - y);
+                return A.every((v, i) => v === B[i]);
+            }
+            function deck() {
+                if (mode === "star")
+                    return order.filter((i) => starred.has(CARDS[i].n));
+                if (mode === "wrong")
+                    return order.filter((i) => results[CARDS[i].n] === false);
+                return order;
+            }
+            function letters(arr) {
+                return arr.map((i) => String.fromCharCode(65 + i)).join(", ");
+            }
+            function updateStats() {
+                const answered = Object.keys(results).length;
+                const correct = Object.values(results).filter(Boolean).length;
+                const wrong = Object.values(results).filter(
+                    (v) => v === false,
+                ).length;
+                $("answeredCount").textContent = answered;
+                $("correctCount").textContent = correct;
+                $("wrongCount").textContent = wrong;
+            }
+            function evaluate(c) {
+                if (c.type !== "mc") return null;
+                const sel = selections[c.n] || [];
+                if (sel.length === 0) return null;
+                const ok = sameSet(sel, c.correct || []);
+                results[c.n] = ok;
+                return ok;
+            }
+            function resetEvaluation(c) {
+                if (
+                    c &&
+                    c.type === "mc" &&
+                    Object.prototype.hasOwnProperty.call(results, c.n)
+                ) {
+                    delete results[c.n];
+                }
+            }
+            function render() {
+                updateStats();
+                const d = deck();
+                $("total").textContent = d.length;
+                if (!d.length) {
+                    scene.style.display = "none";
+                    $("empty").style.display = "block";
+                    $("pos").textContent = 0;
+                    $("barFill").style.width = "0%";
+                    return;
+                }
+                scene.style.display = "";
+                $("empty").style.display = "none";
+                if (idx >= d.length) idx = 0;
+                if (idx < 0) idx = d.length - 1;
+                const c = CARDS[d[idx]];
+                card.classList.remove("flipped");
+                $("tagF").textContent = c.t;
+                $("tagB").textContent = c.t;
+                const num = "#" + String(c.n).padStart(2, "0");
+                $("numF").textContent = num;
+                $("numB").textContent = num;
+                $("qtext").textContent = c.q;
+                $("atext").innerHTML = c.a;
+                $("source").textContent = c.src;
+                const opt = $("options");
+                opt.innerHTML = "";
+                const sel = selections[c.n] || [];
+                const hasSelection = sel.length > 0;
+                if (c.type === "mc") {
+                    c.options.forEach((o, i) => {
+                        const li = document.createElement("li");
+                        li.className = "option";
+                        const input = document.createElement("input");
+                        input.type = "checkbox";
+                        input.checked = sel.includes(i);
+                        input.addEventListener("click", (e) =>
+                            e.stopPropagation(),
+                        );
+                        input.addEventListener("change", (e) => {
+                            const cur = new Set(selections[c.n] || []);
+                            if (e.target.checked) cur.add(i);
+                            else cur.delete(i);
+                            selections[c.n] = [...cur].sort((a, b) => a - b);
+                            resetEvaluation(c);
+                            renderCurrentOnly();
+                        });
+                        const span = document.createElement("span");
+                        span.innerHTML =
+                            '<span class="letter">' +
+                            String.fromCharCode(65 + i) +
+                            ")</span>" +
+                            escapeHtml(o);
+                        li.appendChild(input);
+                        li.appendChild(span);
+                        li.addEventListener("click", (e) => {
+                            if (e.target.tagName !== "INPUT") {
+                                input.checked = !input.checked;
+                                input.dispatchEvent(new Event("change"));
+                            }
+                        });
+                        opt.appendChild(li);
+                    });
+                    renderEvaluation(c);
+                } else {
+                    const li = document.createElement("li");
+                    li.className = "openbox";
+                    li.textContent =
+                        "Offene Frage: Überlege dir die Antwort selbst und drehe danach die Karte um, um mit der Musterlösung inklusive DSGVO-Artikeln zu vergleichen.";
+                    opt.appendChild(li);
+                    const fb = $("feedback");
+                    fb.className = "feedback warn";
+                    fb.textContent =
+                        "Offene Frage – keine automatische Auswertung.";
+                    const row = $("checkrow");
+                    if (row) row.style.display = "none";
+                }
+                $("star").classList.toggle("on", starred.has(c.n));
+                $("star").textContent = starred.has(c.n) ? "★" : "☆";
+                $("pos").textContent = idx + 1;
+                $("barFill").style.width = ((idx + 1) / d.length) * 100 + "%";
+            }
+            function renderCurrentOnly() {
+                const c = CARDS[deck()[idx]];
+                renderEvaluation(c);
+                updateStats();
+                if (
+                    mode === "wrong" &&
+                    results[c.n] !== false &&
+                    Object.prototype.hasOwnProperty.call(results, c.n)
+                ) {
+                    render();
+                }
+            }
+            function renderEvaluation(c) {
+                const sel = selections[c.n] || [];
+                const correct = c.correct || [];
+                const fb = $("feedback");
+                const optionEls = [...document.querySelectorAll(".option")];
+                const checked = Object.prototype.hasOwnProperty.call(
+                    results,
+                    c.n,
+                );
+                const btn = $("checkBtn");
+                const row = $("checkrow");
+                if (row) row.style.display = c.type === "mc" ? "flex" : "none";
+                if (btn) {
+                    btn.disabled = c.type !== "mc" || sel.length === 0;
+                    btn.textContent = checked ? "Erneut prüfen" : "Prüfen";
+                }
+                optionEls.forEach((el, i) => {
+                    el.className = "option";
+                    const old = el.querySelector(".badge");
+                    if (old) old.remove();
+                    const picked = sel.includes(i),
+                        isCorrect = correct.includes(i);
+                    if (!checked) {
+                        if (picked) el.classList.add("selected");
+                        return;
+                    }
+                    const badge = document.createElement("span");
+                    badge.className = "badge";
+                    if (picked && isCorrect) {
+                        el.classList.add("correct");
+                        badge.classList.add("ok");
+                        badge.textContent = "richtig";
+                        el.appendChild(badge);
+                    } else if (picked && !isCorrect) {
+                        el.classList.add("incorrect");
+                        badge.classList.add("no");
+                        badge.textContent = "falsch";
+                        el.appendChild(badge);
+                    } else if (!picked && isCorrect) {
+                        el.classList.add("missed");
+                        badge.classList.add("miss");
+                        badge.textContent = "auch richtig";
+                        el.appendChild(badge);
+                    } else {
+                        el.classList.add("neutral");
+                    }
+                });
+                if (sel.length === 0) {
+                    fb.className = "feedback";
+                    fb.textContent =
+                        "Kreuze eine oder mehrere Antworten an und klicke danach auf „Prüfen“.";
+                    return;
+                }
+                if (!checked) {
+                    fb.className = "feedback";
+                    fb.textContent =
+                        "Ausgewählt: " +
+                        letters(sel) +
+                        ". Klicke auf „Prüfen“, wenn du fertig angekreuzt hast.";
+                    return;
+                }
+                const ok = results[c.n];
+                if (ok) {
+                    fb.className = "feedback good";
+                    fb.textContent =
+                        "Richtig. Gewählt: " +
+                        letters(sel) +
+                        ". Drehe die Karte für Artikel und Kurzbegründung.";
+                } else {
+                    fb.className = "feedback bad";
+                    fb.textContent =
+                        "Noch nicht ganz richtig. Gewählt: " +
+                        letters(sel) +
+                        " · richtige Antwort(en): " +
+                        letters(correct) +
+                        ". Drehe die Karte für die genaue Begründung.";
+                }
+            }
+            function escapeHtml(str) {
+                return String(str).replace(
+                    /[&<>"']/g,
+                    (m) =>
+                        ({
+                            "&": "&amp;",
+                            "<": "&lt;",
+                            ">": "&gt;",
+                            '"': "&quot;",
+                            "'": "&#39;",
+                        })[m],
+                );
+            }
+            function flip() {
+                if (deck().length) card.classList.toggle("flipped");
+            }
+            function next() {
+                const d = deck();
+                if (!d.length) return;
+                idx = (idx + 1) % d.length;
+                render();
+            }
+            function prev() {
+                const d = deck();
+                if (!d.length) return;
+                idx = (idx - 1 + d.length) % d.length;
+                render();
+            }
+            function shuffle() {
+                for (let i = order.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [order[i], order[j]] = [order[j], order[i]];
+                }
+                idx = 0;
+                render();
+            }
+            function resetOrder() {
+                order = CARDS.map((_, i) => i);
+                idx = 0;
+                render();
+            }
+            function clearProgress() {
+                selections = {};
+                results = {};
+                idx = 0;
+                render();
+            }
+            function toggleStar(e) {
+                e.stopPropagation();
+                const c = CARDS[deck()[idx]];
+                if (starred.has(c.n)) starred.delete(c.n);
+                else starred.add(c.n);
+                render();
+            }
+            function setMode(m) {
+                mode = m;
+                idx = 0;
+                $("mAll").classList.toggle("on", m === "all");
+                $("mWrong").classList.toggle("on", m === "wrong");
+                $("mStar").classList.toggle("on", m === "star");
+                render();
+            }
+            scene.addEventListener("click", (e) => {
+                if (e.target.closest(".option") || e.target.tagName === "INPUT")
+                    return;
+                flip();
+            });
+            $("flip").addEventListener("click", (e) => {
+                e.stopPropagation();
+                flip();
+            });
+            $("checkBtn").addEventListener("click", (e) => {
+                e.stopPropagation();
+                const c = CARDS[deck()[idx]];
+                if (c && c.type === "mc" && (selections[c.n] || []).length) {
+                    evaluate(c);
+                    renderCurrentOnly();
+                }
+            });
+            $("next").addEventListener("click", next);
+            $("prev").addEventListener("click", prev);
+            $("shuffle").addEventListener("click", shuffle);
+            $("reset").addEventListener("click", resetOrder);
+            $("clear").addEventListener("click", clearProgress);
+            $("star").addEventListener("click", toggleStar);
+            $("mAll").addEventListener("click", () => setMode("all"));
+            $("mWrong").addEventListener("click", () => setMode("wrong"));
+            $("mStar").addEventListener("click", () => setMode("star"));
+            document.addEventListener("keydown", (e) => {
+                if (e.code === "Space") {
+                    e.preventDefault();
+                    flip();
+                } else if (e.code === "ArrowRight") next();
+                else if (e.code === "ArrowLeft") prev();
+                else if (e.key === "s" || e.key === "S") shuffle();
+                else if (e.key === "f" || e.key === "F") {
+                    const c = CARDS[deck()[idx]];
+                    if (c) {
+                        if (starred.has(c.n)) starred.delete(c.n);
+                        else starred.add(c.n);
+                    }
+                    render();
+                }
+            });
+            render();
+        </script>
+    </body>
 </html>

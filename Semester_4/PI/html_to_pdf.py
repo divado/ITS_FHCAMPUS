@@ -65,8 +65,8 @@ def convert(html_path: str, pdf_path: str) -> None:
 
 if __name__ == "__main__":
     # Default file names
-    default_html = "datenschutz_folien_zusammenfassung.html"
-    default_pdf = "datenschutz_folien_zusammenfassung.pdf"
+    default_html = "datenschutz_uebungsquiz.html"
+    default_pdf = "datenschutz_uebungsquiz.pdf"
 
     html_in = sys.argv[1] if len(sys.argv) > 1 else default_html
     pdf_out = sys.argv[2] if len(sys.argv) > 2 else default_pdf
